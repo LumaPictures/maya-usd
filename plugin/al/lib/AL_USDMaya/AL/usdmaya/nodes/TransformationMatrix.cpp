@@ -163,6 +163,51 @@ void TransformationMatrix::setPrim(const UsdPrim& prim, Transform* transformNode
 }
 
 //----------------------------------------------------------------------------------------------------------------------
+const UsdMayaXformStack&
+TransformationMatrix::MayaSinglePivotStack()
+{
+    static UsdMayaXformStack mayaSinglePivotStack(
+            // ops
+            {
+                UsdMayaXformOpClassification(
+                        UsdMayaXformStackTokens->translate,
+                        UsdGeomXformOp::TypeTranslate),
+                UsdMayaXformOpClassification(
+                        UsdMayaXformStackTokens->rotatePivotTranslate,
+                        UsdGeomXformOp::TypeTranslate),
+                UsdMayaXformOpClassification(
+                        UsdMayaXformStackTokens->pivot,
+                        UsdGeomXformOp::TypeTranslate),
+                UsdMayaXformOpClassification(
+                        UsdMayaXformStackTokens->rotate,
+                        UsdGeomXformOp::TypeRotateXYZ),
+                UsdMayaXformOpClassification(
+                        UsdMayaXformStackTokens->rotateAxis,
+                        UsdGeomXformOp::TypeRotateXYZ),
+                UsdMayaXformOpClassification(
+                        UsdMayaXformStackTokens->scalePivotTranslate,
+                        UsdGeomXformOp::TypeTranslate),
+                UsdMayaXformOpClassification(
+                        UsdMayaXformStackTokens->shear,
+                        UsdGeomXformOp::TypeTransform),
+                UsdMayaXformOpClassification(
+                        UsdMayaXformStackTokens->scale,
+                        UsdGeomXformOp::TypeScale),
+                UsdMayaXformOpClassification(
+                        UsdMayaXformStackTokens->pivot,
+                        UsdGeomXformOp::TypeTranslate,
+                        true /* isInvertedTwin */)
+            },
+
+            // inversionTwins
+            {
+                {2, 8},
+            });
+
+    return mayaSinglePivotStack;
+}
+
+//----------------------------------------------------------------------------------------------------------------------
 bool TransformationMatrix::readVector(MVector& result, const UsdGeomXformOp& op, UsdTimeCode timeCode)
 {
   TF_DEBUG(ALUSDMAYA_TRANSFORM_MATRIX).Msg("TransformationMatrix::readVector\n");
@@ -916,7 +961,7 @@ void TransformationMatrix::initialiseToPrim(bool readFromPrim, Transform* transf
   {
     static const std::pair<const UsdMayaXformStack&, uint32_t> stackFlagPairs[3] = {
         {UsdMayaXformStack::MayaStack(), kFromMayaSchema},
-        {UsdMayaXformStack::CommonStack(), kFromCommonSchema},
+        {MayaSinglePivotStack(), kSinglePivotSchema},
         {UsdMayaXformStack::MatrixStack(), kFromMatrix},
     };
     for (const auto& stackFlagPair : stackFlagPairs)
@@ -1266,7 +1311,7 @@ void TransformationMatrix::buildOrderedOpMayaIndices()
         m_orderedOpMayaIndices.push_back(mayaStack.FindOpIndex(op.GetName(), op.IsInvertedTwin()));
       }
     }
-    else if (m_flags & kFromMayaSchema)
+    else if (m_flags & kSinglePivotSchema)
     {
       const auto& mayaStack = UsdMayaXformStack::MayaStack();
       m_orderedOpMayaIndices.reserve(m_orderedOps.size());
@@ -1295,6 +1340,119 @@ void TransformationMatrix::buildOrderedOpMayaIndices()
     }
   }
 }
+
+MStatus TransformationMatrix::insertAndPushPivotOp(const TfToken& pivotName)
+{
+  TF_DEBUG(ALUSDMAYA_TRANSFORM_MATRIX).Msg("TransformationMatrix::insertAndPushPivotOp - %s\n", pivotName.GetText());
+
+  bool insertScalePivot = false;
+  bool insertRotatePivot = false;
+
+  if (pivotName == UsdMayaXformStackTokens->scalePivot)
+  {
+    insertScalePivot = true;
+  }
+  else if (pivotName == UsdMayaXformStackTokens->rotatePivot)
+  {
+    insertRotatePivot = true;
+  }
+  else
+  {
+    TF_CODING_ERROR("Unknown pivot name: %s", pivotName.GetText());
+    return MStatus::kFailure;
+  }
+
+  // We only need to split if we have a singular pivot
+  if (primHasPivot())
+  {
+    if (MPxTransformationMatrix::scalePivotValue == MPxTransformationMatrix::rotatePivotValue)
+    {
+      // If they are equal, then we push the generic pivot, not the split ones
+      TF_DEBUG(ALUSDMAYA_TRANSFORM_MATRIX).Msg("TransformationMatrix::insertAndPushPivotOp - pushing generic pivot\n");
+      pushPivotToPrim();
+      // If we still have a generic pivot, we shouldn't have / need to do anything
+      // with split pivots - return immediately
+      return MStatus::kSuccess;
+    }
+
+    TF_DEBUG(ALUSDMAYA_TRANSFORM_MATRIX).Msg("TransformationMatrix::insertAndPushPivotOp - splitting pivot\n");
+
+    // We will need to split out the pivot... we do this by first REMOVING
+    // our singular pivot op...
+    AL_MAYA_CHECK_ERROR(
+        removeOp(UsdMayaXformStackTokens->pivot, kPrimHasPivot),
+        "Error removing singular pivot op");
+
+    // ...then we just make sure we insert both types of pivot ops.
+    insertRotatePivot = true;
+    insertScalePivot = true;
+  }
+
+  if (insertScalePivot)
+  {
+    AL_MAYA_CHECK_ERROR(insertScalePivotOp(), "Error inserting scalePivot op");
+    // Make sure we push to set initial value
+    pushScalePivotToPrim();
+  }
+  if (insertRotatePivot)
+  {
+    AL_MAYA_CHECK_ERROR(insertRotatePivotOp(), "Error inserting rotatePivot op");
+    // Make sure we push to set initial value
+    pushRotatePivotToPrim();
+  }
+
+  return MStatus::kSuccess;
+}
+
+MStatus TransformationMatrix::removeOp(
+    const TfToken& opName,
+    Flags oldFlag)
+{
+  TF_DEBUG(ALUSDMAYA_TRANSFORM_MATRIX).Msg("TransformationMatrix::removeOp - %s\n", opName.GetText());
+
+  // Build out the m_orderedOpMayaIndices so we know where to remove things - delayed
+  // till now, since most xforms won't be altered / have ops removed, and won't need this
+  buildOrderedOpMayaIndices();
+
+  // We need to find which op(s) to remove; note that we can't
+  // rely on m_orderedOpMayaIndices to speed up where to find our op,
+  // because the op we're removing may not be an op from the MayaStack... so
+  // we just iterate through m_orderedOps. This should be ok, since m_orderedOps
+  // is never that big, and we likely won't be removing ops that often...
+  bool foundOne = false;
+  // Iterate backwards, so the indices will remain valid even if we remove an item...
+
+  for (size_t i = m_orderedOps.size() - 1; ; --i)
+  {
+    if (opName == m_orderedOps[i].GetName())
+    {
+      m_orderedOps.erase(m_orderedOps.begin() + i);
+      m_xformops.erase(m_xformops.begin() + i);
+      if (!m_orderedOpMayaIndices.empty())
+      {
+        m_orderedOpMayaIndices.erase(m_orderedOpMayaIndices.begin() + i);
+      }
+      // If this is the second op we've found, we can abort, since a stack should never
+      // have more than two w/ the same name...
+      if (foundOne) break;
+      foundOne = true;
+    }
+    // Using unsigned, so need to check BEFORE decrementing... could check for,
+    // ie, i == reinterpret_cast<size_t>(-1), but that makes me nervous...
+    if (i == 0) break;
+  }
+
+  assert(m_orderedOps.size() == m_xformops.size());
+
+  m_flags &= ~oldFlag;
+  if (!foundOne)
+  {
+    return MStatus::kFailure;
+  }
+  m_xform.SetXformOpOrder(m_xformops, (m_flags & kInheritsTransform) == 0);
+  return MStatus::kSuccess;
+}
+
 
 MStatus TransformationMatrix::insertOp(
     UsdGeomXformOp::Type opType,
@@ -1523,14 +1681,15 @@ MStatus TransformationMatrix::setScalePivot(const MPoint& sp, MSpace::Space spac
   }
   if(pushToPrimAvailable())
   {
-    // Do not insert a scale pivot op if the input prim has a generic pivot.
-    if(primHasScalePivot() || primHasPivot())
+    if(primHasScalePivot())
     {
     }
     else
     if(!pushPrimToMatrix() && sp != MPoint(0.0, 0.0, 0.0, 1.0))
     {
-      AL_MAYA_CHECK_ERROR(insertScalePivotOp(), "error inserting ScalePivot op");
+      // We handle inserting and pushing in the same func, to deal with possible split
+      // pivot
+      return insertAndPushPivotOp(UsdMayaXformStackTokens->scalePivot);
     }
     pushScalePivotToPrim();
   }
@@ -1588,14 +1747,15 @@ MStatus TransformationMatrix::setRotatePivot(const MPoint& pivot, MSpace::Space 
   }
   if(pushToPrimAvailable())
   {
-    // Do not insert a rotate pivot op if the input prim has a generic pivot.
-    if(primHasRotatePivot() || primHasPivot())
+    if(primHasRotatePivot())
     {
     }
     else
     if(!pushPrimToMatrix() && pivot != MPoint(0.0, 0.0, 0.0, 1.0))
     {
-      AL_MAYA_CHECK_ERROR(insertRotatePivotOp(), "error inserting RotatePivot op");
+      // We handle inserting and pushing in the same func, to deal with possible split
+      // pivot
+      return insertAndPushPivotOp(UsdMayaXformStackTokens->rotatePivot);
     }
     pushRotatePivotToPrim();
   }
