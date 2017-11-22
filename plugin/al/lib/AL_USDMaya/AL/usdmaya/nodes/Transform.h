@@ -22,6 +22,8 @@
 #include "maya/MObjectHandle.h"
 #include "maya/MPxTransform.h"
 
+PXR_NAMESPACE_USING_DIRECTIVE
+
 namespace AL {
 namespace usdmaya {
 namespace nodes {
@@ -128,6 +130,8 @@ public:
   /// \return MPxNode::kParallel
   MPxNode::SchedulingType schedulingType() const override
     { return kParallel; }
+
+  void setPrim(const UsdPrim& prim);
 
   inline const MObject getProxyShape() const
     { return proxyShapeHandle.object(); }
