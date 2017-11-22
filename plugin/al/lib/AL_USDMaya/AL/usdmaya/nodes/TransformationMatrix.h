@@ -495,10 +495,10 @@ private:
       bool insertAtBeginning=false);
 
   /// \brief  sets this xform to match the given matrix
-  void setFromMatrix(MObject thisNode, const MMatrix& m);
+  void setFromMatrix(const MMatrix& m);
 
   /// \brief  sets this xform to match the local transformation matrix read from the m_prim
-  void setFromPrimMatrix(MObject thisNode);
+  void setFromPrimMatrix();
 
   //  Translation methods:
   MStatus translateTo(const MVector &vector, MSpace::Space = MSpace::kTransform) override;

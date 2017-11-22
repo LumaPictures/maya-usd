@@ -540,34 +540,22 @@ bool TransformationMatrix::pushMatrix(const MMatrix& result, UsdGeomXformOp& op,
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void TransformationMatrix::setFromMatrix(MObject thisNode, const MMatrix& m)
+void TransformationMatrix::setFromMatrix(const MMatrix& m)
 {
-  double S[3];
-  MEulerRotation R;
-  double T[3];
-  utils::matrixToSRT(*(const GfMatrix4d*)&m, S, R, T);
-  m_scaleFromUsd.x = S[0];
-  m_scaleFromUsd.y = S[1];
-  m_scaleFromUsd.z = S[2];
-  m_rotationFromUsd.x = R.x;
-  m_rotationFromUsd.y = R.y;
-  m_rotationFromUsd.z = R.z;
-  m_translationFromUsd.x = T[0];
-  m_translationFromUsd.y = T[1];
-  m_translationFromUsd.z = T[2];
-  MPlug(thisNode, MPxTransform::scaleX).setValue(m_scaleFromUsd.x);
-  MPlug(thisNode, MPxTransform::scaleY).setValue(m_scaleFromUsd.y);
-  MPlug(thisNode, MPxTransform::scaleZ).setValue(m_scaleFromUsd.z);
-  MPlug(thisNode, MPxTransform::rotateX).setValue(m_rotationFromUsd.x);
-  MPlug(thisNode, MPxTransform::rotateY).setValue(m_rotationFromUsd.y);
-  MPlug(thisNode, MPxTransform::rotateZ).setValue(m_rotationFromUsd.z);
-  MPlug(thisNode, MPxTransform::translateX).setValue(m_translationFromUsd.x);
-  MPlug(thisNode, MPxTransform::translateY).setValue(m_translationFromUsd.y);
-  MPlug(thisNode, MPxTransform::translateZ).setValue(m_translationFromUsd.z);
+  decomposeMatrix(m);
+  m_scaleFromUsd = scaleValue;
+  m_rotationFromUsd = rotationValue;
+  m_translationFromUsd = translationValue;
+  m_shearFromUsd = shearValue;
+  m_scalePivotFromUsd = scalePivotValue;
+  m_scalePivotTranslationFromUsd = scalePivotTranslationValue;
+  m_rotatePivotFromUsd = rotatePivotValue;
+  m_rotatePivotTranslationFromUsd = rotatePivotTranslationValue;
+  m_rotateOrientationFromUsd = rotateOrientationValue;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void TransformationMatrix::setFromPrimMatrix(MObject thisNode)
+void TransformationMatrix::setFromPrimMatrix()
 {
   if (!m_xform)
   {
@@ -582,11 +570,7 @@ void TransformationMatrix::setFromPrimMatrix(MObject thisNode)
   // underlying prim has no xformOps defined at all...
   if(m_xform.GetLocalTransformation(&matrix, &resetsXformStack, getTimeCode()))
   {
-    MMatrix mayaMatrix;
-    // maya matrices and pxr matrices share same ordering, so can copy directly into MMatrix's storage
-    matrix.Get(mayaMatrix.matrix);
-
-    setFromMatrix(thisNode, mayaMatrix);
+    setFromMatrix(AL::usdmaya::utils::matrixToMMatrix(matrix));
     if(resetsXformStack)
     {
       m_flags &= ~kInheritsTransform;
@@ -1171,10 +1155,7 @@ void TransformationMatrix::initialiseToPrim(bool readFromPrim, Transform* transf
         {
           MMatrix m;
           internal_readMatrix(m, m_xformops[0]);
-          if (transformNode)
-          {
-            setFromMatrix(transformNode->thisMObject(), m);
-          }
+          setFromMatrix(m);
         }
       }
       else
@@ -1189,10 +1170,7 @@ void TransformationMatrix::initialiseToPrim(bool readFromPrim, Transform* transf
   {
     TF_DEBUG(ALUSDMAYA_TRANSFORM_MATRIX).Msg("TransformationMatrix::initialiseToPrim - prim xform ops did not match any known"
         " xformStack: %s\n", m_prim.GetPath().GetText());
-    if (transformNode)
-    {
-      setFromPrimMatrix(transformNode->thisMObject());
-    }
+    setFromPrimMatrix();
   }
 
   // if some animation keys are found on the transform ops, assume we have a read only viewer of the transform data.
@@ -1269,30 +1247,32 @@ void TransformationMatrix::updateToTime(const UsdTimeCode& time)
             m_flags |= kAnimatedMatrix;
             GfMatrix4d matrix;
             op.Get<GfMatrix4d>(&matrix, getTimeCode());
-            double T[3], S[3];
-            AL::usdmaya::utils::matrixToSRT(matrix, S, m_rotationFromUsd, T);
-            m_scaleFromUsd.x = S[0];
-            m_scaleFromUsd.y = S[1];
-            m_scaleFromUsd.z = S[2];
-            m_translationFromUsd.x = T[0];
-            m_translationFromUsd.y = T[1];
-            m_translationFromUsd.z = T[2];
+            // We can't use MPxTransformationMatrix::decomposeMatrix directly, as we need to add in tweak values
+            MTransformationMatrix mayaXform = AL::usdmaya::utils::matrixToMTransformationMatrix(matrix);
+            m_rotationFromUsd = mayaXform.eulerRotation();
+            m_translationFromUsd = mayaXform.getTranslation(MSpace::kObject);
+            double tempDoubles[3];
+            mayaXform.getScale(tempDoubles, MSpace::kObject);
+            m_scaleFromUsd.x = tempDoubles[0];
+            m_scaleFromUsd.y = tempDoubles[1];
+            m_scaleFromUsd.z = tempDoubles[2];
+            mayaXform.getShear(tempDoubles, MSpace::kObject);
+            m_shearFromUsd.x = tempDoubles[0];
+            m_shearFromUsd.y = tempDoubles[1];
+            m_shearFromUsd.z = tempDoubles[2];
             MPxTransformationMatrix::rotationValue.x = m_rotationFromUsd.x + m_rotationTweak.x;
             MPxTransformationMatrix::rotationValue.y = m_rotationFromUsd.y + m_rotationTweak.y;
             MPxTransformationMatrix::rotationValue.z = m_rotationFromUsd.z + m_rotationTweak.z;
             MPxTransformationMatrix::translationValue = m_translationFromUsd + m_translationTweak;
             MPxTransformationMatrix::scaleValue = m_scaleFromUsd + m_scaleTweak;
+            MPxTransformationMatrix::shearValue = m_shearFromUsd + m_shearTweak;
           }
         }
       }
     }
     else
     {
-      MObject thisObj = m_transformNode.object();
-      if (!thisObj.isNull())
-      {
-        setFromPrimMatrix(thisObj);
-      }
+      setFromPrimMatrix();
     }
   }
 }
