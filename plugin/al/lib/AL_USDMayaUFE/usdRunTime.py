@@ -283,10 +283,14 @@ class UsdSceneItem(ufe.SceneItem):
         return item
 
     def prim(self):
+        if not self._prim:
+            # our reference to prim may have expired through a stage change,
+            # so use the path to fetch a new one.
+            self._prim = ufePathToPrim(self.path())
         return self._prim
 
     def nodeType(self):
-        return self._prim.GetTypeName()
+        return self.prim().GetTypeName()
 
 class UsdHierarchy(ufe.Hierarchy):
     '''USD run-time hierarchy interface.
@@ -298,9 +302,8 @@ class UsdHierarchy(ufe.Hierarchy):
         super(UsdHierarchy, self).__init__()
 
     def setItem(self, item):
-        self._path = item.path()
-        self._prim = item.prim()
         self._item = item
+        self._path = item.path()
 
     def sceneItem(self):
         return self._item
@@ -308,15 +311,18 @@ class UsdHierarchy(ufe.Hierarchy):
     def path(self):
         return self._path
 
+    def prim(self):
+        return self._item.prim()
+
     def hasChildren(self):
-        return self._prim.GetChildren() != []
+        return self.prim().GetChildren() != []
 
     def parent(self):
-        return UsdSceneItem.create(self._path.pop(), self._prim.GetParent())
+        return UsdSceneItem.create(self._path.pop(), self.prim().GetParent())
 
     def children(self):
         # Return USD children only, i.e. children within this run-time.
-        usdChildren = self._prim.GetChildren()
+        usdChildren = self.prim().GetChildren()
 
         # The following is the desired code, lifescope issues notwithstanding.
         # children = [UsdSceneItem(self._path + child.GetName(), child)
@@ -327,7 +333,7 @@ class UsdHierarchy(ufe.Hierarchy):
 
     def appendChild(self, child):
         # First, check if we need to rename the child.
-        childrenName = set(child.GetName() for child in self._prim.GetChildren())
+        childrenName = set(child.GetName() for child in self.prim().GetChildren())
         childName = str(child.path().back())
         if childName in childrenName:
             childName = uniqueName(childrenName, childName)
@@ -337,8 +343,8 @@ class UsdHierarchy(ufe.Hierarchy):
         stage = prim.GetStage()
         ufeSrcPath = child.path()
         usdSrcPath = prim.GetPath()
-        ufeDstPath = self.path() + childName
-        usdDstPath = self._prim.GetPath().AppendChild(childName)
+        ufeDstPath = self._path + childName
+        usdDstPath = self.prim().GetPath().AppendChild(childName)
         layer = defPrimSpecLayer(prim)
         if layer is None:
             raise RuntimeError("No prim found at %s" % usdSrcPath)
@@ -350,7 +356,7 @@ class UsdHierarchy(ufe.Hierarchy):
             status = Sdf.CopySpec(layer, usdSrcPath, layer, usdDstPath)
             if not status:
                 raise RuntimeError("Appending child %s to parent %s failed." %
-                                   (str(ufeSrcPath), str(self.path())))
+                                   (str(ufeSrcPath), str(self._path)))
 
             stage.RemovePrim(usdSrcPath)
             ufeDstItem = UsdSceneItem.create(
@@ -491,7 +497,6 @@ class UsdTransform3d(ufe.Transform3d):
         super(UsdTransform3d, self).__init__()
     
     def setItem(self, item):
-        self._prim = item.prim()
         self._path = item.path()
         self._item = item
         
@@ -501,8 +506,11 @@ class UsdTransform3d(ufe.Transform3d):
     def path(self):
         return self._path
 
+    def prim(self):
+        return self._item.prim()
+
     def translate(self, x, y, z):
-        usdXformOpCmds.translateOp(self._prim, self._path, x, y, z)
+        usdXformOpCmds.translateOp(self.prim(), self._path, x, y, z)
         
     # FIXME Python binding lifescope.  Memento objects are returned directly to
     # C++, which does not keep them alive.  Use LIFO deque with maximum size to
@@ -514,42 +522,42 @@ class UsdTransform3d(ufe.Transform3d):
         
     def translateCmd(self):
         # FIXME Python binding lifescope.  Must keep command object alive.
-        translateCmd = usdXformOpCmds.UsdTranslateUndoableCommand(self._prim, self._path, self._item)
+        translateCmd = usdXformOpCmds.UsdTranslateUndoableCommand(self.prim(), self._path, self._item)
         UsdTransform3d.mementos.append(translateCmd)
         return translateCmd
     
     def rotate(self, x, y, z):
-        usdXformOpCmds.rotateOp(self._prim, self._path, x, y, z)
+        usdXformOpCmds.rotateOp(self.prim(), self._path, x, y, z)
         
     def rotateCmd(self):
         # FIXME Python binding lifescope.  Must keep command object alive.
-        rotateCmd = usdXformOpCmds.UsdRotateUndoableCommand(self._prim, self._path, self._item)
+        rotateCmd = usdXformOpCmds.UsdRotateUndoableCommand(self.prim(), self._path, self._item)
         UsdTransform3d.mementos.append(rotateCmd)
         return rotateCmd
         
     def scale(self, x, y, z):
-        usdXformOpCmds.scaleOp(self._prim, self._path, x, y, z)
+        usdXformOpCmds.scaleOp(self.prim(), self._path, x, y, z)
         
     def scaleCmd(self):
         # FIXME Python binding lifescope.  Must keep command object alive.
-        scaleCmd = usdXformOpCmds.UsdScaleUndoableCommand(self._prim, self._path, self._item)
+        scaleCmd = usdXformOpCmds.UsdScaleUndoableCommand(self.prim(), self._path, self._item)
         UsdTransform3d.mementos.append(scaleCmd)
         return scaleCmd
 
     def rotatePivotTranslate(self, x, y, z):
-        usdXformOpCmds.rotatePivotTranslateOp(self._prim, self._path, x, y, z)
+        usdXformOpCmds.rotatePivotTranslateOp(self.prim(), self._path, x, y, z)
         
     def rotatePivotTranslateCmd(self):
         # FIXME Python binding lifescope.  Must keep command object alive.
-        translateCmd = usdXformOpCmds.UsdRotatePivotTranslateUndoableCommand(self._prim, self._path, self._item)
+        translateCmd = usdXformOpCmds.UsdRotatePivotTranslateUndoableCommand(self.prim(), self._path, self._item)
         UsdTransform3d.mementos.append(translateCmd)
         return translateCmd
 
     def rotatePivot(self):
         x, y, z = (0, 0, 0)
-        if self._prim.HasAttribute('xformOp:translate:pivot'):
+        if self.prim().HasAttribute('xformOp:translate:pivot'):
             # Initially, attribute can be created, but have no value.
-            v = self._prim.GetAttribute('xformOp:translate:pivot').Get()
+            v = self.prim().GetAttribute('xformOp:translate:pivot').Get()
             if v is not None:
                 x, y, z = v
         return ufe.Vector3d(x, y, z)
@@ -562,10 +570,10 @@ class UsdTransform3d(ufe.Transform3d):
 
 
     def segmentInclusiveMatrix(self):
-        return usdXformOpCmds.primToUfeXform(self._prim)
+        return usdXformOpCmds.primToUfeXform(self.prim())
         
     def segmentExclusiveMatrix(self):
-        return usdXformOpCmds.primToUfeExclusiveXform(self._prim)
+        return usdXformOpCmds.primToUfeExclusiveXform(self.prim())
 
 class UsdTransform3dHandler(ufe.Transform3dHandler):
     def __init__(self):
@@ -719,7 +727,6 @@ class UsdSceneItemOps(ufe.SceneItemOps):
         super(UsdSceneItemOps, self).__init__()
 
     def setItem(self, item):
-        self._prim = item.prim()
         self._path = item.path()
         self._item = item
 
@@ -728,6 +735,9 @@ class UsdSceneItemOps(ufe.SceneItemOps):
 
     def path(self):
         return self._path
+
+    def prim(self):
+        return self._item.prim()
 
     # FIXME Python binding lifescope.  Command objects are returned directly to
     # C++, which does not keep them alive.  Use LIFO deque with maximum size to
@@ -743,31 +753,33 @@ class UsdSceneItemOps(ufe.SceneItemOps):
         # operations are more predictable.
         # Note: this is a moot point currently because the there's no way to
         # select a "deactivated" ufe object
-        newState = not self._prim.GetActive()
+        prim = self.prim()
+        newState = not prim.GetActive()
         # not sure if this would help:
         # if not newState:
         #     notification = ufe.ObjectPreDelete(self._item)
         #     ufe.Scene.notifyObjectDelete(notification)
-        return self._prim.SetActive(newState)
+        return prim.SetActive(newState)
 
     def deleteItemCmd(self):
         # FIXME Python binding lifescope.  Must keep command object alive.
-        deleteCmd = UsdUndoDeleteCommand(self._prim)
+        deleteCmd = UsdUndoDeleteCommand(self.prim())
         deleteCmd.execute()
         UsdSceneItemOps.undoCommands.append(deleteCmd)
         return deleteCmd
 
     def duplicateItem(self):
-        (usdDstPath, layer) = UsdUndoDuplicateCommand.primInfo(self._prim)
+        prim = self.prim()
+        (usdDstPath, layer) = UsdUndoDuplicateCommand.primInfo(prim)
         status = UsdUndoDuplicateCommand.duplicate(
-            layer, self._prim.GetPath(), usdDstPath)
+            layer, prim.GetPath(), usdDstPath)
         # The duplicate is a sibling of the source.
         return createSiblingSceneItem(
             self.path(), usdDstPath.elementString) if status else None
 
     def duplicateItemCmd(self):
         # FIXME Python binding lifescope.  Must keep command object alive.
-        duplicateCmd = UsdUndoDuplicateCommand(self._prim, self._path)
+        duplicateCmd = UsdUndoDuplicateCommand(self.prim(), self._path)
         duplicateCmd.execute()
         UsdSceneItemOps.undoCommands.append(duplicateCmd)
         return ufe.Duplicate(createSiblingSceneItem(
