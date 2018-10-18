@@ -410,8 +410,17 @@ void ProxyDrawOverride::draw(const MHWRender::MDrawContext& context, const MUser
     engine->SetSelected(combined);
     engine->SetSelectionColor(GfVec4f(1.0f, 2.0f/3.0f, 0.0f, 1.0f));
 
-    ptr->m_params.frame = ptr->m_shape->outTimePlug().asMTime().as(MTime::uiUnit());
-    engine->Render(ptr->m_rootPrim, ptr->m_params);
+    glPushAttrib(GL_COLOR_BUFFER_BIT);
+    glEnable(GL_BLEND);
+    glBlendColor(0.0f, 0.0f, 0.0f, 0.0f);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glBlendEquation(GL_FUNC_ADD);
+    auto params = ptr->m_params;
+    params.frame = ptr->m_shape->outTimePlug().asMTime().as(MTime::uiUnit());
+    params.applyRenderState = false;
+    params.alphaThreshold = 0.0f;
+    engine->Render(ptr->m_rootPrim, params);
+    glPopAttrib();
 
     if(combined.size())
     {
