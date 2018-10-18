@@ -200,30 +200,47 @@ class _StagesSubject(object):
     def stageChanged(self, notice, stage):
         '''Call the stageChanged() methods on stage observers.
 
-        Notice will be of type Usd.Notice.ObjectsChanged.  Sender is stage.'''
+        Notice will be of type Usd.Notice.ObjectsChanged.
+        '''
         logger.debug('stageChanged() called! %s' % stage)
         # If the stage path has not been initialized yet, do nothing 
         rootUfePath = stagePath(stage)
         if not rootUfePath:
-            logger.warning('Warn: Could not find a proxy shape %s' % stage)
+            logger.warning('Could not find a proxy shape for stage: %s'
+                           % stage)
             return
 
+        logger.debug('processing stage changed...\n'
+                     'rootUfePath: %s\n '
+                     'ResyncedPaths: %s\n'
+                     'ChangedInfoPaths: %s\n'%
+                     (rootUfePath,
+                      notice.GetResyncedPaths(),
+                      notice.GetChangedInfoOnlyPaths()))
         for changedPath in notice.GetResyncedPaths():
             usdPrimPathStr = str(changedPath.GetPrimPath())
             ufePath = rootUfePath + ufe.PathSegment(
                 usdPrimPathStr, 2, '/')
             prim = stage.GetPrimAtPath(changedPath)
-            # Changed paths could be xformOps.
-            # These are considered as invalid null prims
+            # Changed paths can be properties, in which case we will
+            # have an invalid null prim here.
+            if not prim:
+                continue
+
             if prim and not usdRunTime.inPathChange():
+                # resync means that the entire subtree could be invalid, so
+                # we need to check/delete the children no matter what.
+                # So for now we take the simple but always correct approach:
+                # blow subtree away and recreate top node if necessary.
+                # Note: Ideally we would just remove the objects children, but
+                # it looks like there is no notification for that and there is
+                # no way to ask ufe scene for existing children of a scene item.
+                item = ufe.Hierarchy.createItem(ufePath)
+                notification = ufe.ObjectPostDelete(item)
+                ufe.Scene.notifyObjectDelete(notification)
                 if prim.IsActive():
-                    notification = ufe.ObjectAdd(
-                        ufe.Hierarchy.createItem(ufePath))
+                    notification = ufe.ObjectAdd(item)
                     ufe.Scene.notifyObjectAdd(notification)
-                else:
-                    notification = ufe.ObjectPostDelete(
-                        ufe.Hierarchy.createItem(ufePath))
-                    ufe.Scene.notifyObjectDelete(notification)
 
         for changedPath in notice.GetChangedInfoOnlyPaths():
             usdPrimPathStr = str(changedPath.GetPrimPath())
