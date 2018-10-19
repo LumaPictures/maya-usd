@@ -217,20 +217,26 @@ def isRootChild(path):
     assert len(segments) == 2, kIllegalUSDPath % str(path)
     return len(segments[1]) == 1
 
-def defPrimSpecLayer(prim):
-    '''Return the highest-priority layer where the prim has a def primSpec.'''
-
-    # Iterate over the layer stack, starting at the highest-priority layer.
+def getDefPrimSpec(prim):
+    '''Return the highest-priority spec where the prim has a def primSpec.'''
     # The source layer is the one in which there exists a def primSpec, not
     # an over.
-    layerStack = prim.GetStage().GetLayerStack()
-    defLayer = None
-    for layer in layerStack:
-        primSpec = layer.GetPrimAtPath(prim.GetPath())
-        if primSpec is not None and primSpec.specifier == Sdf.SpecifierDef:
-            defLayer = layer
-            break
-    return defLayer
+    for primSpec in prim.GetPrimStack():
+        if primSpec.specifier == Sdf.SpecifierDef:
+            return primSpec
+
+def copyPrimSpec(srcSpec, editTarget, dstScenePath):
+    '''Copy a prim spec to the destination prim spec at the edit target.'''
+    # We use the edit target layer be the destination, an alternative would
+    # be to use the source layer.
+    dstLayer = editTarget.GetLayer()
+    dstPrimPath = editTarget.MapToSpecPath(dstScenePath)
+    # if parent doesnt exist in destination layer create it or copy will error.
+    Sdf.CreatePrimInLayer(dstLayer, dstPrimPath.GetParentPath())
+    return Sdf.CopySpec(srcSpec.layer,
+                        srcSpec.path,
+                        dstLayer,
+                        dstPrimPath)
 
 def createSiblingSceneItem(ufeSrcPath, siblingName):
     ufeSiblingPath = ufeSrcPath.sibling(ufe.PathComponent(siblingName))
@@ -345,15 +351,16 @@ class UsdHierarchy(ufe.Hierarchy):
         usdSrcPath = prim.GetPath()
         ufeDstPath = self._path + childName
         usdDstPath = self.prim().GetPath().AppendChild(childName)
-        layer = defPrimSpecLayer(prim)
-        if layer is None:
+        srcSpec = getDefPrimSpec(prim)
+        if srcSpec is None:
             raise RuntimeError("No prim found at %s" % usdSrcPath)
 
         # In USD, reparent is implemented like rename, using copy to
         # destination, then remove from source.  See
         # UsdUndoRenameCommand._rename comments for details.
         with InPathChange():
-            status = Sdf.CopySpec(layer, usdSrcPath, layer, usdDstPath)
+            status = copyPrimSpec(srcSpec, self._stage.GetEditTarget(),
+                                  usdDstPath)
             if not status:
                 raise RuntimeError("Appending child %s to parent %s failed." %
                                    (str(ufeSrcPath), str(self._path)))
@@ -606,13 +613,14 @@ class UsdUndoDuplicateCommand(ufe.UndoableCommand):
         self._srcPrim = srcPrim
         self._stage = srcPrim.GetStage()
         self._ufeSrcPath = ufeSrcPath
-        (self._usdDstPath, self._layer) = self.primInfo(srcPrim)
+        self._usdDstPath = self.getDstPath(srcPrim)
+        self._editTarget = self._stage.GetEditTarget()
 
     def usdDstPath(self):
         return self._usdDstPath
 
     @staticmethod
-    def primInfo(srcPrim):
+    def getDstPath(srcPrim):
         '''Return the USD destination path and layer.'''
         parent = srcPrim.GetParent()
         childrenName = set(child.GetName() for child in parent.GetChildren())
@@ -620,27 +628,7 @@ class UsdUndoDuplicateCommand(ufe.UndoableCommand):
         # has a numerical suffix, increment it, otherwise append "1" to it.
         dstName = uniqueName(childrenName, srcPrim.GetName())
         usdDstPath = parent.GetPath().AppendChild(dstName)
-        # Iterate over the layer stack, starting at the highest-priority layer.
-        # The source layer is the one in which there exists a def primSpec, not
-        # an over.  An alternative would have beeen to call Sdf.CopySpec for
-        # each layer in which there is an over or a def, until we reach the
-        # layer with a def primSpec.  This would preserve the visual appearance
-        # of the duplicate.  PPT, 12-Jun-2018.
-        srcLayer = defPrimSpecLayer(srcPrim)
-        if srcLayer is None:
-            raise RuntimeError("No prim found at %s" % srcPrim.GetPath())
-        return (usdDstPath, srcLayer)
-
-    @staticmethod
-    def duplicate(layer, usdSrcPath, usdDstPath):
-        '''Duplicate the prim hierarchy at usdSrcPath.
-
-        Returns True for success.
-        '''
-        # We use the source layer as the destination.  An alternate workflow
-        # would be the edit target layer be the destination:
-        # layer = self._stage.GetEditTarget().GetLayer()
-        return Sdf.CopySpec(layer, usdSrcPath, layer, usdDstPath)
+        return usdDstPath
 
     def undo(self):
         # USD sends a ResyncedPaths notification after the prim is removed, but
@@ -658,7 +646,12 @@ class UsdUndoDuplicateCommand(ufe.UndoableCommand):
         # MAYA-92264: Pixar bug prevents redo from working.  Try again with USD
         # version 0.8.5 or later.  PPT, 28-May-2018.
         try:
-            self.duplicate(self._layer, self._srcPrim.GetPath(), self._usdDstPath)
+            # The spec that will be copied is the highest priority primSpec that is not
+            # an over.  An alternative would have beeen to call Sdf.CopySpec for
+            # each layer in which there is an over or a def, until we reach the
+            # layer with a def primSpec.  This would preserve the visual appearance
+            # of the duplicate.  PPT, 12-Jun-2018.
+            copyPrimSpec(getDefPrimSpec(self._srcPrim), self._editTarget, self._usdDstPath)
         except Exception as e:
             print e
             raise
@@ -669,58 +662,86 @@ class UsdUndoRenameCommand(ufe.UndoableCommand):
         super(UsdUndoRenameCommand, self).__init__()
         prim = srcItem.prim()
         self._stage = prim.GetStage()
+        editTarget = self._stage.GetEditTarget()
         self._ufeSrcPath = srcItem.path()
         self._usdSrcPath = prim.GetPath()
+        self._usdDstPath = prim.GetParent().GetPath().AppendChild(str(newName))
         # Every call to rename() (through execute(), undo() or redo()) removes
         # a prim, which becomes expired.  Since USD UFE scene items contain a
         # prim, we must recreate them after every call to rename.
         self._ufeDstItem = None
-        self._usdDstPath = prim.GetParent().GetPath().AppendChild(str(newName))
-        self._layer = defPrimSpecLayer(prim)
-        if self._layer is None:
+        self._srcPrimSpec = getDefPrimSpec(prim)
+        if not self._srcPrimSpec:
             raise RuntimeError("No prim found at %s" % prim.GetPath())
+        self._srcLayer = self._srcPrimSpec.layer
+        self._srcPath = self._srcPrimSpec.path
+        self._dstlayer = editTarget.GetLayer()
+        self._dstPath = editTarget.MapToSpecPath(self._usdDstPath)
+        if self._srcLayer != editTarget.GetLayer():
+            # TODO:
+            # A bunch of possible behaviors here:
+            # - perform rename on srcLayer (and best would be all layers with a prim spec
+            #   at the path, including overs)
+            #      * The main drawback here is that many layers could be edited and users
+            #      would need to be mindful of saving them all out if they want changes to persist.
+            #      * Also modifying a stage at a non "edit target" could be confusing, and
+            #      wasteful if we end up causing heavy layers to be saved in the maya scene
+            #      because we have dirtied them (They would also stop getting live updates).
+            #      * However in a lower level asset authoring context this method would be
+            #      a very powerful way to make sweeping changes to a complex usd stage.
+            # - error if trying to edit a prim that was defined on a different layer than the
+            #   edit target.
+            #      This would have well defined behavior, but is potentially limiting if we are ever
+            #      modifying a stage with multiple layers, and you would have to rename the
+            #      spec on each layer.
+            # - current: duplicate a renamed prim to the edit target but only remove src if it is
+            #   on the edit target as well.
+            #      This works great when editing single layers and the source prim is on the
+            #      edit target, but otherwise is confusing to the user, so we print a warning...
+            logger.warning('Prim was not defined on the edit target so it cannot be '
+                           'renamed and will instead be duplicated.')
 
     def renamedItem(self):
         return self._ufeDstItem
 
-    def rename(self, layer, ufeSrcPath, usdSrcPath, usdDstPath):
-        with InPathChange():
-            self._rename(layer, ufeSrcPath, usdSrcPath, usdDstPath)
-
-    def _rename(self, layer, ufeSrcPath, usdSrcPath, usdDstPath):
+    def _rename(self, srcLayer, srcPath, dstLayer, dstPath, ufeSrcPath, usdSrcPath, usdDstPath):
         '''Rename the prim hierarchy at usdSrcPath to usdDstPath.'''
-        # We use the source layer as the destination.  An alternate workflow
-        # would be the edit target layer be the destination:
-        # layer = self._stage.GetEditTarget().GetLayer()
-        status = Sdf.CopySpec(layer, usdSrcPath, layer, usdDstPath)
-        if status:
-            self._stage.RemovePrim(usdSrcPath)
-            # The renamed scene item is a "sibling" of its original name.
-            self._ufeDstItem = createSiblingSceneItem(
-                ufeSrcPath, usdDstPath.elementString)
-            # USD sends two ResyncedPaths() notifications, one for the CopySpec
-            # call, the other for the RemovePrim call (new name added, old name
-            # removed).  Unfortunately, the rename semantics are lost: there is
-            # no notion that the two notifications belong to the same atomic
-            # change.  Provide a single Rename notification ourselves here.
-            notification = ufe.ObjectRename(self._ufeDstItem, ufeSrcPath)
-            ufe.Scene.notifyObjectPathChange(notification)
+        createdItem = None
+        with InPathChange():
+            # make sure parent exists in case we are copying to a different layer
+            Sdf.CreatePrimInLayer(dstLayer, dstPath.GetParentPath())
+            status = Sdf.CopySpec(srcLayer, srcPath, dstLayer, dstPath)
+            if status:
+                self._stage.RemovePrim(usdSrcPath)
+                # The renamed scene item is a "sibling" of its original name.
+                createdItem = createSiblingSceneItem(
+                    ufeSrcPath, usdDstPath.elementString)
+                # USD sends two ResyncedPaths() notifications, one for the CopySpec
+                # call, the other for the RemovePrim call (new name added, old name
+                # removed).  Unfortunately, the rename semantics are lost: there is
+                # no notion that the two notifications belong to the same atomic
+                # change.  So instead we indicate that we are in the midst of a path
+                # change and Provide a single Rename notification ourselves here.
+                notification = ufe.ObjectRename(createdItem, ufeSrcPath)
+                ufe.Scene.notifyObjectPathChange(notification)
+                # FIXME: see note in __init__
+                # if prim still exists because it is defined on a layer besides the
+                # edit target, we add it back here.
+                if self._stage.GetPrimAtPath(usdSrcPath):
+                    notification = ufe.ObjectAdd(ufe.Hierarchy.createItem(ufeSrcPath))
+                    ufe.Scene.notifyObjectAdd(notification)
 
-        return status
+            return createdItem
 
     def undo(self):
-        # MAYA-92264: Pixar bug prevents undo from working.  Try again with USD
-        # version 0.8.5 or later.  PPT, 7-Jul-2018.
-        try:
-            self.rename(self._layer, self._ufeDstItem.path(), self._usdDstPath,
-                        self._usdSrcPath)
-        except Exception as e:
-            print e
-            raise
+        self._rename(self._dstlayer, self._dstPath, self._srcLayer, self._srcPath,
+                     self._ufeDstItem.path(), self._usdDstPath,
+                     self._usdSrcPath)
 
     def redo(self):
-        self.rename(self._layer, self._ufeSrcPath, self._usdSrcPath,
-                    self._usdDstPath)
+        self._ufeDstItem = \
+            self._rename(self._srcLayer,  self._srcPath, self._dstlayer, self._dstPath,
+                         self._ufeSrcPath, self._usdSrcPath, self._usdDstPath)
 
 class UsdSceneItemOps(ufe.SceneItemOps):
     def __init__(self):
