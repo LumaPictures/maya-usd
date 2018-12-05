@@ -10,6 +10,20 @@
 # ===========================================================================
 #+
 
+#-
+# ===========================================================================
+#                       WARNING: PROTOTYPE CODE
+#
+# The code in this file is intended as an engineering prototype, to demonstrate
+# UFE integration in Maya.  Its performance and stability may make it
+# unsuitable for production use.
+#
+# Autodesk believes production quality would be better achieved with a C++
+# version of this code.
+#
+# ===========================================================================
+#+
+
 '''Universal Front End USD run-time integration.
 
 This module provides integration of the Maya run-time into the Universal
@@ -32,6 +46,17 @@ from collections import deque
 import logging
 
 logger = logging.getLogger(__name__)
+
+# Maya's UFE run-time name and ID.
+kMayaRunTimeName = 'Maya-DG'
+mayaRtid = 0
+
+# Register this run-time with UFE under the following name.
+kUSDRunTimeName = 'USD'
+
+# Our run-time ID, allocated by UFE at registration time.  Initialize it
+# with illegal 0 value.
+USDRtid = 0
 
 kIllegalUSDPath = 'Illegal USD run-time path %s.'
 
@@ -388,9 +413,9 @@ class UsdRootChildHierarchy(UsdHierarchy):
         # node.  Ask the Maya hierarchy interface to create a selection item
         # for that path.
         parentPath = self._path.pop()
-        assert parentPath.runTimeId() == 1, kNotGatewayNodePath % str(path)
+        assert parentPath.runTimeId() == mayaRtid, kNotGatewayNodePath % str(path)
         
-        mayaHierarchyHandler = ufe.RunTimeMgr.instance().hierarchyHandler(1)
+        mayaHierarchyHandler = ufe.RunTimeMgr.instance().hierarchyHandler(mayaRtid)
         return mayaHierarchyHandler.createItem(parentPath)
 
 class UsdHierarchyHandler(ufe.HierarchyHandler):
@@ -463,10 +488,10 @@ class ProxyShapeHierarchy(ufe.Hierarchy):
         # single component appended to it.
         # The following is the desired code, lifescope issues notwithstanding.
         # children = [UsdSceneItem(parentPath + ufe.PathSegment(
-        #     ufe.PathComponent(child.GetName()), 2, '/'), child) for child
+        #     ufe.PathComponent(child.GetName()), USDRtid, '/'), child) for child
         #             in usdChildren]
         children = [UsdSceneItem.create(parentPath + ufe.PathSegment(
-            ufe.PathComponent(child.GetName()), 2, '/'), child) for child
+            ufe.PathComponent(child.GetName()), USDRtid, '/'), child) for child
                     in usdChildren]
         return children
 
@@ -519,6 +544,15 @@ class UsdTransform3d(ufe.Transform3d):
     def translate(self, x, y, z):
         usdXformOpCmds.translateOp(self.prim(), self._path, x, y, z)
         
+    def translation(self):
+        x, y, z = (0, 0, 0)
+        if self.prim().HasAttribute('xformOp:translate'):
+            # Initially, attribute can be created, but have no value.
+            v = self.prim().GetAttribute('xformOp:translate').Get()
+            if v is not None:
+                x, y, z = v
+        return ufe.Vector3d(x, y, z)
+
     # FIXME Python binding lifescope.  Memento objects are returned directly to
     # C++, which does not keep them alive.  Use LIFO deque with maximum size to
     # keep them alive without consuming an unbounded amount of memory.  This
@@ -827,19 +861,21 @@ class UsdSceneItemOpsHandler(ufe.SceneItemOpsHandler):
 
 def initialize():
     # Replace the Maya hierarchy handler with ours.
-    global mayaHierarchyHandler
-    mayaHierarchyHandler = ufe.RunTimeMgr.instance().hierarchyHandler(1)
+    global mayaRtid
+    global USDRtid
+    mayaRtid = ufe.RunTimeMgr.instance().getId(kMayaRunTimeName)
+    mayaHierarchyHandler = ufe.RunTimeMgr.instance().hierarchyHandler(mayaRtid)
     ufe.RunTimeMgr.instance().setHierarchyHandler(
-        1, ProxyShapeHierarchyHandler(mayaHierarchyHandler))
+        mayaRtid, ProxyShapeHierarchyHandler(mayaHierarchyHandler))
 
-    ufe.RunTimeMgr.instance().register(
-        2, UsdHierarchyHandler(), UsdTransform3dHandler(),
-        UsdSceneItemOpsHandler())
+    USDRtid = ufe.RunTimeMgr.instance().register(
+        kUSDRunTimeName, UsdHierarchyHandler(),
+        UsdTransform3dHandler(), UsdSceneItemOpsHandler())
 
 def finalize():
     # Restore the normal Maya hierarchy handler, and unregister.
     global mayaHierarchyHandler
-    ufe.RunTimeMgr.instance().setHierarchyHandler(1, mayaHierarchyHandler)
-    ufe.RunTimeMgr.instance().unregister(2)
+    ufe.RunTimeMgr.instance().setHierarchyHandler(mayaRtid, mayaHierarchyHandler)
+    ufe.RunTimeMgr.instance().unregister(USDRtid)
     mayaHierarchyHandler = None
     stageCache.clear()

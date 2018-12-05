@@ -10,6 +10,20 @@
 # ===========================================================================
 #+
 
+#-
+# ===========================================================================
+#                       WARNING: PROTOTYPE CODE
+#
+# The code in this file is intended as an engineering prototype, to demonstrate
+# UFE integration in Maya.  Its performance and stability may make it
+# unsuitable for production use.
+#
+# Autodesk believes production quality would be better achieved with a C++
+# version of this code.
+#
+# ===========================================================================
+#+
+
 '''Universal Front End USD transform operations 
 
 This module provides the logic to operate xform operations on USD objects
