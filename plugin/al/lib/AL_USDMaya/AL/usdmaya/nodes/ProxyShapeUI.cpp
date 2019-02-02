@@ -325,8 +325,6 @@ bool ProxyShapeUI::select(MSelectInfo& selectInfo, MSelectionList& selectionList
   view.endSelect();
 
   auto* proxyShape = static_cast<ProxyShape*>(surfaceShape());
-  auto engine = proxyShape->engine();
-  if (!engine) return false;
   proxyShape->m_pleaseIgnoreSelection = true;
 
   UsdImagingGLRenderParams params;
@@ -335,7 +333,7 @@ bool ProxyShapeUI::select(MSelectInfo& selectInfo, MSelectionList& selectionList
 
   UsdPrim root = proxyShape->getUsdStage()->GetPseudoRoot();
 
-  Engine::HitBatch hitBatch;
+  ProxyShape::HitBatch hitBatch;
   SdfPathVector rootPath;
   rootPath.push_back(root.GetPath());
 
@@ -344,33 +342,32 @@ bool ProxyShapeUI::select(MSelectInfo& selectInfo, MSelectionList& selectionList
   if (resolution < 10) { resolution = 10; }
   if (resolution > 1024) { resolution = 1024; }
 
-  auto getHitPath = [&engine] (
-      const SdfPath& inPrimPath,
-      const SdfPath& instancerPath,
-      const int instanceIndex) -> SdfPath
-  {
-    auto path = engine->GetPrimPathFromInstanceIndex(inPrimPath, instanceIndex);
-    if (!path.IsEmpty())
-    {
-      return path;
+  // selectInfo.selectPath seems to only give the transform... extend
+  // to the proxy shape
+  MDagPath proxyShapeDagPath = selectInfo.selectPath();
+  if (proxyShapeDagPath.node() != proxyShape->thisMObject()) {
+    if (!proxyShapeDagPath.push(proxyShape->thisMObject())) {
+      MString errMsg;
+      MDagPath aProxyDagPath;
+      MFnDagNode(proxyShape->thisMObject()).getPath(aProxyDagPath);
+      errMsg.format("ProxyShapeUI::userSelect called with dagPath ^1s, but no "
+          "instances of proxy shape ^2s were a child",
+          selectInfo.selectPath().fullPathName(),
+          aProxyDagPath.fullPathName());
+      MGlobal::displayError(errMsg);
+      return false;
     }
-    return inPrimPath.StripAllVariantSelections();
-  };
-
-  TfToken intersectionMode = selectInfo.singleSelection()
-      ? HdxIntersectionModeTokens->nearestToCamera
-      : HdxIntersectionModeTokens->unique;
-
-  bool hitSelected = engine->TestIntersectionBatch(
+  }
+  bool hitSelected = proxyShape->findPickedPrims(
+          proxyShapeDagPath,
           GfMatrix4d(viewMatrix.matrix),
           GfMatrix4d(projectionMatrix.matrix),
           worldToLocalSpace,
           rootPath,
           params,
-          intersectionMode,
+          selectInfo.singleSelection(),
           resolution,
-          getHitPath,
-          &hitBatch);
+          hitBatch);
 
   auto selected = false;
 

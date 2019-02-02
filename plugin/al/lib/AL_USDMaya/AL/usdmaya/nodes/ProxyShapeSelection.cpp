@@ -17,6 +17,7 @@
 
 #include "AL/usdmaya/Metadata.h"
 #include "AL/usdmaya/nodes/ProxyShape.h"
+#include "AL/usdmaya/nodes/Engine.h"
 #include "AL/usdmaya/nodes/Transform.h"
 #include "AL/usdmaya/nodes/TransformationMatrix.h"
 
@@ -42,6 +43,9 @@ inline void addObjToSelectionList(MSelectionList& list, const MObject& object)
   }
 };
 }
+
+ProxyShape::FindPickedPrimsRunner ProxyShape::m_findPickedPrims(
+    ProxyShape::findPickedPrimsDefault, nullptr);
 
 //----------------------------------------------------------------------------------------------------------------------
 /// I have to handle the case where maya commands are issued (e.g. select -cl) that will remove our transform nodes
@@ -1346,6 +1350,66 @@ bool ProxyShape::doSelect(SelectionUndoHelper& helper, const SdfPathVector& orde
 
   m_pleaseIgnoreSelection = false;
   triggerEvent("SelectionEnded");
+  return true;
+}
+
+bool ProxyShape::findPickedPrimsDefault(
+    ProxyShape& proxy,
+    const MDagPath& proxyDagPath,
+    const GfMatrix4d& viewMatrix,
+    const GfMatrix4d& projectionMatrix,
+    const GfMatrix4d& worldToLocalSpace,
+    const SdfPathVector& paths,
+    const UsdImagingGLRenderParams& params,
+    bool nearestOnly,
+    unsigned int pickResolution,
+    HitBatch& outHit,
+    void* userData)
+{
+  TF_UNUSED(proxyDagPath);
+  TF_UNUSED(userData);
+
+  if(!proxy.engine()) {
+    TF_DEBUG(ALUSDMAYA_SELECTION).Msg(
+        "ProxyShapeSelection::findPickedPrimsDefault - nearestOnly? %d - no engine\n",
+        nearestOnly);
+    return false;
+  }
+
+  HdxPickHitVector allHits;
+  if (!proxy.engine()->TestIntersectionBatch(
+      viewMatrix,
+      projectionMatrix,
+      worldToLocalSpace,
+      paths,
+      params,
+      nearestOnly ?
+          HdxPickTokens->resolveNearestToCamera :
+          HdxPickTokens->resolveUnique,
+      pickResolution,
+      allHits)) {
+    TF_DEBUG(ALUSDMAYA_SELECTION).Msg(
+        "ProxyShapeSelection::findPickedPrimsDefault - nearestOnly? %d - found no hits\n",
+        nearestOnly);
+    return false;
+  }
+
+  for (const auto& hit : allHits) {
+    const SdfPath primPath = hit.objectId;
+    const SdfPath instancerPath = hit.instancerId;
+    const int instanceIndex = hit.instanceIndex;
+
+    auto instancePath = proxy.engine()->GetPrimPathFromInstanceIndex(primPath, instanceIndex);
+    if (instancePath.IsEmpty())
+    {
+      instancePath = primPath.StripAllVariantSelections();
+    }
+    outHit[instancePath] = hit.worldSpaceHitPoint;
+  }
+
+  TF_DEBUG(ALUSDMAYA_SELECTION).Msg(
+      "ProxyShapeSelection::findPickedPrimsDefault - nearestOnly? %d - found %lu hits\n",
+      nearestOnly, allHits.size());
   return true;
 }
 

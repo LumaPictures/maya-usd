@@ -670,6 +670,106 @@ public:
   /// \name   ProxyShape selection
   //--------------------------------------------------------------------------------------------------------------------
 
+  typedef TfHashMap<SdfPath, GfVec3d, SdfPath::Hash> HitBatch;
+
+  typedef std::function<bool(
+    ProxyShape&,
+    const MDagPath&,
+    const GfMatrix4d&,
+    const GfMatrix4d&,
+    const GfMatrix4d&,
+    const SdfPathVector&,
+    const UsdImagingGLRenderParams&,
+    bool,
+    unsigned int,
+    HitBatch&,
+    void*)> FindPickedPrimsFunction;
+
+  class FindPickedPrimsRunner {
+  public:
+    FindPickedPrimsRunner(FindPickedPrimsFunction funcIn, void* userDataIn) :
+      func(funcIn), userData(userDataIn)
+    {}
+
+    bool operator()(
+      ProxyShape& proxy,
+      const MDagPath& proxyDagPath,
+      const GfMatrix4d& viewMatrix,
+      const GfMatrix4d& projectionMatrix,
+      const GfMatrix4d& worldToLocalSpace,
+      const SdfPathVector& paths,
+      const UsdImagingGLRenderParams& params,
+      bool nearestOnly,
+      unsigned int pickResolution,
+      HitBatch& outHit)
+    {
+      return func(proxy, proxyDagPath, viewMatrix, projectionMatrix, worldToLocalSpace,
+          paths, params, nearestOnly, pickResolution, outHit, userData);
+    }
+
+    explicit operator bool() {
+      return bool(func);
+    }
+
+    FindPickedPrimsFunction func;
+    void* userData;
+  };
+
+  /// \brief Sets the function used to find which prims are picked when a user selection is
+  ///        triggered. The default function uses the proxyShape's OpenGL / HdSt backend
+  ///        to handle picking.  You may specify an alternate pick function if, ie, you are
+  ///        using another renderer delegate (or viewport renderer), or you want to disable picking
+  ///        altogether.
+  inline static void setFindPickedPrimsFunction(
+      FindPickedPrimsFunction newPickerFunc,
+      void* userData=nullptr)
+  {
+    m_findPickedPrims.func = newPickerFunc;
+    m_findPickedPrims.userData = userData;
+  }
+
+  /// \brief Sets the function and user data used to find which prims are picked when a user
+  ///        selection is triggered. This overload is useful when, ie, restoring a picker
+  ///        retrieved via getFindPickedPrimsRunner.
+  inline static void setFindPickedPrimsRunner(
+      FindPickedPrimsRunner newPickerRunner)
+  {
+    m_findPickedPrims = newPickerRunner;
+  }
+
+
+  /// \brief Resets the function used to find which prims are picked when a user selection is
+  ///        triggered back to the default, which uses the proxyShape's OpenGL / HdSt backend
+  ///        to handle picking.
+  inline static void resetFindPickedPrimsFunction()
+  {
+    m_findPickedPrims.func = findPickedPrimsDefault;
+    m_findPickedPrims.userData = nullptr;
+  }
+
+  /// \brief Gets the current function used to find which prims are picked when a user selection is
+  ///        triggered.
+  inline static FindPickedPrimsRunner getFindPickedPrimsRunner()
+    { return m_findPickedPrims; }
+
+  /// \brief Test for intersections, and return hits
+  /// \param outHit A output map from hit Usd SdfPaths (NOT rprim-paths) to world-space hit positions
+  /// \return bool indicating whether any hits were found
+  inline bool findPickedPrims(
+    const MDagPath& proxyDagPath,
+    const GfMatrix4d& viewMatrix,
+    const GfMatrix4d& projectionMatrix,
+    const GfMatrix4d& worldToLocalSpace,
+    const SdfPathVector& paths,
+    const UsdImagingGLRenderParams& params,
+    bool nearestOnly,
+    unsigned int pickResolution,
+    HitBatch& outHit)
+  {
+    return m_findPickedPrims(*this, proxyDagPath, viewMatrix, projectionMatrix, worldToLocalSpace, paths, params,
+        nearestOnly, pickResolution, outHit);
+  }
+
   /// \brief  returns the paths of the selected items within the proxy shape
   /// \return the paths of the selected prims
   AL_USDMAYA_PUBLIC
@@ -982,6 +1082,22 @@ private:
   /// selection can cause multiple transform chains to be removed. To ensure the ref counts are correctly correlated,
   /// we need to make sure we can remove
   void prepSelect();
+
+  static FindPickedPrimsRunner m_findPickedPrims;
+
+  /// Standard/default implementation for findPickedPrims
+  static bool findPickedPrimsDefault(
+    ProxyShape& proxy,
+    const MDagPath& proxyDagPath,
+    const GfMatrix4d& viewMatrix,
+    const GfMatrix4d& projectionMatrix,
+    const GfMatrix4d& worldToLocalSpace,
+    const SdfPathVector& paths,
+    const UsdImagingGLRenderParams& params,
+    bool nearestOnly,
+    unsigned int pickResolution,
+    HitBatch& outHit,
+    void* userData);
 
   //--------------------------------------------------------------------------------------------------------------------
   /// \name   Virtual overrides

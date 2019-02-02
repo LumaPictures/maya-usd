@@ -561,8 +561,6 @@ bool ProxyDrawOverride::userSelect(
 
 
   auto* proxyShape = static_cast<ProxyShape*>(getShape(objPath));
-  auto engine = proxyShape->engine();
-  if (!engine) return false;
 
   // The commands we execute inside this function shouldn't do special
   // processing of the proxy we are currently handling here if they
@@ -575,7 +573,7 @@ bool ProxyDrawOverride::userSelect(
 
   UsdPrim root = proxyShape->getUsdStage()->GetPseudoRoot();
 
-  Engine::HitBatch hitBatch;
+  ProxyShape::HitBatch hitBatch;
   SdfPathVector rootPath;
   rootPath.push_back(root.GetPath());
 
@@ -584,34 +582,16 @@ bool ProxyDrawOverride::userSelect(
   if (resolution < 10) { resolution = 10; }
   if (resolution > 1024) { resolution = 1024; }
 
-  auto getHitPath = [&engine] (
-      const SdfPath& inPrimPath,
-      const SdfPath& instancerPath,
-      const int instanceIndex) -> SdfPath
-  {
-    auto path = engine->GetPrimPathFromInstanceIndex(inPrimPath, instanceIndex);
-    if (!path.IsEmpty())
-    {
-      return path;
-    }
-
-    return inPrimPath.StripAllVariantSelections();
-  };
-
-  TfToken intersectionMode = selectInfo.singleSelection()
-      ? HdxIntersectionModeTokens->nearestToCamera
-      : HdxIntersectionModeTokens->unique;
-
-  bool hitSelected = engine->TestIntersectionBatch(
+  bool hitSelected = proxyShape->findPickedPrims(
+          objPath,
           GfMatrix4d(worldViewMatrix.matrix),
           GfMatrix4d(projectionMatrix.matrix),
           worldToLocalSpace,
           rootPath,
           params,
-          intersectionMode,
+          selectInfo.singleSelection(),
           resolution,
-          getHitPath,
-          &hitBatch);
+          hitBatch);
 
   auto selected = false;
 
