@@ -349,7 +349,9 @@ UsdMayaJobExportArgs::UsdMayaJobExportArgs(
             _String(userArgs, UsdMayaJobExportArgsTokens->pythonPostCallback)),
 
         dagPaths(dagPaths),
-        timeSamples(timeSamples)
+        timeSamples(timeSamples),
+        exportRootPath(
+            _String(userArgs, UsdMayaJobExportArgsTokens->root))
 {
 }
 
@@ -369,6 +371,7 @@ operator <<(std::ostream& out, const UsdMayaJobExportArgs& exportArgs)
         << "exportMeshUVs: " << TfStringify(exportArgs.exportMeshUVs) << std::endl
         << "exportNurbsExplicitUV: " << TfStringify(exportArgs.exportNurbsExplicitUV) << std::endl
         << "exportRefsAsInstanceable: " << TfStringify(exportArgs.exportRefsAsInstanceable) << std::endl
+        << "exportRootPath: " << exportArgs.exportRootPath << std::endl
         << "exportSkels: " << TfStringify(exportArgs.exportSkels) << std::endl
         << "exportSkin: " << TfStringify(exportArgs.exportSkin) << std::endl
         << "exportVisibility: " << TfStringify(exportArgs.exportVisibility) << std::endl
@@ -474,6 +477,7 @@ UsdMayaJobExportArgs::GetDefaultDictionary()
         d[UsdMayaJobExportArgsTokens->renderableOnly] = false;
         d[UsdMayaJobExportArgsTokens->renderLayerMode] =
                 UsdMayaJobExportArgsTokens->defaultLayer.GetString();
+        d[UsdMayaJobExportArgsTokens->root] = std::string();
         d[UsdMayaJobExportArgsTokens->shadingMode] =
                 UsdMayaShadingModeTokens->displayColor.GetString();
         d[UsdMayaJobExportArgsTokens->stripNamespaces] = false;

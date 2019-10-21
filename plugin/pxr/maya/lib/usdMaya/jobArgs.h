@@ -84,6 +84,7 @@ TF_DECLARE_PUBLIC_TOKENS(
     (pythonPostCallback) \
     (renderableOnly) \
     (renderLayerMode) \
+    (root) \
     (shadingMode) \
     (stripNamespaces) \
     (verbose) \
@@ -188,6 +189,10 @@ struct UsdMayaJobExportArgs
     /// An empty list of time samples means that no animated (time-sampled)
     /// data should be exported.
     const std::vector<double> timeSamples;
+
+    // Optionally specified path to use as top level prim in
+    // place of the scene root.
+    std::string exportRootPath;
 
     // This path is provided when dealing with variants
     // where a _BaseModel_ root path is used instead of
