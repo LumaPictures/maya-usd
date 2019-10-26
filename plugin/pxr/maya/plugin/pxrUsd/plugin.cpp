@@ -61,14 +61,14 @@ initializePlugin(MObject obj)
         UsdMayaStageData::typeName,
         UsdMayaStageData::mayaTypeId,
         UsdMayaStageData::creator);
-    CHECK_MSTATUS(status);
+    CHECK_MSTATUS_AND_RETURN_IT(status);
 
     status = plugin.registerNode(
         UsdMayaStageNode::typeName,
         UsdMayaStageNode::typeId,
         UsdMayaStageNode::creator,
         UsdMayaStageNode::initialize);
-    CHECK_MSTATUS(status);
+    CHECK_MSTATUS_AND_RETURN_IT(status);
 
     status = plugin.registerNode(
         UsdMayaPointBasedDeformerNode::typeName,
@@ -76,7 +76,7 @@ initializePlugin(MObject obj)
         UsdMayaPointBasedDeformerNode::creator,
         UsdMayaPointBasedDeformerNode::initialize,
         MPxNode::kDeformerNode);
-    CHECK_MSTATUS(status);
+    CHECK_MSTATUS_AND_RETURN_IT(status);
 
     status = plugin.registerShape(
         UsdMayaProxyShape::typeName,
@@ -85,7 +85,7 @@ initializePlugin(MObject obj)
         UsdMayaProxyShape::initialize,
         UsdMayaProxyShapeUI::creator,
         &UsdMayaProxyDrawOverride::drawDbClassification);
-    CHECK_MSTATUS(status);
+    CHECK_MSTATUS_AND_RETURN_IT(status);
 
     status = plugin.registerNode(
         UsdMayaReferenceAssembly::typeName,
@@ -94,7 +94,7 @@ initializePlugin(MObject obj)
         UsdMayaReferenceAssembly::initialize,
         MPxNode::kAssembly,
         &UsdMayaReferenceAssembly::_classification);
-    CHECK_MSTATUS(status);
+    CHECK_MSTATUS_AND_RETURN_IT(status);
 
     status = plugin.registerShape(
         PxrMayaHdImagingShape::typeName,
@@ -103,28 +103,28 @@ initializePlugin(MObject obj)
         PxrMayaHdImagingShape::initialize,
         PxrMayaHdImagingShapeUI::creator,
         &PxrMayaHdImagingShapeDrawOverride::drawDbClassification);
-    CHECK_MSTATUS(status);
+    CHECK_MSTATUS_AND_RETURN_IT(status);
 
     status = MHWRender::MDrawRegistry::registerDrawOverrideCreator(
         PxrMayaHdImagingShapeDrawOverride::drawDbClassification,
         _RegistrantId,
         PxrMayaHdImagingShapeDrawOverride::creator);
-    CHECK_MSTATUS(status);
+    CHECK_MSTATUS_AND_RETURN_IT(status);
 
     status = MHWRender::MDrawRegistry::registerDrawOverrideCreator(
         UsdMayaProxyDrawOverride::drawDbClassification,
         _RegistrantId,
         UsdMayaProxyDrawOverride::Creator);
-    CHECK_MSTATUS(status);
+    CHECK_MSTATUS_AND_RETURN_IT(status);
 
     status = plugin.registerDisplayFilter(
         UsdMayaProxyShape::displayFilterName,
         UsdMayaProxyShape::displayFilterLabel,
         UsdMayaProxyDrawOverride::drawDbClassification);
-    CHECK_MSTATUS(status);
+    CHECK_MSTATUS_AND_RETURN_IT(status);
 
     status = MGlobal::sourceFile("usdMaya.mel");
-    CHECK_MSTATUS(status);
+    CHECK_MSTATUS_AND_RETURN_IT(status);
 
     // Set the label for the assembly node type so that it appears correctly
     // in the 'Create -> Scene Assembly' menu.
@@ -133,23 +133,23 @@ initializePlugin(MObject obj)
     status = setLabelCmd.format("assembly -e -type ^1s -label ^2s",
                                 UsdMayaReferenceAssembly::typeName,
                                 assemblyTypeLabel);
-    CHECK_MSTATUS(status);
+    CHECK_MSTATUS_AND_RETURN_IT(status);
     status = MGlobal::executeCommand(setLabelCmd);
-    CHECK_MSTATUS(status);
+    CHECK_MSTATUS_AND_RETURN_IT(status);
 
     // Procs stored in usdMaya.mel
     // Add assembly callbacks for accessing data without creating an MPxAssembly instance
     status = MGlobal::executeCommand("assembly -e -repTypeLabelProc usdMaya_UsdMayaReferenceAssembly_repTypeLabel -type " + UsdMayaReferenceAssembly::typeName);
-    CHECK_MSTATUS(status);
+    CHECK_MSTATUS_AND_RETURN_IT(status);
     status = MGlobal::executeCommand("assembly -e -listRepTypesProc usdMaya_UsdMayaReferenceAssembly_listRepTypes -type " + UsdMayaReferenceAssembly::typeName);
-    CHECK_MSTATUS(status);
+    CHECK_MSTATUS_AND_RETURN_IT(status);
 
     // Attribute Editor Templates
     MString attribEditorCmd(
         "from pxr.UsdMaya import AEpxrUsdReferenceAssemblyTemplate\n"
         "AEpxrUsdReferenceAssemblyTemplate.addMelFunctionStubs()");
     status = MGlobal::executePythonCommand(attribEditorCmd);
-    CHECK_MSTATUS(status);
+    CHECK_MSTATUS_AND_RETURN_IT(status);
 
     status = plugin.registerCommand(
         "usdExport",
@@ -249,39 +249,39 @@ uninitializePlugin(MObject obj)
     }
 
     status = MGlobal::executeCommand("assembly -e -deregister " + UsdMayaReferenceAssembly::typeName);
-    CHECK_MSTATUS(status);
+    CHECK_MSTATUS_AND_RETURN_IT(status);
 
     status = plugin.deregisterDisplayFilter(
         UsdMayaProxyShape::displayFilterName);
-    CHECK_MSTATUS(status);
+    CHECK_MSTATUS_AND_RETURN_IT(status);
 
     status = MHWRender::MDrawRegistry::deregisterDrawOverrideCreator(
         UsdMayaProxyDrawOverride::drawDbClassification,
         _RegistrantId);
-    CHECK_MSTATUS(status);
+    CHECK_MSTATUS_AND_RETURN_IT(status);
 
     status = MHWRender::MDrawRegistry::deregisterDrawOverrideCreator(
         PxrMayaHdImagingShapeDrawOverride::drawDbClassification,
         _RegistrantId);
-    CHECK_MSTATUS(status);
+    CHECK_MSTATUS_AND_RETURN_IT(status);
 
     status = plugin.deregisterNode(PxrMayaHdImagingShape::typeId);
-    CHECK_MSTATUS(status);
+    CHECK_MSTATUS_AND_RETURN_IT(status);
 
     status = plugin.deregisterNode(UsdMayaReferenceAssembly::typeId);
-    CHECK_MSTATUS(status);
+    CHECK_MSTATUS_AND_RETURN_IT(status);
 
     status = plugin.deregisterNode(UsdMayaProxyShape::typeId);
-    CHECK_MSTATUS(status);
+    CHECK_MSTATUS_AND_RETURN_IT(status);
 
     status = plugin.deregisterNode(UsdMayaPointBasedDeformerNode::typeId);
-    CHECK_MSTATUS(status);
+    CHECK_MSTATUS_AND_RETURN_IT(status);
 
     status = plugin.deregisterNode(UsdMayaStageNode::typeId);
-    CHECK_MSTATUS(status);
+    CHECK_MSTATUS_AND_RETURN_IT(status);
 
     status = plugin.deregisterData(UsdMayaStageData::mayaTypeId);
-    CHECK_MSTATUS(status);
+    CHECK_MSTATUS_AND_RETURN_IT(status);
 
     UsdMayaSceneResetNotice::RemoveListener();
     UsdMayaDiagnosticDelegate::RemoveDelegate();
