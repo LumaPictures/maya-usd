@@ -40,7 +40,7 @@ namespace nodes {
 Engine::Engine(const SdfPath& rootPath, const SdfPathVector& excludedPaths)
   : UsdImagingGLEngine(rootPath, excludedPaths) {}
 
-#if (PXR_MAJOR_VERSION > 0) || (PXR_MINOR_VERSION >= 19 && PXR_PATCH_VERSION >= 7) 
+#if USD_VERSION_NUM >= 1907
 
 bool Engine::TestIntersectionBatch(
   const GfMatrix4d &viewMatrix,
