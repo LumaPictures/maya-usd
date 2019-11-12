@@ -469,7 +469,7 @@ public:
   /// \brief  pushes any modifications on the matrix back onto the UsdPrim
   void pushToPrim();
 
-  void notifyProxyShapeOfRedraw();
+  void notifyProxyShapeOfRedraw(GfMatrix4d& oldMatrix, bool oldResetsStack);
 
 private:
   /// Used to populate m_orderedOpMayaIndices when it is actually needed
