@@ -31,10 +31,7 @@
 #include <vector>
 #include "AL/usdmaya/nodes/Engine.h"
 
-#if (PXR_MAJOR_VERSION > 0) || (PXR_MINOR_VERSION >= 19 && PXR_PATCH_VERSION >= 7) 
-#include "pxr/imaging/hdx/pickTask.h"
-#endif
-#include "pxr/imaging/hdx/taskController.h"
+#include "pxr/usdImaging/usdImaging/delegate.h"
 
 namespace AL {
 namespace usdmaya {
@@ -43,113 +40,96 @@ namespace nodes {
 Engine::Engine(const SdfPath& rootPath, const SdfPathVector& excludedPaths)
   : UsdImagingGLEngine(rootPath, excludedPaths) {}
 
+#if USD_VERSION_NUM >= 1907
+
 bool Engine::TestIntersectionBatch(
   const GfMatrix4d &viewMatrix,
   const GfMatrix4d &projectionMatrix,
   const GfMatrix4d &worldToLocalSpace,
   const SdfPathVector& paths,
-  UsdImagingGLRenderParams params,
+  const UsdImagingGLRenderParams& params,
+  const TfToken &resolveMode,
   unsigned int pickResolution,
-  PathTranslatorCallback pathTranslator,
-  HitBatch *outHit) {
-  if (ARCH_UNLIKELY(_legacyImpl)) {
+  HdxPickHitVector& outHits)
+{
+  if (ARCH_UNLIKELY(_legacyImpl))
+  {
     return false;
   }
 
-#if (PXR_MAJOR_VERSION > 0) || (PXR_MINOR_VERSION >= 19 && PXR_PATCH_VERSION >= 7) 
-  _UpdateHydraCollection(&_intersectCollection, paths, params);
+  TF_VERIFY(_delegate);
+  TF_VERIFY(_taskController);
+
+  // Forward scene materials enable option to delegate
+  _delegate->SetSceneMaterialsEnabled(params.enableSceneMaterials);
+
+  return TestIntersectionBatch(
+      viewMatrix,
+      projectionMatrix,
+      worldToLocalSpace,
+      paths,
+      params,
+      resolveMode,
+      pickResolution,
+      _intersectCollection,
+      *_taskController,
+      _engine,
+      outHits);
+}
+
+/*static*/
+bool Engine::TestIntersectionBatch(
+  const GfMatrix4d &viewMatrix,
+  const GfMatrix4d &projectionMatrix,
+  const GfMatrix4d &worldToLocalSpace,
+  const SdfPathVector& paths,
+  const UsdImagingGLRenderParams& params,
+  const TfToken &resolveMode,
+  unsigned int pickResolution,
+  HdRprimCollection& intersectCollection,
+  HdxTaskController& taskController,
+  HdEngine& engine,
+  HdxPickHitVector& outHits)
+{
+
+  _UpdateHydraCollection(&intersectCollection, paths, params);
 
   TfTokenVector renderTags;
   _ComputeRenderTags(params, &renderTags);
-  _taskController->SetRenderTags(renderTags);
-
-  HdxPickHitVector allHits;
+  taskController.SetRenderTags(renderTags);
 
   HdxRenderTaskParams hdParams = _MakeHydraUsdImagingGLRenderParams(params);
-  _taskController->SetRenderParams(hdParams);
+  taskController.SetRenderParams(hdParams);
 
 
   HdxPickTaskContextParams pickParams;
   pickParams.resolution = GfVec2i(pickResolution, pickResolution);
-  pickParams.hitMode = HdxPickTokens->hitAll;
-  pickParams.resolveMode = HdxPickTokens->resolveUnique;
+  if (resolveMode == HdxPickTokens->resolveNearestToCenter ||
+      resolveMode == HdxPickTokens->resolveNearestToCamera) {
+    pickParams.hitMode = HdxPickTokens->hitFirst;
+  } else {
+    pickParams.hitMode = HdxPickTokens->hitAll;
+  }
+  pickParams.resolveMode = resolveMode;
   pickParams.viewMatrix = worldToLocalSpace * viewMatrix;
   pickParams.projectionMatrix = projectionMatrix;
   pickParams.clipPlanes = params.clipPlanes;
-  pickParams.collection = _intersectCollection;
-  pickParams.outHits = &allHits;
+  pickParams.collection = intersectCollection;
+  pickParams.outHits = &outHits;
   VtValue vtPickParams(pickParams);
 
-  _engine.SetTaskContextData(HdxPickTokens->pickParams, vtPickParams);
-  auto pickingTasks = _taskController->GetPickingTasks();
-  _engine.Execute(_taskController->GetRenderIndex(), &pickingTasks);
+  engine.SetTaskContextData(HdxPickTokens->pickParams, vtPickParams);
+  auto pickingTasks = taskController.GetPickingTasks();
+  engine.Execute(taskController.GetRenderIndex(), &pickingTasks);
 
-  if (allHits.size() == 0) {
-    return false;
-  }
-  #else 
-
-  _UpdateHydraCollection(&_intersectCollection, paths, params, &_renderTags);
-  
-  HdxIntersector::HitVector allHits;
-  HdxIntersector::Params qparams;
-  qparams.viewMatrix = worldToLocalSpace * viewMatrix;
-  qparams.projectionMatrix = projectionMatrix;
-  qparams.alphaThreshold = params.alphaThreshold;
-  switch (params.cullStyle) {
-    case UsdImagingGLCullStyle::CULL_STYLE_NO_OPINION:
-      qparams.cullStyle = HdCullStyleDontCare;
-      break;
-    case UsdImagingGLCullStyle::CULL_STYLE_NOTHING:
-      qparams.cullStyle = HdCullStyleNothing;
-      break;
-    case UsdImagingGLCullStyle::CULL_STYLE_BACK:
-      qparams.cullStyle = HdCullStyleBack;
-      break;
-    case UsdImagingGLCullStyle::CULL_STYLE_FRONT:
-      qparams.cullStyle = HdCullStyleFront;
-      break;
-    case UsdImagingGLCullStyle::CULL_STYLE_BACK_UNLESS_DOUBLE_SIDED:
-      qparams.cullStyle = HdCullStyleBackUnlessDoubleSided;
-      break;
-    default:
-      qparams.cullStyle = HdCullStyleDontCare;
-  }
-  qparams.renderTags = _renderTags;
-  qparams.enableSceneMaterials = params.enableSceneMaterials;
-
-  _taskController->SetPickResolution(pickResolution);
-  if (!_taskController->TestIntersection(
-      &_engine,
-      _intersectCollection,
-      qparams,
-      HdxIntersectionModeTokens->unique,
-      &allHits)) {
-    return false;
-  }
-
-
-  #endif
-
-  if (!outHit) {
-    return true;
-  }
-
-  for (const auto& hit : allHits) {
-    const SdfPath primPath = hit.objectId;
-    const SdfPath instancerPath = hit.instancerId;
-    const int instanceIndex = hit.instanceIndex;
-
-    HitInfo& info = (*outHit)[pathTranslator(primPath, instancerPath,
-                                             instanceIndex)];
-    info.worldSpaceHitPoint = GfVec3d(hit.worldSpaceHitPoint[0],
-                                      hit.worldSpaceHitPoint[1],
-                                      hit.worldSpaceHitPoint[2]);
-    info.hitInstanceIndex = instanceIndex;
-  }
-
-  return true;
+  return outHits.size() > 0;
 }
+
+#else
+
+// TODO - figure out what to do for < 19.07 support
+
+#endif
 
 }
 }
