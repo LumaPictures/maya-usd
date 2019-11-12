@@ -450,6 +450,7 @@ void wrapProxyShape()
         boost::python::return_value_policy<reference_existing_object>())
         .staticmethod("getByName")
     .def("getUsdStage", &ProxyShape::getUsdStage)
+    .def("usdStage", &ProxyShape::usdStage)
     .def("getUsdPrimFromMayaPath", PyProxyShape::getUsdPrimFromMayaPath,
          ("Find Usd prim associated with Maya node.\n"
          "Args:\n"
