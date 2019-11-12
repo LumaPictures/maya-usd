@@ -790,8 +790,8 @@ MStatus ProxyShape::initialise()
     m_complexity = addInt32Attr("complexity", "cplx", 0, kCached | kConnectable | kReadable | kWritable | kAffectsAppearance | kKeyable | kStorable);
     setMinMax(m_complexity, 0, 8, 0, 4);
     m_outStageData = addDataAttr("outStageData", "od", StageData::kTypeId, kConnectable | kReadable | kWritable | kAffectsAppearance);
-    m_displayGuides = addBoolAttr("displayGuides", "dg", false, kCached | kKeyable | kWritable | kAffectsAppearance | kStorable);
-    m_displayRenderGuides = addBoolAttr("displayRenderGuides", "drg", false, kCached | kKeyable | kWritable | kAffectsAppearance | kStorable);
+    m_displayGuides = addBoolAttr("displayGuides", "dg", false, kCached | kKeyable | kWritable | kAffectsAppearance | kStorable | kInternal);
+    m_displayRenderGuides = addBoolAttr("displayRenderGuides", "drg", false, kCached | kKeyable | kWritable | kAffectsAppearance | kStorable | kInternal);
     m_unloaded = addBoolAttr("unloaded", "ul", false, kCached | kKeyable | kWritable | kAffectsAppearance | kStorable);
     m_serializedTrCtx = addStringAttr("serializedTrCtx", "srtc", kReadable|kWritable|kStorable|kHidden);
 
@@ -1446,6 +1446,7 @@ void ProxyShape::loadStage()
       }
     }
   }
+  clearBoundingBoxCache();
 
   if (stageId.IsValid())
   {
@@ -2068,6 +2069,8 @@ bool ProxyShape::setInternalValue(const MPlug& plug, const MDataHandle& dataHand
   else
   if(plug == m_primPath)
   {
+    clearBoundingBoxCache();
+
     // can't use dataHandle.datablock(), as this is a temporary datahandle
     MDataBlock datablock = forceCache();
     AL_MAYA_CHECK_ERROR_RETURN_VAL(outputStringValue(datablock, m_primPath, dataHandle.asString()),
@@ -2098,6 +2101,8 @@ bool ProxyShape::setInternalValue(const MPlug& plug, const MDataHandle& dataHand
   else
   if(plug == m_excludePrimPaths || plug == m_excludedTranslatedGeometry)
   {
+    clearBoundingBoxCache();
+
     // can't use dataHandle.datablock(), as this is a temporary datahandle
     MDataBlock datablock = forceCache();
     AL_MAYA_CHECK_ERROR_RETURN_VAL(outputStringValue(datablock, plug.attribute(), dataHandle.asString()),
@@ -2108,6 +2113,14 @@ bool ProxyShape::setInternalValue(const MPlug& plug, const MDataHandle& dataHand
       constructExcludedPrims();
     }
     return true;
+  }
+  else
+  if(plug == m_displayGuides || plug == m_displayRenderGuides)
+  {
+    clearBoundingBoxCache();
+    // clearBoundingBoxCache doesn't read any plugs, so we can just return
+    // false, and rely on "normal" plug-setting behavior
+    return false;
   }
   return false;
 }
@@ -2142,16 +2155,20 @@ MBoundingBox ProxyShape::boundingBox() const
   // If we could cheaply determine whether a stage only has static geometry,
   // we could make this value a constant one for that case, avoiding the
   // memory overhead of a cache entry per frame
-  UsdTimeCode currTime = UsdTimeCode(inputTimeValue(dataBlock, m_outTime).as(MTime::uiUnit()));
+  UsdTimeCode currTime = UsdTimeCode(inputTimeValue(dataBlock, m_outTime).value());
 
   // RB: There must be a nicer way of doing this that avoids the map?
   // The time codes are likely to be ranged, so an ordered array + binary search would surely work?
   std::map<UsdTimeCode, MBoundingBox>::const_iterator cacheLookup = m_boundingBoxCache.find(currTime);
   if (cacheLookup != m_boundingBoxCache.end())
   {
+    TF_DEBUG(ALUSDMAYA_EVALUATION_BBOX).Msg("Using cached bounding box: time %f\n",
+        currTime.GetValue());
     return cacheLookup->second;
   }
 
+  TF_DEBUG(ALUSDMAYA_EVALUATION_BBOX).Msg("Using re-calculated bounding box: time %f\n",
+      currTime.GetValue());
   GfBBox3d allBox;
   UsdPrim prim = getUsdPrim(dataBlock);
   if (prim)
