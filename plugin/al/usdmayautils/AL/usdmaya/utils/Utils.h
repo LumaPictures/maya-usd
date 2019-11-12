@@ -18,7 +18,9 @@
 
 #include "AL/usdmaya/utils/Api.h"
 
+#include "maya/MMatrix.h"
 #include "maya/MString.h"
+#include "maya/MTransformationMatrix.h"
 
 #include "AL/maya/utils/ForwardDeclares.h"
 #include "AL/usd/utils/ForwardDeclares.h"
@@ -45,19 +47,31 @@ MString mapUsdPrimToMayaNode(const UsdPrim& usdPrim,
                              const MObject& mayaObject,
                              const MDagPath* const proxyShapeNode = nullptr);
 
+
 //----------------------------------------------------------------------------------------------------------------------
-/// \brief  convert a 4x4 matrix to an SRT transformation. Assumes that there is no shearing.
-/// \param  value the 4x4 matrix to extract the TRS values from
-/// \param  S the returned scale value
-/// \param  R the returned euler rotation values
-/// \param  T the returned translation values
+/// \brief  convert a 4x4 matrix to a Maya MMatrix
+/// \param  value the input pixar 4x4 matrix
+/// \return the MMatrix
 /// \ingroup usdmaya
 //----------------------------------------------------------------------------------------------------------------------
-AL_USDMAYA_UTILS_PUBLIC
-void matrixToSRT(const GfMatrix4d& value,
-                 double S[3],
-                 MEulerRotation& R,
-                 double T[3]);
+inline MMatrix matrixToMMatrix(const GfMatrix4d& value)
+{
+  MMatrix mayaMatrix;
+  // maya matrices and pxr matrices share same ordering, so can copy directly into MMatrix's storage
+  value.Get(mayaMatrix.matrix);
+  return mayaMatrix;
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+/// \brief  convert a 4x4 matrix to a Maya MTransformationMatrix, for decomposition
+/// \param  value the input pixar 4x4 matrix
+/// \return the MTransformationMatrix, which can be queried for individual xform components
+/// \ingroup usdmaya
+//----------------------------------------------------------------------------------------------------------------------
+inline MTransformationMatrix matrixToMTransformationMatrix(const GfMatrix4d& value)
+{
+  return MTransformationMatrix(matrixToMMatrix(value));
+}
 
 //----------------------------------------------------------------------------------------------------------------------
 /// \brief  a simple method to convert double vec4 array to float vec3 array
