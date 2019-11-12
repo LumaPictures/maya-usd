@@ -4,6 +4,7 @@ pxr_shared_library(${PXR_PACKAGE}
     LIBRARIES
         ar
         gf
+        glf
         js
         kind
         plug
@@ -14,6 +15,7 @@ pxr_shared_library(${PXR_PACKAGE}
         usdLux
         usdRi
         usdShade
+        usdHydra
         usdSkel
         usdUtils
         vt
@@ -64,6 +66,7 @@ pxr_shared_library(${PXR_PACKAGE}
         stageNoticeListener
         transformWriter
         translatorCamera
+        translatorImagePlane
         translatorCurves
         translatorGprim
         translatorMaterial

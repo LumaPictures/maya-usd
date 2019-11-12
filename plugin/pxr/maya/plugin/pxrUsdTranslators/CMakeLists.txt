@@ -17,7 +17,11 @@ pxr_plugin(${PXR_PACKAGE}
         usdShade
         usdSkel
         usdUtils
+        usdImaging
+        usdHydra
         vt
+        hio
+        ${Boost_PYTHON_LIBRARY}
         ${MAYA_Foundation_LIBRARY}
         ${MAYA_OpenMaya_LIBRARY}
         ${MAYA_OpenMayaAnim_LIBRARY}
@@ -38,6 +42,7 @@ pxr_plugin(${PXR_PACKAGE}
         nurbsSurfaceWriter
         particleWriter
         strokeWriter
+        imagePlaneWriter
 
     CPPFILES
         cameraReader.cpp
@@ -53,6 +58,7 @@ pxr_plugin(${PXR_PACKAGE}
         scopeReader.cpp
         skelReader.cpp
         xformReader.cpp
+        imagePlaneReader.cpp
 
     PRIVATE_HEADERS
         api.h
