@@ -53,6 +53,7 @@ PXR_NAMESPACE_OPEN_SCOPE
     (uv)                                      \
     (uvCoord)                                 \
     (rgb)                                     \
+    (rgba)                                     \
     (r)                                       \
     (xyz)                                     \
     (x)                                       \
