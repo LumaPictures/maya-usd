@@ -13,7 +13,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-#include "AL/usdmaya/nodes/proxy/LockManager.h"
+#include <AL/usdmaya/nodes/proxy/LockManager.h>
 
 namespace AL {
 namespace usdmaya {

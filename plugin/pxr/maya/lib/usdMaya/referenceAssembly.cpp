@@ -13,31 +13,31 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-#include "usdMaya/referenceAssembly.h"
+#include <usdMaya/referenceAssembly.h>
 
-#include "usdMaya/editUtil.h"
+#include <usdMaya/editUtil.h>
 #include <mayaUsd/fileio/jobs/jobArgs.h>
 #include <mayaUsd/listeners/notice.h>
-#include "usdMaya/proxyShape.h"
+#include <usdMaya/proxyShape.h>
 #include <mayaUsd/utils/query.h>
-#include "usdMaya/readJobWithSceneAssembly.h"
+#include <usdMaya/readJobWithSceneAssembly.h>
 #include <mayaUsd/utils/stageCache.h>
 #include <mayaUsd/nodes/stageData.h>
 #include <mayaUsd/render/pxrUsdMayaGL/instancerImager.h>
-#include "usdMaya/instancerShapeAdapterWithSceneAssembly.h"
+#include <usdMaya/instancerShapeAdapterWithSceneAssembly.h>
 
-#include "pxr/base/tf/fileUtils.h"
-#include "pxr/base/tf/registryManager.h"
-#include "pxr/base/tf/stringUtils.h"
+#include <pxr/base/tf/fileUtils.h>
+#include <pxr/base/tf/registryManager.h>
+#include <pxr/base/tf/stringUtils.h>
 
-#include "pxr/usd/ar/resolver.h"
-#include "pxr/usd/usd/editContext.h"
-#include "pxr/usd/usd/editTarget.h"
-#include "pxr/usd/usd/stageCacheContext.h"
-#include "pxr/usd/usd/variantSets.h"
-#include "pxr/usd/usdGeom/modelAPI.h"
-#include "pxr/usd/usdUtils/stageCache.h"
-#include "pxr/usd/usdUtils/pipeline.h"
+#include <pxr/usd/ar/resolver.h>
+#include <pxr/usd/usd/editContext.h>
+#include <pxr/usd/usd/editTarget.h>
+#include <pxr/usd/usd/stageCacheContext.h>
+#include <pxr/usd/usd/variantSets.h>
+#include <pxr/usd/usdGeom/modelAPI.h>
+#include <pxr/usd/usdUtils/stageCache.h>
+#include <pxr/usd/usdUtils/pipeline.h>
 
 #include <maya/MDagModifier.h>
 #include <maya/MDagPath.h>

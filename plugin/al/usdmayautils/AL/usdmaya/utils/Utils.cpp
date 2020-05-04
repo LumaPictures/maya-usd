@@ -13,17 +13,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-#include "AL/usdmaya/utils/Utils.h"
-#include "AL/maya/utils/Utils.h"
+#include <AL/usdmaya/utils/Utils.h>
+#include <AL/maya/utils/Utils.h>
 
 #include <mayaUsdUtils/DebugCodes.h>
 
-#include "maya/MDagPath.h"
-#include "maya/MEulerRotation.h"
-#include "maya/MFnDagNode.h"
-#include "maya/MGlobal.h"
-#include "maya/MMatrix.h"
-#include "maya/MVector.h"
+#include <maya/MDagPath.h>
+#include <maya/MEulerRotation.h>
+#include <maya/MFnDagNode.h>
+#include <maya/MGlobal.h>
+#include <maya/MMatrix.h>
+#include <maya/MVector.h>
 
 #include <atomic>
 

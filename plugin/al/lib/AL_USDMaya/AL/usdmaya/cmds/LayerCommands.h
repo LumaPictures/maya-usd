@@ -17,13 +17,13 @@
 
 #include "../Api.h"
 
-#include "AL/usdmaya/ForwardDeclares.h"
-#include "AL/maya/utils/Api.h"
-#include "AL/maya/utils/MayaHelperMacros.h"
-#include "maya/MDGModifier.h"
-#include "maya/MPxCommand.h"
+#include <AL/usdmaya/ForwardDeclares.h>
+#include <AL/maya/utils/Api.h>
+#include <AL/maya/utils/MayaHelperMacros.h>
+#include <maya/MDGModifier.h>
+#include <maya/MPxCommand.h>
 
-#include "pxr/usd/usd/stage.h"
+#include <pxr/usd/usd/stage.h>
 
 PXR_NAMESPACE_USING_DIRECTIVE
 

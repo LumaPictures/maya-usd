@@ -13,16 +13,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-#include "AL/usdmaya/TypeIDs.h"
-#include "AL/usdmaya/DebugCodes.h"
-#include "AL/usdmaya/nodes/Engine.h"
-#include "AL/usdmaya/nodes/ProxyShape.h"
-#include "AL/usdmaya/nodes/RendererManager.h"
+#include <AL/usdmaya/TypeIDs.h>
+#include <AL/usdmaya/DebugCodes.h>
+#include <AL/usdmaya/nodes/Engine.h>
+#include <AL/usdmaya/nodes/ProxyShape.h>
+#include <AL/usdmaya/nodes/RendererManager.h>
 
-#include "pxr/usdImaging/usdImaging/version.h"
-#include "pxr/usdImaging/usdImagingGL/engine.h"
+#include <pxr/usdImaging/usdImaging/version.h>
+#include <pxr/usdImaging/usdImagingGL/engine.h>
 
-#include "maya/MItDependencyNodes.h"
+#include <maya/MItDependencyNodes.h>
 
 namespace {
 

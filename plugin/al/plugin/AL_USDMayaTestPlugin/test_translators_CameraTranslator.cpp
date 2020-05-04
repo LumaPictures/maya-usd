@@ -15,21 +15,21 @@
 //
 #include "test_usdmaya.h"
 
-#include "AL/usdmaya/fileio/ExportParams.h"
-#include "AL/usdmaya/fileio/ImportParams.h"
-#include "AL/usdmaya/fileio/NodeFactory.h"
-#include "AL/usdmaya/fileio/AnimationTranslator.h"
-#include "AL/usdmaya/fileio/translators/TranslatorBase.h"
-#include "AL/usdmaya/StageCache.h"
+#include <AL/usdmaya/fileio/ExportParams.h>
+#include <AL/usdmaya/fileio/ImportParams.h>
+#include <AL/usdmaya/fileio/NodeFactory.h>
+#include <AL/usdmaya/fileio/AnimationTranslator.h>
+#include <AL/usdmaya/fileio/translators/TranslatorBase.h>
+#include <AL/usdmaya/StageCache.h>
 
 
-#include "maya/MFileIO.h"
-#include "maya/MFnDagNode.h"
-#include "maya/MDagModifier.h"
+#include <maya/MFileIO.h>
+#include <maya/MFnDagNode.h>
+#include <maya/MDagModifier.h>
 
-#include "pxr/usd/usd/attribute.h"
-#include "pxr/usd/usdGeom/camera.h"
-#include "pxr/usd/usdGeom/xform.h"
+#include <pxr/usd/usd/attribute.h>
+#include <pxr/usd/usdGeom/camera.h>
+#include <pxr/usd/usdGeom/xform.h>
 
 using AL::usdmaya::fileio::ExporterParams;
 using AL::usdmaya::fileio::ImporterParams;

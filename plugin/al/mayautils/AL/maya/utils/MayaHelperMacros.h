@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 #pragma once
-#include "AL/maya/utils/Api.h"
+#include <AL/maya/utils/Api.h>
 
 /// \brief  Given the status, validates that the status is ok. If not, an error is logged using the specified error
 ///         message. If an error occurs, the status is returned.

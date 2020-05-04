@@ -15,14 +15,14 @@
 //
 #pragma once
 
-#include "AL/maya/event/Api.h"
+#include <AL/maya/event/Api.h>
 
-#include "maya/MCommandMessage.h"
-#include "maya/MDagMessage.h"
-#include "maya/MPaintMessage.h"
-#include "maya/MSceneMessage.h"
+#include <maya/MCommandMessage.h>
+#include <maya/MDagMessage.h>
+#include <maya/MPaintMessage.h>
+#include <maya/MSceneMessage.h>
 
-#include "AL/event/EventHandler.h"
+#include <AL/event/EventHandler.h>
 
 namespace AL {
 namespace maya {

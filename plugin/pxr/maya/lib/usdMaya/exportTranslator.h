@@ -18,10 +18,10 @@
 
 /// \file usdMaya/exportTranslator.h
 
-#include "usdMaya/api.h"
+#include <usdMaya/api.h>
 #include <mayaUsd/fileio/jobs/jobArgs.h>
 
-#include "pxr/pxr.h"
+#include <pxr/pxr.h>
 
 #include <maya/MFileObject.h>
 #include <maya/MPxFileTranslator.h>

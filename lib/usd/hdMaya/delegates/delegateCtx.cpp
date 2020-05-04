@@ -26,7 +26,7 @@
 #include <pxr/imaging/hd/rprim.h>
 #include <pxr/imaging/hio/glslfx.h>
 
-#include "mayaUsd/utils/util.h"
+#include <mayaUsd/utils/util.h>
 
 PXR_NAMESPACE_OPEN_SCOPE
 

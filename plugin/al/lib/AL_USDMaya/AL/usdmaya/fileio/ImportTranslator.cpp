@@ -13,11 +13,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-#include "AL/usdmaya/fileio/Import.h"
-#include "AL/usdmaya/fileio/ImportTranslator.h"
+#include <AL/usdmaya/fileio/Import.h>
+#include <AL/usdmaya/fileio/ImportTranslator.h>
 
-#include "maya/MSelectionList.h"
-#include "maya/MGlobal.h"
+#include <maya/MSelectionList.h>
+#include <maya/MGlobal.h>
 
 namespace AL {
 namespace usdmaya {

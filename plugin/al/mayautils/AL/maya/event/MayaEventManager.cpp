@@ -13,7 +13,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-#include "AL/maya/event/MayaEventManager.h"
+#include <AL/maya/event/MayaEventManager.h>
 
 #include <maya/MAnimMessage.h>
 #include <maya/MCameraSetMessage.h>

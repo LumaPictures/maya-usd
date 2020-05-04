@@ -14,11 +14,11 @@
 // limitations under the License.
 //
 
-#include "AL/usdmaya/nodes/ProxyShape.h"
-#include "AL/usdmaya/nodes/Transform.h"
-#include "AL/usdmaya/Metadata.h"
-#include "AL/usdmaya/fileio/SchemaPrims.h"
-#include "AL/usdmaya/fileio/TransformIterator.h"
+#include <AL/usdmaya/nodes/ProxyShape.h>
+#include <AL/usdmaya/nodes/Transform.h>
+#include <AL/usdmaya/Metadata.h>
+#include <AL/usdmaya/fileio/SchemaPrims.h>
+#include <AL/usdmaya/fileio/TransformIterator.h>
 
 namespace AL {
 namespace usdmaya {

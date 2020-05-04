@@ -2,7 +2,7 @@
 #include <maya/MFileIO.h>
 
 #include "test_usdmaya.h"
-#include "AL/usdmaya/Metadata.h"
+#include <AL/usdmaya/Metadata.h>
 
 using AL::maya::test::buildTempPath;
 

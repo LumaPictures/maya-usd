@@ -15,10 +15,10 @@
 //
 #include "pxrUsdPreviewSurface/usdPreviewSurface.h"
 
-#include "pxr/pxr.h"
+#include <pxr/pxr.h>
 
-#include "pxr/base/tf/staticTokens.h"
-#include "pxr/base/tf/stringUtils.h"
+#include <pxr/base/tf/staticTokens.h>
+#include <pxr/base/tf/stringUtils.h>
 
 #include <maya/MDataBlock.h>
 #include <maya/MDataHandle.h>

@@ -13,12 +13,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-#include "AL/usdmaya/fileio/translators/TranslatorTestType.h"
-#include "pxr/usd/usd/schemaRegistry.h"
-#include "pxr/usd/usd/typed.h"
+#include <AL/usdmaya/fileio/translators/TranslatorTestType.h>
+#include <pxr/usd/usd/schemaRegistry.h>
+#include <pxr/usd/usd/typed.h>
 
-#include "pxr/usd/sdf/types.h"
-#include "pxr/usd/sdf/assetPath.h"
+#include <pxr/usd/sdf/types.h>
+#include <pxr/usd/sdf/assetPath.h>
 
 namespace AL {
 namespace usdmaya {

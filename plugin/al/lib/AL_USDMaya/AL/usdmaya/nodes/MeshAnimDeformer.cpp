@@ -13,18 +13,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-#include "AL/maya/utils/Utils.h"
+#include <AL/maya/utils/Utils.h>
 
-#include "AL/usdmaya/TypeIDs.h"
-#include "AL/usdmaya/DebugCodes.h"
-#include "AL/usdmaya/nodes/MeshAnimDeformer.h"
-#include "AL/usdmaya/nodes/ProxyShape.h"
-#include "AL/usdmaya/utils/Utils.h"
+#include <AL/usdmaya/TypeIDs.h>
+#include <AL/usdmaya/DebugCodes.h>
+#include <AL/usdmaya/nodes/MeshAnimDeformer.h>
+#include <AL/usdmaya/nodes/ProxyShape.h>
+#include <AL/usdmaya/utils/Utils.h>
 
-#include "maya/MFnMesh.h"
-#include "maya/MTime.h"
+#include <maya/MFnMesh.h>
+#include <maya/MTime.h>
 
-#include "pxr/usd/usdGeom/mesh.h"
+#include <pxr/usd/usdGeom/mesh.h>
 
 #include <mayaUsd/nodes/stageData.h>
 

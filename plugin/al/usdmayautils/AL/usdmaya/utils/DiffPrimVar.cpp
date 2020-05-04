@@ -13,15 +13,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-#include "AL/usdmaya/utils/DiffPrimVar.h"
+#include <AL/usdmaya/utils/DiffPrimVar.h>
 #include <mayaUsdUtils/SIMD.h>
 #include <mayaUsdUtils/DiffCore.h>
 
-#include "maya/MDoubleArray.h"
-#include "maya/MFloatArray.h"
-#include "maya/MIntArray.h"
-#include "maya/MItMeshPolygon.h"
-#include "maya/MUintArray.h"
+#include <maya/MDoubleArray.h>
+#include <maya/MFloatArray.h>
+#include <maya/MIntArray.h>
+#include <maya/MItMeshPolygon.h>
+#include <maya/MUintArray.h>
 
 PXR_NAMESPACE_USING_DIRECTIVE
 

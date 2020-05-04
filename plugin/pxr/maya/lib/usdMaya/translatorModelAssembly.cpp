@@ -13,7 +13,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-#include "usdMaya/translatorModelAssembly.h"
+#include <usdMaya/translatorModelAssembly.h>
 
 #include <mayaUsd/fileio/jobs/jobArgs.h>
 #include <mayaUsd/fileio/jobs/jobArgs.h>
@@ -26,27 +26,27 @@
 #include <mayaUsd/fileio/translators/translatorXformable.h>
 #include <mayaUsd/utils/util.h>
 
-#include "usdMaya/editUtil.h"
-#include "usdMaya/referenceAssembly.h"
+#include <usdMaya/editUtil.h>
+#include <usdMaya/referenceAssembly.h>
 
-#include "pxr/base/tf/diagnostic.h"
-#include "pxr/base/tf/stringUtils.h"
-#include "pxr/base/tf/token.h"
-#include "pxr/usd/kind/registry.h"
-#include "pxr/usd/sdf/assetPath.h"
-#include "pxr/usd/sdf/listOp.h"
-#include "pxr/usd/sdf/path.h"
-#include "pxr/usd/sdf/reference.h"
-#include "pxr/usd/sdf/schema.h"
-#include "pxr/usd/sdf/types.h"
-#include "pxr/usd/usd/modelAPI.h"
-#include "pxr/usd/usd/prim.h"
-#include "pxr/usd/usd/stage.h"
-#include "pxr/usd/usd/stageCacheContext.h"
-#include "pxr/usd/usd/timeCode.h"
-#include "pxr/usd/usd/variantSets.h"
-#include "pxr/usd/usdGeom/xformable.h"
-#include "pxr/usd/usdUtils/pipeline.h"
+#include <pxr/base/tf/diagnostic.h>
+#include <pxr/base/tf/stringUtils.h>
+#include <pxr/base/tf/token.h>
+#include <pxr/usd/kind/registry.h>
+#include <pxr/usd/sdf/assetPath.h>
+#include <pxr/usd/sdf/listOp.h>
+#include <pxr/usd/sdf/path.h>
+#include <pxr/usd/sdf/reference.h>
+#include <pxr/usd/sdf/schema.h>
+#include <pxr/usd/sdf/types.h>
+#include <pxr/usd/usd/modelAPI.h>
+#include <pxr/usd/usd/prim.h>
+#include <pxr/usd/usd/stage.h>
+#include <pxr/usd/usd/stageCacheContext.h>
+#include <pxr/usd/usd/timeCode.h>
+#include <pxr/usd/usd/variantSets.h>
+#include <pxr/usd/usdGeom/xformable.h>
+#include <pxr/usd/usdUtils/pipeline.h>
 
 #include <maya/MDagModifier.h>
 #include <maya/MFnAssembly.h>

@@ -15,10 +15,10 @@
 //
 #pragma once
 
-#include "AL/usdmaya/Api.h"
-#include "maya/MDagPath.h"
+#include <AL/usdmaya/Api.h>
+#include <maya/MDagPath.h>
 
-#include "pxr/usd/usd/prim.h"
+#include <pxr/usd/usd/prim.h>
 
 PXR_NAMESPACE_USING_DIRECTIVE
 

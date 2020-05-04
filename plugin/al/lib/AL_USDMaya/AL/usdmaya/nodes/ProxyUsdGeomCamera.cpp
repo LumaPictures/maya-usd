@@ -30,7 +30,7 @@
 #include <pxr/usd/usd/common.h>
 #include <pxr/usd/usd/attribute.h>
 
-#include "AL/usdmaya/TypeIDs.h"
+#include <AL/usdmaya/TypeIDs.h>
 #include <AL/maya/utils/MayaHelperMacros.h>
 
 #include <mayaUsd/nodes/stageData.h>

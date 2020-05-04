@@ -86,10 +86,10 @@
 /// }
 /// \endcode
 //----------------------------------------------------------------------------------------------------------------------
-#include "AL/maya/utils/FileTranslatorOptions.h"
+#include <AL/maya/utils/FileTranslatorOptions.h>
 
-#include "maya/MPxFileTranslator.h"
-#include "maya/MGlobal.h"
+#include <maya/MPxFileTranslator.h>
+#include <maya/MGlobal.h>
 
 namespace AL {
 namespace maya {

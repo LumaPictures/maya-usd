@@ -3,7 +3,7 @@
 #include <maya/MStringArray.h>
 
 #include "test_usdmaya.h"
-#include "AL/usdmaya/Metadata.h"
+#include <AL/usdmaya/Metadata.h>
 #include <fstream>
 #include <set>
 #include <string>

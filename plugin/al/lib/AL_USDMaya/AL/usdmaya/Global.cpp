@@ -13,14 +13,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-#include "AL/usdmaya/Global.h"
-#include "AL/usdmaya/DebugCodes.h"
-#include "AL/usdmaya/StageCache.h"
-#include "AL/usdmaya/nodes/LayerManager.h"
-#include "AL/usdmaya/nodes/ProxyShape.h"
-#include "AL/usdmaya/nodes/Transform.h"
-#include "AL/usdmaya/nodes/Scope.h"
-#include "AL/usdmaya/nodes/TransformationMatrix.h"
+#include <AL/usdmaya/Global.h>
+#include <AL/usdmaya/DebugCodes.h>
+#include <AL/usdmaya/StageCache.h>
+#include <AL/usdmaya/nodes/LayerManager.h>
+#include <AL/usdmaya/nodes/ProxyShape.h>
+#include <AL/usdmaya/nodes/Transform.h>
+#include <AL/usdmaya/nodes/Scope.h>
+#include <AL/usdmaya/nodes/TransformationMatrix.h>
 
 #include <pxr/base/plug/registry.h>
 #include <pxr/base/tf/getenv.h>
@@ -28,21 +28,21 @@
 #include <pxr/usd/usdUtils/stageCache.h>
 
 #if defined(WANT_UFE_BUILD)
-#include "AL/usdmaya/TypeIDs.h"
-#include "ufe/globalSelection.h"
-#include "ufe/observer.h"
-#include "ufe/observableSelection.h"
-#include "ufe/path.h"
-#include "ufe/sceneItemList.h"
-#include "ufe/selectionNotification.h"
-#include "ufe/transform3d.h"
-#include "ufe/transform3dNotification.h"
+#include <AL/usdmaya/TypeIDs.h>
+#include <ufe/globalSelection.h>
+#include <ufe/observer.h>
+#include <ufe/observableSelection.h>
+#include <ufe/path.h>
+#include <ufe/sceneItemList.h>
+#include <ufe/selectionNotification.h>
+#include <ufe/transform3d.h>
+#include <ufe/transform3dNotification.h>
 #endif
 
-#include "maya/MFnDagNode.h"
-#include "maya/MGlobal.h"
-#include "maya/MItDependencyNodes.h"
-#include "maya/MSelectionList.h"
+#include <maya/MFnDagNode.h>
+#include <maya/MGlobal.h>
+#include <maya/MItDependencyNodes.h>
+#include <maya/MSelectionList.h>
 
 #ifndef AL_USDMAYA_LOCATION_NAME
   #define AL_USDMAYA_LOCATION_NAME "AL_USDMAYA_LOCATION"

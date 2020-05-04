@@ -15,21 +15,21 @@
 //
 #pragma once
 
-#include "AL/usdmaya/utils/Api.h"
-#include "AL/usdmaya/utils/AnimationTranslator.h"
+#include <AL/usdmaya/utils/Api.h>
+#include <AL/usdmaya/utils/AnimationTranslator.h>
 
-#include "maya/MAngle.h"
-#include "maya/MDistance.h"
-#include "maya/MFnAnimCurve.h"
-#include "maya/MGlobal.h"
-#include "maya/MPlug.h"
-#include "maya/MTime.h"
-#include "maya/MObjectArray.h"
+#include <maya/MAngle.h>
+#include <maya/MDistance.h>
+#include <maya/MFnAnimCurve.h>
+#include <maya/MGlobal.h>
+#include <maya/MPlug.h>
+#include <maya/MTime.h>
+#include <maya/MObjectArray.h>
 
-#include "pxr/usd/usdGeom/xformOp.h"
+#include <pxr/usd/usdGeom/xformOp.h>
 
-#include "AL/maya/utils/MayaHelperMacros.h"
-#include "AL/usdmaya/utils/AttributeType.h"
+#include <AL/maya/utils/MayaHelperMacros.h>
+#include <AL/usdmaya/utils/AttributeType.h>
 
 PXR_NAMESPACE_USING_DIRECTIVE
 

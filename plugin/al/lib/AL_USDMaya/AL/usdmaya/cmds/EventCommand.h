@@ -16,9 +16,9 @@
 #pragma once
 
 
-#include "maya/MPxCommand.h"
-#include "AL/event/EventHandler.h"
-#include "AL/maya/utils/MayaHelperMacros.h"
+#include <maya/MPxCommand.h>
+#include <AL/event/EventHandler.h>
+#include <AL/maya/utils/MayaHelperMacros.h>
 
 namespace AL {
 namespace usdmaya {

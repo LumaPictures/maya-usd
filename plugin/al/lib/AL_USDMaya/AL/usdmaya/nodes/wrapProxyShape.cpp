@@ -13,10 +13,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-#include "AL/usdmaya/nodes/ProxyShape.h"
-#include "AL/usdmaya/nodes/Transform.h"
-#include "AL/maya/utils/MayaHelperMacros.h"
-#include "AL/maya/utils/Utils.h"
+#include <AL/usdmaya/nodes/ProxyShape.h>
+#include <AL/usdmaya/nodes/Transform.h>
+#include <AL/maya/utils/MayaHelperMacros.h>
+#include <AL/maya/utils/Utils.h>
 
 #include <mayaUsd/nodes/stageData.h>
 
@@ -24,19 +24,19 @@
 #include <boost/python/def.hpp>
 #include <boost/python.hpp>
 
-#include "maya/MBoundingBox.h"
-#include "maya/MFnDagNode.h"
-#include "maya/MFnPluginData.h"
-#include "maya/MFnDependencyNode.h"
-#include "maya/MItDependencyNodes.h"
-#include "maya/MDagModifier.h"
-#include "maya/MDGModifier.h"
-#include "maya/MPlug.h"
-#include "maya/MSelectionList.h"
+#include <maya/MBoundingBox.h>
+#include <maya/MFnDagNode.h>
+#include <maya/MFnPluginData.h>
+#include <maya/MFnDependencyNode.h>
+#include <maya/MItDependencyNodes.h>
+#include <maya/MDagModifier.h>
+#include <maya/MDGModifier.h>
+#include <maya/MPlug.h>
+#include <maya/MSelectionList.h>
 
-#include "pxr/base/tf/pyEnum.h"
-#include "pxr/base/tf/pyResultConversions.h"
-#include "pxr/base/tf/refPtr.h"
+#include <pxr/base/tf/pyEnum.h>
+#include <pxr/base/tf/pyResultConversions.h>
+#include <pxr/base/tf/refPtr.h>
 
 #include <memory>
 

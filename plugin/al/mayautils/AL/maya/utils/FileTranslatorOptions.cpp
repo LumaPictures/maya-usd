@@ -14,9 +14,9 @@
 // limitations under the License.
 //
 #include <algorithm>
-#include "AL/maya/utils/FileTranslatorOptions.h"
+#include <AL/maya/utils/FileTranslatorOptions.h>
 
-#include "maya/MGlobal.h"
+#include <maya/MGlobal.h>
 
 namespace AL {
 namespace maya {

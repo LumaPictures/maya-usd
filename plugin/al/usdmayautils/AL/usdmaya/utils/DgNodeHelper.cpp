@@ -13,26 +13,26 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-#include "AL/usdmaya/utils/DgNodeHelper.h"
-#include "AL/maya/utils/NodeHelper.h"
+#include <AL/usdmaya/utils/DgNodeHelper.h>
+#include <AL/maya/utils/NodeHelper.h>
 
 #include <mayaUsdUtils/ALHalf.h>
 #include <mayaUsdUtils/SIMD.h>
 
-#include "maya/MDGModifier.h"
-#include "maya/MFloatArray.h"
-#include "maya/MFloatMatrix.h"
-#include "maya/MFnCompoundAttribute.h"
-#include "maya/MFnDoubleArrayData.h"
-#include "maya/MFnFloatArrayData.h"
-#include "maya/MFnMatrixData.h"
-#include "maya/MFnMatrixArrayData.h"
-#include "maya/MFnNumericAttribute.h"
-#include "maya/MFnNumericData.h"
-#include "maya/MFnTypedAttribute.h"
-#include "maya/MMatrix.h"
-#include "maya/MMatrixArray.h"
-#include "maya/MObjectArray.h"
+#include <maya/MDGModifier.h>
+#include <maya/MFloatArray.h>
+#include <maya/MFloatMatrix.h>
+#include <maya/MFnCompoundAttribute.h>
+#include <maya/MFnDoubleArrayData.h>
+#include <maya/MFnFloatArrayData.h>
+#include <maya/MFnMatrixData.h>
+#include <maya/MFnMatrixArrayData.h>
+#include <maya/MFnNumericAttribute.h>
+#include <maya/MFnNumericData.h>
+#include <maya/MFnTypedAttribute.h>
+#include <maya/MMatrix.h>
+#include <maya/MMatrixArray.h>
+#include <maya/MObjectArray.h>
 
 #include <iostream>
 

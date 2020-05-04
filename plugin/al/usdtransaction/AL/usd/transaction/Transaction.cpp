@@ -13,8 +13,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-#include "AL/usd/transaction/Transaction.h"
-#include "AL/usd/transaction/TransactionManager.h"
+#include <AL/usd/transaction/Transaction.h>
+#include <AL/usd/transaction/TransactionManager.h>
 
 #include <iostream>
 PXR_NAMESPACE_USING_DIRECTIVE

@@ -13,11 +13,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-#include "AL/usdmaya/fileio/SchemaPrims.h"
+#include <AL/usdmaya/fileio/SchemaPrims.h>
 
-#include "maya/MFnDagNode.h"
+#include <maya/MFnDagNode.h>
 
-#include "pxr/usd/usd/schemaBase.h"
+#include <pxr/usd/usd/schemaBase.h>
 
 namespace AL {
 namespace usdmaya {

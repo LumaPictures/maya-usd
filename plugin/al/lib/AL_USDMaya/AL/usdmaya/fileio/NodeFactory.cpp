@@ -13,18 +13,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-#include "AL/usdmaya/utils/AttributeType.h"
-#include "AL/usdmaya/fileio/Import.h"
-#include "AL/usdmaya/fileio/ImportParams.h"
-#include "AL/usdmaya/fileio/NodeFactory.h"
-#include "AL/usdmaya/fileio/translators/DgNodeTranslator.h"
-#include "AL/usdmaya/fileio/translators/DagNodeTranslator.h"
-#include "AL/usdmaya/fileio/translators/TransformTranslator.h"
+#include <AL/usdmaya/utils/AttributeType.h>
+#include <AL/usdmaya/fileio/Import.h>
+#include <AL/usdmaya/fileio/ImportParams.h>
+#include <AL/usdmaya/fileio/NodeFactory.h>
+#include <AL/usdmaya/fileio/translators/DgNodeTranslator.h>
+#include <AL/usdmaya/fileio/translators/DagNodeTranslator.h>
+#include <AL/usdmaya/fileio/translators/TransformTranslator.h>
 
-#include "maya/MObject.h"
-#include "maya/MString.h"
-#include "maya/MFnDependencyNode.h"
-#include "AL/usdmaya/utils/Utils.h"
+#include <maya/MObject.h>
+#include <maya/MString.h>
+#include <maya/MFnDependencyNode.h>
+#include <AL/usdmaya/utils/Utils.h>
 
 namespace AL {
 namespace usdmaya {

@@ -13,10 +13,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-#include "usdMaya/translatorModelAssembly.h"
+#include <usdMaya/translatorModelAssembly.h>
 #include <mayaUsd/fileio/primWriterRegistry.h>
 
-#include "pxr/pxr.h"
+#include <pxr/pxr.h>
 
 PXR_NAMESPACE_OPEN_SCOPE
 

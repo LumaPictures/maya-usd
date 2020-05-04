@@ -14,10 +14,10 @@
 // limitations under the License.
 //
 #pragma once
-#include "AL/usdmaya/ForwardDeclares.h"
-#include "AL/usdmaya/fileio/translators/TranslatorContext.h"
+#include <AL/usdmaya/ForwardDeclares.h>
+#include <AL/usdmaya/fileio/translators/TranslatorContext.h>
 
-#include "pxr/pxr.h"
+#include <pxr/pxr.h>
 
 PXR_NAMESPACE_USING_DIRECTIVE
 

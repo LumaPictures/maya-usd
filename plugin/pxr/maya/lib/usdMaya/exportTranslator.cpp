@@ -13,7 +13,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-#include "usdMaya/exportTranslator.h"
+#include <usdMaya/exportTranslator.h>
 
 #include <mayaUsd/fileio/jobs/jobArgs.h>
 #include <mayaUsd/fileio/shading/shadingModeRegistry.h>

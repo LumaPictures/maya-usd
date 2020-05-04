@@ -16,8 +16,8 @@
 //
 #include <mayaUsd/fileio/shading/shadingModeRegistry.h>
 
-#include "usdMaya/readJobWithSceneAssembly.h"
-#include "usdMaya/translatorModelAssembly.h"
+#include <usdMaya/readJobWithSceneAssembly.h>
+#include <usdMaya/translatorModelAssembly.h>
 
 PXR_NAMESPACE_OPEN_SCOPE
 

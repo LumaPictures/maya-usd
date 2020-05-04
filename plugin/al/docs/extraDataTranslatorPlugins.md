@@ -21,9 +21,9 @@ They are registered with the AL_USDMAYA_DECLARE_EXTRA_DATA_PLUGIN and don't use 
 Here's an example header for an imaginary renderer, where we register separate plugins for transform and mesh (and types that derive from them)
 
 ```
-#include "AL/usdmaya/fileio/translators/ExtraDataPlugin.h"
-#include "AL/usdmaya/fileio/translators/TranslatorContext.h"
-#include "maya/MPlug.h"
+#include <AL/usdmaya/fileio/translators/ExtraDataPlugin.h>
+#include <AL/usdmaya/fileio/translators/TranslatorContext.h>
+#include <maya/MPlug.h>
 
 PXR_NAMESPACE_USING_DIRECTIVE
 

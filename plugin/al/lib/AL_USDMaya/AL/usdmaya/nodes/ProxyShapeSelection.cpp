@@ -15,16 +15,16 @@
 //
 #include <cinttypes>
 
-#include "AL/maya/utils/Utils.h"
+#include <AL/maya/utils/Utils.h>
 
-#include "AL/usdmaya/Metadata.h"
-#include "AL/usdmaya/nodes/ProxyShape.h"
-#include "AL/usdmaya/nodes/Transform.h"
-#include "AL/usdmaya/nodes/Scope.h"
-#include "AL/usdmaya/nodes/TransformationMatrix.h"
+#include <AL/usdmaya/Metadata.h>
+#include <AL/usdmaya/nodes/ProxyShape.h>
+#include <AL/usdmaya/nodes/Transform.h>
+#include <AL/usdmaya/nodes/Scope.h>
+#include <AL/usdmaya/nodes/TransformationMatrix.h>
 
-#include "maya/MFnDagNode.h"
-#include "maya/MPxCommand.h"
+#include <maya/MFnDagNode.h>
+#include <maya/MPxCommand.h>
 
 namespace AL {
 namespace usdmaya {

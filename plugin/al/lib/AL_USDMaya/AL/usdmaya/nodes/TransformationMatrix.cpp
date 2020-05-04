@@ -14,17 +14,17 @@
 // limitations under the License.
 //
 
-#include "AL/usdmaya/TypeIDs.h"
-#include "AL/usdmaya/DebugCodes.h"
-#include "AL/usdmaya/nodes/ProxyShape.h"
-#include "AL/usdmaya/nodes/Transform.h"
-#include "AL/usdmaya/nodes/TransformationMatrix.h"
-#include "AL/usdmaya/utils/AttributeType.h"
-#include "AL/usdmaya/utils/Utils.h"
+#include <AL/usdmaya/TypeIDs.h>
+#include <AL/usdmaya/DebugCodes.h>
+#include <AL/usdmaya/nodes/ProxyShape.h>
+#include <AL/usdmaya/nodes/Transform.h>
+#include <AL/usdmaya/nodes/TransformationMatrix.h>
+#include <AL/usdmaya/utils/AttributeType.h>
+#include <AL/usdmaya/utils/Utils.h>
 
-#include "maya/MFileIO.h"
-#include "maya/MViewport2Renderer.h"
-#include "maya/MFnTransform.h"
+#include <maya/MFileIO.h>
+#include <maya/MViewport2Renderer.h>
+#include <maya/MFnTransform.h>
 
 PXR_NAMESPACE_USING_DIRECTIVE
 

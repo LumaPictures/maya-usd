@@ -13,12 +13,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-#include "usdMaya/instancerShapeAdapterWithSceneAssembly.h"
+#include <usdMaya/instancerShapeAdapterWithSceneAssembly.h>
 
 #include <mayaUsd/render/pxrUsdMayaGL/debugCodes.h>
 #include <mayaUsd/utils/util.h>
 
-#include "usdMaya/referenceAssembly.h"
+#include <usdMaya/referenceAssembly.h>
 
 #include <maya/MFnDependencyNode.h>
 #include <maya/MFnMatrixData.h>

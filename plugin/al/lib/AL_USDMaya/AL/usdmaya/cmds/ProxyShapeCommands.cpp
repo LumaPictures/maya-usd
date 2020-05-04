@@ -13,18 +13,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-#include "AL/usdmaya/cmds/ProxyShapeCommands.h"
-#include "AL/usdmaya/nodes/LayerManager.h"
+#include <AL/usdmaya/cmds/ProxyShapeCommands.h>
+#include <AL/usdmaya/nodes/LayerManager.h>
 
-#include "AL/maya/utils/CommandGuiHelper.h"
-#include "AL/maya/utils/MenuBuilder.h"
-#include "AL/maya/utils/Utils.h"
+#include <AL/maya/utils/CommandGuiHelper.h>
+#include <AL/maya/utils/MenuBuilder.h>
+#include <AL/maya/utils/Utils.h>
 
-#include "maya/MArgDatabase.h"
-#include "maya/MArgList.h"
-#include "maya/MDagPathArray.h"
-#include "maya/MFnDagNode.h"
-#include "maya/MSyntax.h"
+#include <maya/MArgDatabase.h>
+#include <maya/MArgList.h>
+#include <maya/MDagPathArray.h>
+#include <maya/MFnDagNode.h>
+#include <maya/MSyntax.h>
 
 namespace {
     typedef void (AL::usdmaya::nodes::SelectionList::*SelectionListModifierFunc)(SdfPath);

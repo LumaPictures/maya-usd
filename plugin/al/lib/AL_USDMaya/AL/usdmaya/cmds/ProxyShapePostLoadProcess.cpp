@@ -13,17 +13,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-#include "AL/usdmaya/cmds/ProxyShapePostLoadProcess.h"
+#include <AL/usdmaya/cmds/ProxyShapePostLoadProcess.h>
 
-#include "AL/usdmaya/CodeTimings.h"
-#include "AL/usdmaya/Metadata.h"
-#include "AL/usdmaya/fileio/ImportParams.h"
-#include "AL/usdmaya/fileio/SchemaPrims.h"
-#include "AL/usdmaya/fileio/TransformIterator.h"
-#include "AL/usdmaya/nodes/ProxyShape.h"
-#include "AL/usdmaya/nodes/Transform.h"
+#include <AL/usdmaya/CodeTimings.h>
+#include <AL/usdmaya/Metadata.h>
+#include <AL/usdmaya/fileio/ImportParams.h>
+#include <AL/usdmaya/fileio/SchemaPrims.h>
+#include <AL/usdmaya/fileio/TransformIterator.h>
+#include <AL/usdmaya/nodes/ProxyShape.h>
+#include <AL/usdmaya/nodes/Transform.h>
 
-#include "maya/MFnDagNode.h"
+#include <maya/MFnDagNode.h>
 
 namespace AL {
 namespace usdmaya {

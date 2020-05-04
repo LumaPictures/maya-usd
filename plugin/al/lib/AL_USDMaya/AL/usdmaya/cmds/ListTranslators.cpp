@@ -13,18 +13,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-#include "AL/usdmaya/cmds/ListTranslators.h"
+#include <AL/usdmaya/cmds/ListTranslators.h>
 
-#include "pxr/pxr.h"
-#include "pxr/base/tf/debug.h"
-#include "pxr/base/plug/registry.h"
+#include <pxr/pxr.h>
+#include <pxr/base/tf/debug.h>
+#include <pxr/base/plug/registry.h>
 
-#include "maya/MArgDatabase.h"
-#include "maya/MGlobal.h"
-#include "maya/MSyntax.h"
-#include "maya/MStringArray.h"
+#include <maya/MArgDatabase.h>
+#include <maya/MGlobal.h>
+#include <maya/MSyntax.h>
+#include <maya/MStringArray.h>
 
-#include "AL/usdmaya/fileio/translators/TranslatorBase.h"
+#include <AL/usdmaya/fileio/translators/TranslatorBase.h>
 
 PXR_NAMESPACE_USING_DIRECTIVE
 

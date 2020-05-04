@@ -13,24 +13,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-#include "AL/usdmaya/cmds/LayerCommands.h"
-#include "AL/usdmaya/DebugCodes.h"
-#include "AL/maya/utils/Utils.h"
-#include "AL/maya/utils/CommandGuiHelper.h"
-#include "AL/usdmaya/nodes/LayerManager.h"
-#include "AL/usdmaya/nodes/ProxyShape.h"
-#include "AL/usdmaya/nodes/Transform.h"
+#include <AL/usdmaya/cmds/LayerCommands.h>
+#include <AL/usdmaya/DebugCodes.h>
+#include <AL/maya/utils/Utils.h>
+#include <AL/maya/utils/CommandGuiHelper.h>
+#include <AL/usdmaya/nodes/LayerManager.h>
+#include <AL/usdmaya/nodes/ProxyShape.h>
+#include <AL/usdmaya/nodes/Transform.h>
 
-#include "pxr/usd/sdf/listOp.h"
-#include "pxr/usd/usd/stage.h"
+#include <pxr/usd/sdf/listOp.h>
+#include <pxr/usd/usd/stage.h>
 
-#include "maya/MArgDatabase.h"
-#include "maya/MFnDagNode.h"
-#include "maya/MGlobal.h"
-#include "maya/MSelectionList.h"
-#include "maya/MStringArray.h"
-#include "maya/MSyntax.h"
-#include "maya/MStringArray.h"
+#include <maya/MArgDatabase.h>
+#include <maya/MFnDagNode.h>
+#include <maya/MGlobal.h>
+#include <maya/MSelectionList.h>
+#include <maya/MStringArray.h>
+#include <maya/MSyntax.h>
+#include <maya/MStringArray.h>
 
 namespace {
   AL::usdmaya::nodes::ProxyShape* getProxyShapeFromSel(const MSelectionList& sl)

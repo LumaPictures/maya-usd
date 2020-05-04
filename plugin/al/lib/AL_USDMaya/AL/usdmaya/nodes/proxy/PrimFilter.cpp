@@ -13,9 +13,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-#include "AL/usdmaya/nodes/ProxyShape.h"
-#include "AL/usdmaya/nodes/proxy/PrimFilter.h"
-#include "AL/usdmaya/fileio/SchemaPrims.h"
+#include <AL/usdmaya/nodes/ProxyShape.h>
+#include <AL/usdmaya/nodes/proxy/PrimFilter.h>
+#include <AL/usdmaya/fileio/SchemaPrims.h>
 
 namespace AL {
 namespace usdmaya {

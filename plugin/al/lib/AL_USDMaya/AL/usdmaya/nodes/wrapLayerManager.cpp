@@ -13,7 +13,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-#include "AL/usdmaya/nodes/LayerManager.h"
+#include <AL/usdmaya/nodes/LayerManager.h>
 
 #include <boost/python/args.hpp>
 #include <boost/python/def.hpp>
@@ -33,7 +33,7 @@
 
 #include <pxr/base/tf/refPtr.h>
 
-#include "maya/MStringArray.h"
+#include <maya/MStringArray.h>
 
 #include <memory>
 

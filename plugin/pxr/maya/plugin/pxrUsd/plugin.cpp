@@ -13,23 +13,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-#include "pxr/pxr.h"
+#include <pxr/pxr.h>
 #include "pxrUsd/api.h"
 
 #include <mayaUsd/render/pxrUsdMayaGL/proxyShapeUI.h>
 #include <mayaUsd/nodes/proxyShapePlugin.h>
 
 #include <mayaUsd/utils/diagnosticDelegate.h>
-#include "usdMaya/exportCommand.h"
-#include "usdMaya/exportTranslator.h"
-#include "usdMaya/importCommand.h"
-#include "usdMaya/importTranslator.h"
-#include "usdMaya/listShadingModesCommand.h"
+#include <usdMaya/exportCommand.h>
+#include <usdMaya/exportTranslator.h>
+#include <usdMaya/importCommand.h>
+#include <usdMaya/importTranslator.h>
+#include <usdMaya/listShadingModesCommand.h>
 
 #include <mayaUsd/listeners/notice.h>
 #include <mayaUsd/nodes/pointBasedDeformerNode.h>
-#include "usdMaya/proxyShape.h"
-#include "usdMaya/referenceAssembly.h"
+#include <usdMaya/proxyShape.h>
+#include <usdMaya/referenceAssembly.h>
 #include <mayaUsd/nodes/stageNode.h>
 #include <mayaUsd/utils/undoHelperCommand.h>
 
@@ -43,8 +43,8 @@
 #include <mayaUsd/ufe/Global.h>
 #endif
 
-#include "pxr/base/plug/plugin.h"
-#include "pxr/base/plug/registry.h"
+#include <pxr/base/plug/plugin.h>
+#include <pxr/base/plug/registry.h>
 
 PXR_NAMESPACE_USING_DIRECTIVE
 

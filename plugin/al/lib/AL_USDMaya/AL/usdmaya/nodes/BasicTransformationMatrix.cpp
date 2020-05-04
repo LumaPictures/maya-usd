@@ -13,9 +13,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-#include "AL/usdmaya/TypeIDs.h"
-#include "AL/usdmaya/DebugCodes.h"
-#include "AL/usdmaya/nodes/BasicTransformationMatrix.h"
+#include <AL/usdmaya/TypeIDs.h>
+#include <AL/usdmaya/DebugCodes.h>
+#include <AL/usdmaya/nodes/BasicTransformationMatrix.h>
 
 namespace AL {
 namespace usdmaya {

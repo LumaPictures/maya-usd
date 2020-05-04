@@ -15,7 +15,7 @@
 //
 #include "test_usdmaya.h"
 
-#include "AL/usd/schemas/mayatest/ExamplePolyCubeNode.h"
+#include <AL/usd/schemas/mayatest/ExamplePolyCubeNode.h>
 
 #include <maya/MFnDagNode.h>
 

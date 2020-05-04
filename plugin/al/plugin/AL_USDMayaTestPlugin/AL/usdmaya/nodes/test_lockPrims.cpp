@@ -15,23 +15,23 @@
 //
 #include "test_usdmaya.h"
 
-#include "AL/usdmaya/nodes/ProxyShape.h"
-#include "AL/usdmaya/nodes/Transform.h"
-#include "AL/usdmaya/StageCache.h"
-#include "AL/usdmaya/Metadata.h"
-#include "AL/usdmaya/nodes/LayerManager.h"
-#include "AL/maya/utils/Utils.h"
+#include <AL/usdmaya/nodes/ProxyShape.h>
+#include <AL/usdmaya/nodes/Transform.h>
+#include <AL/usdmaya/StageCache.h>
+#include <AL/usdmaya/Metadata.h>
+#include <AL/usdmaya/nodes/LayerManager.h>
+#include <AL/maya/utils/Utils.h>
 
-#include "pxr/usd/usdGeom/xform.h"
-#include "pxr/usd/usd/variantSets.h"
-#include "pxr/base/tf/stringUtils.h"
+#include <pxr/usd/usdGeom/xform.h>
+#include <pxr/usd/usd/variantSets.h>
+#include <pxr/base/tf/stringUtils.h>
 
-#include "maya/MFnTransform.h"
-#include "maya/MSelectionList.h"
-#include "maya/MGlobal.h"
-#include "maya/MItDependencyNodes.h"
-#include "maya/MFileIO.h"
-#include "maya/MUuid.h"
+#include <maya/MFnTransform.h>
+#include <maya/MSelectionList.h>
+#include <maya/MGlobal.h>
+#include <maya/MItDependencyNodes.h>
+#include <maya/MFileIO.h>
+#include <maya/MUuid.h>
 
 #include <functional>
 

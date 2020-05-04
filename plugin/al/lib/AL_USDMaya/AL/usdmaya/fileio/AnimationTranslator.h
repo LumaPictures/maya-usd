@@ -17,12 +17,12 @@
 
 #include "../Api.h"
 
-#include "AL/maya/utils/Utils.h"
+#include <AL/maya/utils/Utils.h>
 
-#include "AL/usdmaya/utils/AnimationTranslator.h"
-#include "AL/usdmaya/fileio/translators/TranslatorBase.h"
+#include <AL/usdmaya/utils/AnimationTranslator.h>
+#include <AL/usdmaya/fileio/translators/TranslatorBase.h>
 
-#include "pxr/usd/usd/attribute.h"
+#include <pxr/usd/usd/attribute.h>
 PXR_NAMESPACE_USING_DIRECTIVE
 
 namespace AL {

@@ -15,12 +15,12 @@
 //
 #include "test_usdmaya.h"
 
-#include "maya/MFileIO.h"
+#include <maya/MFileIO.h>
 
-#include "AL/maya/utils/NodeHelper.h"
-#include "AL/usdmaya/fileio/ImportParams.h"
-#include "AL/usdmaya/fileio/translators/DagNodeTranslator.h"
-#include "AL/usdmaya/utils/MeshUtils.h"
+#include <AL/maya/utils/NodeHelper.h>
+#include <AL/usdmaya/fileio/ImportParams.h>
+#include <AL/usdmaya/fileio/translators/DagNodeTranslator.h>
+#include <AL/usdmaya/utils/MeshUtils.h>
 
 using namespace AL::usdmaya::fileio::translators;
 using AL::maya::test::buildTempPath;

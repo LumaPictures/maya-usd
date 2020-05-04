@@ -15,8 +15,8 @@
 //
 #pragma once
 
-#include "AL/usdmaya/nodes/ProxyShape.h"
-#include "AL/maya/test/testHelpers.h"
+#include <AL/usdmaya/nodes/ProxyShape.h>
+#include <AL/maya/test/testHelpers.h>
 
   /// \brief  Creates a ProxyShape with the contents generated from the buildUsdStage function object. It will export it into the specified temp_location and
   ///         feed this temp-file into a ProxyShape

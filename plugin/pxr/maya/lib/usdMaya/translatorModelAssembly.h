@@ -18,18 +18,18 @@
 
 /// \file usdMaya/translatorModelAssembly.h
 
-#include "usdMaya/api.h"
+#include <usdMaya/api.h>
 #include <mayaUsd/fileio/primReaderArgs.h>
 #include <mayaUsd/fileio/primReaderContext.h>
 #include <mayaUsd/fileio/primWriterArgs.h>
 #include <mayaUsd/fileio/primWriterContext.h>
 
-#include "pxr/pxr.h"
+#include <pxr/pxr.h>
 
-#include "pxr/base/tf/token.h"
+#include <pxr/base/tf/token.h>
 
-#include "pxr/usd/sdf/path.h"
-#include "pxr/usd/usd/prim.h"
+#include <pxr/usd/sdf/path.h>
+#include <pxr/usd/usd/prim.h>
 
 #include <maya/MObject.h>
 

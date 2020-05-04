@@ -13,10 +13,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-#include "AL/usdmaya/fileio/translators/TranslatorTestPlugin.h"
+#include <AL/usdmaya/fileio/translators/TranslatorTestPlugin.h>
 
-#include "maya/MFn.h"
-#include "maya/MFnDagNode.h"
+#include <maya/MFn.h>
+#include <maya/MFnDagNode.h>
 
 namespace AL {
 namespace usdmaya {

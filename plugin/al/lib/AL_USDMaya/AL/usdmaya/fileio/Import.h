@@ -14,15 +14,15 @@
 // limitations under the License.
 //
 #pragma once
-#include "AL/usdmaya/fileio/ImportParams.h"
-#include "AL/usdmaya/fileio/NodeFactory.h"
-#include "AL/usdmaya/fileio/translators/TranslatorBase.h"
+#include <AL/usdmaya/fileio/ImportParams.h>
+#include <AL/usdmaya/fileio/NodeFactory.h>
+#include <AL/usdmaya/fileio/translators/TranslatorBase.h>
 
-#include "AL/maya/utils/MayaHelperMacros.h"
+#include <AL/maya/utils/MayaHelperMacros.h>
 
-#include "maya/MPxCommand.h"
+#include <maya/MPxCommand.h>
 
-#include "pxr/pxr.h"
+#include <pxr/pxr.h>
 PXR_NAMESPACE_USING_DIRECTIVE
 
 

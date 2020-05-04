@@ -15,7 +15,7 @@
 //
 #pragma once
 #include <cstdint>
-#include "AL/usdmaya/utils/ForwardDeclares.h"
+#include <AL/usdmaya/utils/ForwardDeclares.h>
 
 // forward declare usd types
 namespace AL {

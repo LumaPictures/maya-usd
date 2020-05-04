@@ -15,11 +15,11 @@
 //
 #pragma once
 
-#include "AL/usdmaya/Api.h"
+#include <AL/usdmaya/Api.h>
 
-#include "pxr/pxr.h"
-#include "pxr/usd/usd/stageCache.h"
-#include "AL/event/EventHandler.h"
+#include <pxr/pxr.h>
+#include <pxr/usd/usd/stageCache.h>
+#include <AL/event/EventHandler.h>
 
 PXR_NAMESPACE_USING_DIRECTIVE
 

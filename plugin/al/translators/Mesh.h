@@ -15,7 +15,7 @@
 //
 
 #pragma once
-#include "AL/usdmaya/fileio/translators/TranslatorBase.h"
+#include <AL/usdmaya/fileio/translators/TranslatorBase.h>
 
 
 namespace AL{

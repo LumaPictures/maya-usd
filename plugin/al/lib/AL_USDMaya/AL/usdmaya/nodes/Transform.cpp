@@ -13,18 +13,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-#include "AL/usdmaya/TypeIDs.h"
-#include "AL/usdmaya/DebugCodes.h"
+#include <AL/usdmaya/TypeIDs.h>
+#include <AL/usdmaya/DebugCodes.h>
 #include <mayaUsd/nodes/stageData.h>
-#include "AL/usdmaya/nodes/ProxyShape.h"
-#include "AL/usdmaya/nodes/Transform.h"
-#include "AL/usdmaya/nodes/TransformationMatrix.h"
+#include <AL/usdmaya/nodes/ProxyShape.h>
+#include <AL/usdmaya/nodes/Transform.h>
+#include <AL/usdmaya/nodes/TransformationMatrix.h>
 
-#include "pxr/usd/usdGeom/scope.h"
+#include <pxr/usd/usdGeom/scope.h>
 
-#include "maya/MBoundingBox.h"
-#include "maya/MGlobal.h"
-#include "maya/MTime.h"
+#include <maya/MBoundingBox.h>
+#include <maya/MGlobal.h>
+#include <maya/MTime.h>
 
 namespace {
   // Simple RAII class to ensure boolean gets set to false when done.

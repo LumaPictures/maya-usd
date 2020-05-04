@@ -14,24 +14,24 @@
 // limitations under the License.
 //
 
-#include "AL/usdmaya/utils/NurbsCurveUtils.h"
+#include <AL/usdmaya/utils/NurbsCurveUtils.h>
 
-#include "AL/maya/utils/NodeHelper.h"
-#include "AL/usdmaya/utils/DgNodeHelper.h"
-#include "AL/usdmaya/utils/Utils.h"
+#include <AL/maya/utils/NodeHelper.h>
+#include <AL/usdmaya/utils/DgNodeHelper.h>
+#include <AL/usdmaya/utils/Utils.h>
 
 #include <mayaUsdUtils/DiffCore.h>
 
-#include "maya/MDoubleArray.h"
-#include "maya/MFloatArray.h"
-#include "maya/MFnDoubleArrayData.h"
-#include "maya/MFnFloatArrayData.h"
-#include "maya/MFnNumericAttribute.h"
-#include "maya/MGlobal.h"
-#include "maya/MPlug.h"
-#include "maya/MPointArray.h"
+#include <maya/MDoubleArray.h>
+#include <maya/MFloatArray.h>
+#include <maya/MFnDoubleArrayData.h>
+#include <maya/MFnFloatArrayData.h>
+#include <maya/MFnNumericAttribute.h>
+#include <maya/MGlobal.h>
+#include <maya/MPlug.h>
+#include <maya/MPointArray.h>
 
-#include "pxr/usd/usdUtils/pipeline.h"
+#include <pxr/usd/usdUtils/pipeline.h>
 
 #include <iostream>
 

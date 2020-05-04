@@ -15,9 +15,9 @@
 //
 #pragma once
 
-#include "AL/maya/utils/Api.h"
+#include <AL/maya/utils/Api.h>
 
-#include "AL/maya/utils/PluginTranslatorOptions.h"
+#include <AL/maya/utils/PluginTranslatorOptions.h>
 
 #include <iostream>
 

@@ -19,8 +19,8 @@
 #include <maya/MFnPlugin.h>
 #include <maya/MGlobal.h>
 #include <maya/MStatus.h>
-#include "AL/usdmaya/PluginRegister.h" 
-#include "AL/maya/test/testHarness.h"
+#include <AL/usdmaya/PluginRegister.h> 
+#include <AL/maya/test/testHarness.h>
 
 using AL::maya::test::UnitTestHarness;
 

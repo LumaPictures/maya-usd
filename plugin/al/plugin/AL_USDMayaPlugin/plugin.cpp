@@ -18,8 +18,8 @@
 
 #include <maya/MFnPlugin.h>
 
-#include "AL/usdmaya/PluginRegister.h"
-#include "AL/usdmaya/Version.h"
+#include <AL/usdmaya/PluginRegister.h>
+#include <AL/usdmaya/Version.h>
 
 AL_USDMAYA_PLUGIN_PUBLIC
 MStatus initializePlugin(MObject obj)

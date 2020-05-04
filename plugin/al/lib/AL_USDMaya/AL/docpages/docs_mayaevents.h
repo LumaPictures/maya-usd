@@ -114,7 +114,7 @@ A quick example of replacing a MSceneMessage::kAfterNew message with the events 
 \code
 
 #include <maya/MFnPlugin.h>
-#include "AL/maya/event/MayaEventManager.h"
+#include <AL/maya/event/MayaEventManager.h>
 #include <iostream>
 
 void onFileNewCallback()

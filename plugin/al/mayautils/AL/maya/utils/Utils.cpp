@@ -13,11 +13,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-#include "AL/maya/utils/Utils.h"
-#include "maya/MFnDagNode.h"
-#include "maya/MFnPlugin.h"
-#include "maya/MGlobal.h"
-#include "maya/MSelectionList.h"
+#include <AL/maya/utils/Utils.h>
+#include <maya/MFnDagNode.h>
+#include <maya/MFnPlugin.h>
+#include <maya/MGlobal.h>
+#include <maya/MSelectionList.h>
 
 namespace AL {
 namespace maya {

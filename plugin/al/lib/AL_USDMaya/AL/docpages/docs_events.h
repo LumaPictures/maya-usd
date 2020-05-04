@@ -67,7 +67,7 @@ defined within AL/usdmaya/Global.cpp. The main purpose of this binding is to con
 logging and scripting capability of the DCC app.
 
 \code
-#include "AL/event/EventHandler.h"
+#include <AL/event/EventHandler.h>
 
 // indices into the eventTypeStrings array
 constexpr uint32_t kUserSpecifiedEventType = 0;
@@ -130,7 +130,7 @@ The following code sample provides a simple example of how the C++ api works in 
 
 \code
 
-#include "AL/event/EventHandler.h"
+#include <AL/event/EventHandler.h>
 
 // a global identifier for the event we have created
 AL::event::EventId g_mySimpleEvent = 0;
@@ -338,7 +338,7 @@ A simple example of setting a node up with the events system would look like so:
 
 \code
 
-#include "AL/event/EventHandler.h"
+#include <AL/event/EventHandler.h>
 
 // To make use of the node events, ensure you derive a node from the MayaNodeEvents class.
 class MyMayaNode
@@ -510,7 +510,7 @@ task is something that needs to be done manually), and child events can only be 
 
 \code
 
-#include "AL/event/EventHandler.h"
+#include <AL/event/EventHandler.h>
 
 // a global identifier for the event we have created
 AL::event::EventId g_mySimpleEvent1 = 0;

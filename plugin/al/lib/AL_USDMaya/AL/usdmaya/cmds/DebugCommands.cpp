@@ -13,16 +13,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-#include "AL/usdmaya/cmds/DebugCommands.h"
-#include "AL/usdmaya/DebugCodes.h"
-#include "AL/maya/utils/MenuBuilder.h"
+#include <AL/usdmaya/cmds/DebugCommands.h>
+#include <AL/usdmaya/DebugCodes.h>
+#include <AL/maya/utils/MenuBuilder.h>
 
-#include "pxr/base/tf/debug.h"
+#include <pxr/base/tf/debug.h>
 
-#include "maya/MSyntax.h"
-#include "maya/MGlobal.h"
-#include "maya/MArgDatabase.h"
-#include "maya/MStringArray.h"
+#include <maya/MSyntax.h>
+#include <maya/MGlobal.h>
+#include <maya/MArgDatabase.h>
+#include <maya/MStringArray.h>
 
 PXR_NAMESPACE_USING_DIRECTIVE
 

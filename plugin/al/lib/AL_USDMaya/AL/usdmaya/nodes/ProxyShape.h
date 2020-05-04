@@ -15,43 +15,43 @@
 //
 #pragma once
 
-#include "AL/maya/event/MayaEventManager.h"
+#include <AL/maya/event/MayaEventManager.h>
 
-#include "AL/maya/utils/MayaHelperMacros.h"
-#include "AL/maya/utils/NodeHelper.h"
+#include <AL/maya/utils/MayaHelperMacros.h>
+#include <AL/maya/utils/NodeHelper.h>
 
-#include "AL/usdmaya/Api.h"
+#include <AL/usdmaya/Api.h>
 
-#include "AL/usdmaya/ForwardDeclares.h"
-#include "AL/usdmaya/fileio/translators/TranslatorBase.h"
-#include "AL/usdmaya/fileio/translators/TranslatorContext.h"
-#include "AL/usdmaya/nodes/proxy/LockManager.h"
-#include "AL/usdmaya/nodes/proxy/PrimFilter.h"
-#include "AL/usdmaya/SelectabilityDB.h"
+#include <AL/usdmaya/ForwardDeclares.h>
+#include <AL/usdmaya/fileio/translators/TranslatorBase.h>
+#include <AL/usdmaya/fileio/translators/TranslatorContext.h>
+#include <AL/usdmaya/nodes/proxy/LockManager.h>
+#include <AL/usdmaya/nodes/proxy/PrimFilter.h>
+#include <AL/usdmaya/SelectabilityDB.h>
 
-#include "AL/usd/transaction/Notice.h"
+#include <AL/usd/transaction/Notice.h>
 
-#include "maya/MDagModifier.h"
-#include "maya/MDagPath.h"
-#include "maya/MGlobal.h"
-#include "maya/MNodeMessage.h"
-#include "maya/MPxSurfaceShape.h"
-#include "maya/MSelectionList.h"
+#include <maya/MDagModifier.h>
+#include <maya/MDagPath.h>
+#include <maya/MGlobal.h>
+#include <maya/MNodeMessage.h>
+#include <maya/MPxSurfaceShape.h>
+#include <maya/MSelectionList.h>
 
 #if MAYA_API_VERSION < 201800
-#include "maya/MViewport2Renderer.h"
+#include <maya/MViewport2Renderer.h>
 #endif
 
-#include "pxr/usd/sdf/notice.h"
-#include "pxr/usd/usd/notice.h"
-#include "pxr/usd/usd/prim.h"
-#include "pxr/usd/usd/stage.h"
-#include "pxr/usdImaging/usdImagingGL/renderParams.h"
+#include <pxr/usd/sdf/notice.h>
+#include <pxr/usd/usd/notice.h>
+#include <pxr/usd/usd/prim.h>
+#include <pxr/usd/usd/stage.h>
+#include <pxr/usdImaging/usdImagingGL/renderParams.h>
 
 #include <mayaUsd/nodes/proxyShapeBase.h>
 
 #if defined(WANT_UFE_BUILD)
-#include "ufe/ufe.h"
+#include <ufe/ufe.h>
 
 UFE_NS_DEF {
     class Path;

@@ -15,14 +15,14 @@
 //
 #pragma once
 
-#include "AL/maya/utils/Api.h"
+#include <AL/maya/utils/Api.h>
 
-#include "maya/MColor.h"
-#include "maya/MFloatVector.h"
-#include "maya/MFnNumericAttribute.h"
+#include <maya/MColor.h>
+#include <maya/MFloatVector.h>
+#include <maya/MFnNumericAttribute.h>
 
 #if MAYA_API_VERSION < 201800
-#include "maya/MDataBlock.h"
+#include <maya/MDataBlock.h>
 #endif
 
 #include <deque>
@@ -90,7 +90,7 @@ namespace utils {
 ///         MPxSurfaceShape, etc), as well as the NodeHelper class. So your header file should look something like this:
 /// \code
 /// #pragma once
-/// #include "AL/maya/NodeHelper.h"
+/// #include <AL/maya/NodeHelper.h>
 /// #include <maya/MPxNode.h>
 ///
 /// // extremely simple node that adds two numbers

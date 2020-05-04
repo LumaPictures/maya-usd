@@ -15,13 +15,13 @@
 //
 #pragma once
 
-#include "AL/usdmaya/fileio/translators/TranslatorBase.h"
-#include "AL/usdmaya/fileio/translators/TranslatorContext.h"
-#include "AL/usdmaya/fileio/translators/TranslatorTestType.h"
-#include "maya/MStatus.h"
+#include <AL/usdmaya/fileio/translators/TranslatorBase.h>
+#include <AL/usdmaya/fileio/translators/TranslatorContext.h>
+#include <AL/usdmaya/fileio/translators/TranslatorTestType.h>
+#include <maya/MStatus.h>
 
-#include "pxr/pxr.h"
-#include "pxr/base/tf/type.h"
+#include <pxr/pxr.h>
+#include <pxr/base/tf/type.h>
 
 PXR_NAMESPACE_USING_DIRECTIVE
 

@@ -15,18 +15,18 @@
 //
 #include "test_usdmaya.h"
 
-#include "AL/usdmaya/fileio/AnimationTranslator.h"
+#include <AL/usdmaya/fileio/AnimationTranslator.h>
 
-#include "maya/MDGModifier.h"
-#include "maya/MDoubleArray.h"
-#include "maya/MFnAnimCurve.h"
-#include "maya/MFileIO.h"
-#include "maya/MFnTransform.h"
-#include "maya/MFnNurbsCurve.h"
-#include "maya/MFnExpression.h"
-#include "maya/MGlobal.h"
-#include "maya/MPointArray.h"
-#include "maya/MSelectionList.h"
+#include <maya/MDGModifier.h>
+#include <maya/MDoubleArray.h>
+#include <maya/MFnAnimCurve.h>
+#include <maya/MFileIO.h>
+#include <maya/MFnTransform.h>
+#include <maya/MFnNurbsCurve.h>
+#include <maya/MFnExpression.h>
+#include <maya/MGlobal.h>
+#include <maya/MPointArray.h>
+#include <maya/MSelectionList.h>
 
 using AL::usdmaya::fileio::AnimationTranslator;
 

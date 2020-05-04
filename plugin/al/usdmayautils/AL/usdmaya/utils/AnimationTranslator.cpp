@@ -14,18 +14,18 @@
 // limitations under the License.
 //
 
-#include "AL/usdmaya/utils/AnimationTranslator.h"
+#include <AL/usdmaya/utils/AnimationTranslator.h>
 
-#include "AL/usdmaya/utils/DgNodeHelper.h"
-#include "AL/usdmaya/utils/MeshUtils.h"
+#include <AL/usdmaya/utils/DgNodeHelper.h>
+#include <AL/usdmaya/utils/MeshUtils.h>
 
-#include "maya/MAnimControl.h"
-#include "maya/MAnimUtil.h"
-#include "maya/MFnAnimCurve.h"
-#include "maya/MFnDagNode.h"
-#include "maya/MItDependencyGraph.h"
-#include "maya/MMatrix.h"
-#include "maya/MNodeClass.h"
+#include <maya/MAnimControl.h>
+#include <maya/MAnimUtil.h>
+#include <maya/MFnAnimCurve.h>
+#include <maya/MFnDagNode.h>
+#include <maya/MItDependencyGraph.h>
+#include <maya/MMatrix.h>
+#include <maya/MNodeClass.h>
 
 #include <iostream>
 

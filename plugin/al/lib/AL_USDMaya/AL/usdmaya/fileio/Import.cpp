@@ -13,23 +13,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-#include "AL/usdmaya/fileio/Import.h"
-#include "AL/usdmaya/fileio/ImportTranslator.h"
-#include "AL/usdmaya/fileio/SchemaPrims.h"
-#include "AL/usdmaya/fileio/TransformIterator.h"
-#include "AL/usdmaya/Metadata.h"
-#include "AL/usdmaya/utils/Utils.h"
-#include "AL/maya/utils/Utils.h"
+#include <AL/usdmaya/fileio/Import.h>
+#include <AL/usdmaya/fileio/ImportTranslator.h>
+#include <AL/usdmaya/fileio/SchemaPrims.h>
+#include <AL/usdmaya/fileio/TransformIterator.h>
+#include <AL/usdmaya/Metadata.h>
+#include <AL/usdmaya/utils/Utils.h>
+#include <AL/maya/utils/Utils.h>
 
-#include "AL/usdmaya/CodeTimings.h"
+#include <AL/usdmaya/CodeTimings.h>
 
-#include "maya/MAnimControl.h"
-#include "maya/MArgDatabase.h"
-#include "maya/MFnTransform.h"
-#include "maya/MSyntax.h"
-#include "maya/MTime.h"
+#include <maya/MAnimControl.h>
+#include <maya/MArgDatabase.h>
+#include <maya/MFnTransform.h>
+#include <maya/MSyntax.h>
+#include <maya/MTime.h>
 
-#include "pxr/usd/usd/stage.h"
+#include <pxr/usd/usd/stage.h>
 
 namespace AL {
 namespace usdmaya {

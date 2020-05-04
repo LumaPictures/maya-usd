@@ -14,24 +14,24 @@
 // limitations under the License.
 //
 
-#include "pxr/usd/usdGeom/nurbsCurves.h"
-#include "pxr/usd/usdGeom/xform.h"
+#include <pxr/usd/usdGeom/nurbsCurves.h>
+#include <pxr/usd/usdGeom/xform.h>
 
-#include "maya/MDoubleArray.h"
-#include "maya/MFnDoubleArrayData.h"
-#include "maya/MFnFloatArrayData.h"
-#include "maya/MFnNurbsCurve.h"
-#include "maya/MPointArray.h"
-#include "maya/MStatus.h"
-#include "maya/MNodeClass.h"
+#include <maya/MDoubleArray.h>
+#include <maya/MFnDoubleArrayData.h>
+#include <maya/MFnFloatArrayData.h>
+#include <maya/MFnNurbsCurve.h>
+#include <maya/MPointArray.h>
+#include <maya/MStatus.h>
+#include <maya/MNodeClass.h>
 
-#include "AL/usdmaya/utils/DgNodeHelper.h"
-#include "AL/usdmaya/utils/DiffPrimVar.h"
-#include "AL/usdmaya/utils/NurbsCurveUtils.h"
-#include "AL/usdmaya/fileio/translators/DagNodeTranslator.h"
-#include "AL/usdmaya/Metadata.h"
+#include <AL/usdmaya/utils/DgNodeHelper.h>
+#include <AL/usdmaya/utils/DiffPrimVar.h>
+#include <AL/usdmaya/utils/NurbsCurveUtils.h>
+#include <AL/usdmaya/fileio/translators/DagNodeTranslator.h>
+#include <AL/usdmaya/Metadata.h>
 
-#include "AL/maya/utils/NodeHelper.h"
+#include <AL/maya/utils/NodeHelper.h>
 
 #include "NurbsCurve.h"
 #include "CommonTranslatorOptions.h"

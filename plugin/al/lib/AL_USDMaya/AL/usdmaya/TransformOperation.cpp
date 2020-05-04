@@ -13,9 +13,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-#include "AL/usdmaya/TransformOperation.h"
+#include <AL/usdmaya/TransformOperation.h>
 
-#include "pxr/usd/usdGeom/xformCommonAPI.h"
+#include <pxr/usd/usdGeom/xformCommonAPI.h>
 
 #include <string>
 #include <vector>

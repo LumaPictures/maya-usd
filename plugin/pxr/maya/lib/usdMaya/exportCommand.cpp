@@ -13,14 +13,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-#include "usdMaya/exportCommand.h"
+#include <usdMaya/exportCommand.h>
 
 #include <mayaUsd/fileio/shading/shadingModeRegistry.h>
 #include <mayaUsd/utils/util.h>
 #include <mayaUsd/fileio/jobs/writeJob.h>
 #include <mayaUsd/fileio/utils/writeUtil.h>
 
-#include "pxr/usd/usdGeom/tokens.h"
+#include <pxr/usd/usdGeom/tokens.h>
 
 #include <maya/MArgList.h>
 #include <maya/MArgDatabase.h>

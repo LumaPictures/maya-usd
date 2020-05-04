@@ -13,11 +13,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-#include "AL/usdmaya/utils/AttributeType.h"
+#include <AL/usdmaya/utils/AttributeType.h>
 #include <unordered_map>
 
-#include "pxr/usd/sdf/types.h"
-#include "pxr/usd/usd/attribute.h"
+#include <pxr/usd/sdf/types.h>
+#include <pxr/usd/usd/attribute.h>
 
 namespace AL {
 namespace usdmaya {

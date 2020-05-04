@@ -15,25 +15,25 @@
 //
 #include "MayaReference.h"
 
-#include "maya/MSelectionList.h"
-#include "maya/MGlobal.h"
-#include "maya/MDGModifier.h"
-#include "maya/MNodeClass.h"
-#include "maya/MPlug.h"
-#include "maya/MFnStringData.h"
-#include "maya/MFnTransform.h"
-#include "maya/MFnTypedAttribute.h"
-#include "maya/MFnTransform.h"
-#include "maya/MFnCamera.h"
-#include "maya/MFileIO.h"
-#include "maya/MItDependencyNodes.h"
-#include "AL/usdmaya/nodes/Transform.h"
-#include "AL/usdmaya/fileio/translators/DgNodeTranslator.h"
-#include "AL/usdmaya/utils/DgNodeHelper.h"
-#include "AL/usdmaya/DebugCodes.h"
+#include <maya/MSelectionList.h>
+#include <maya/MGlobal.h>
+#include <maya/MDGModifier.h>
+#include <maya/MNodeClass.h>
+#include <maya/MPlug.h>
+#include <maya/MFnStringData.h>
+#include <maya/MFnTransform.h>
+#include <maya/MFnTypedAttribute.h>
+#include <maya/MFnTransform.h>
+#include <maya/MFnCamera.h>
+#include <maya/MFileIO.h>
+#include <maya/MItDependencyNodes.h>
+#include <AL/usdmaya/nodes/Transform.h>
+#include <AL/usdmaya/fileio/translators/DgNodeTranslator.h>
+#include <AL/usdmaya/utils/DgNodeHelper.h>
+#include <AL/usdmaya/DebugCodes.h>
 
-#include "AL/usdmaya/utils/Utils.h"
-#include "AL/maya/utils/Utils.h"
+#include <AL/usdmaya/utils/Utils.h>
+#include <AL/maya/utils/Utils.h>
 
 #include <mayaUsd_Schemas/ALMayaReference.h>
 #include <mayaUsd_Schemas/MayaReference.h>

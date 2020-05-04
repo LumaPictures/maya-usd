@@ -15,18 +15,18 @@
 //
 #pragma once
 
-#include "AL/usdmaya/Api.h"
+#include <AL/usdmaya/Api.h>
 
-#include "AL/maya/utils/MayaHelperMacros.h"
-#include "AL/maya/utils/NodeHelper.h"
+#include <AL/maya/utils/MayaHelperMacros.h>
+#include <AL/maya/utils/NodeHelper.h>
 
-#include "maya/MPxNode.h"
+#include <maya/MPxNode.h>
 
 #if MAYA_API_VERSION < 201800
-#include "maya/MDGModifier.h"
+#include <maya/MDGModifier.h>
 #endif
 
-#include "pxr/usd/usd/stage.h"
+#include <pxr/usd/usd/stage.h>
 
 #include <map>
 #include <set>

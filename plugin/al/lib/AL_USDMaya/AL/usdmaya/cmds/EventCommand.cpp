@@ -13,17 +13,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-#include "AL/usdmaya/cmds/EventCommand.h"
-#include "AL/usdmaya/DebugCodes.h"
-#include "pxr/pxr.h"
+#include <AL/usdmaya/cmds/EventCommand.h>
+#include <AL/usdmaya/DebugCodes.h>
+#include <pxr/pxr.h>
 
-#include "maya/MArgDatabase.h"
-#include "maya/MArgList.h"
-#include "maya/MFnDependencyNode.h"
-#include "maya/MGlobal.h"
-#include "maya/MPxNode.h"
-#include "maya/MSelectionList.h"
-#include "maya/MSyntax.h"
+#include <maya/MArgDatabase.h>
+#include <maya/MArgList.h>
+#include <maya/MFnDependencyNode.h>
+#include <maya/MGlobal.h>
+#include <maya/MPxNode.h>
+#include <maya/MSelectionList.h>
+#include <maya/MSyntax.h>
 
 PXR_NAMESPACE_USING_DIRECTIVE
 

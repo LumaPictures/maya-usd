@@ -13,31 +13,31 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-#include "AL/usdmaya/fileio/AnimationTranslator.h"
-#include "AL/usdmaya/fileio/Export.h"
-#include "AL/usdmaya/fileio/ExportTranslator.h"
-#include "AL/usdmaya/fileio/NodeFactory.h"
-#include "AL/usdmaya/fileio/translators/TransformTranslator.h"
-#include "AL/usdmaya/Metadata.h"
-#include "AL/usdmaya/TransformOperation.h"
-#include "AL/usdmaya/utils/MeshUtils.h"
-#include "AL/usdmaya/utils/Utils.h"
-#include "AL/maya/utils/Utils.h"
-#include "AL/maya/utils/MObjectMap.h"
+#include <AL/usdmaya/fileio/AnimationTranslator.h>
+#include <AL/usdmaya/fileio/Export.h>
+#include <AL/usdmaya/fileio/ExportTranslator.h>
+#include <AL/usdmaya/fileio/NodeFactory.h>
+#include <AL/usdmaya/fileio/translators/TransformTranslator.h>
+#include <AL/usdmaya/Metadata.h>
+#include <AL/usdmaya/TransformOperation.h>
+#include <AL/usdmaya/utils/MeshUtils.h>
+#include <AL/usdmaya/utils/Utils.h>
+#include <AL/maya/utils/Utils.h>
+#include <AL/maya/utils/MObjectMap.h>
 
-#include "maya/MAnimControl.h"
-#include "maya/MArgDatabase.h"
-#include "maya/MFnMesh.h"
-#include "maya/MFnTransform.h"
-#include "maya/MItDag.h"
-#include "maya/MNodeClass.h"
-#include "maya/MPlugArray.h"
-#include "maya/MSyntax.h"
+#include <maya/MAnimControl.h>
+#include <maya/MArgDatabase.h>
+#include <maya/MFnMesh.h>
+#include <maya/MFnTransform.h>
+#include <maya/MItDag.h>
+#include <maya/MNodeClass.h>
+#include <maya/MPlugArray.h>
+#include <maya/MSyntax.h>
 
-#include "pxr/usd/usdGeom/xform.h"
-#include "pxr/usd/usdGeom/mesh.h"
-#include "pxr/usd/usdGeom/nurbsCurves.h"
-#include "pxr/usd/usd/primRange.h"
+#include <pxr/usd/usdGeom/xform.h>
+#include <pxr/usd/usdGeom/mesh.h>
+#include <pxr/usd/usdGeom/nurbsCurves.h>
+#include <pxr/usd/usd/primRange.h>
 
 namespace AL {
 namespace usdmaya {

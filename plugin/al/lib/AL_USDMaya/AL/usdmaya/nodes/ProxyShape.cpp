@@ -14,60 +14,60 @@
 // limitations under the License.
 //
 /*
-#include "pxr/usdImaging/usdImaging/delegate.h"
-#include "pxr/usdImaging/usdImaging/version.h"
-#include "pxr/usdImaging/usdImagingGL/engine.h"
+#include <pxr/usdImaging/usdImaging/delegate.h>
+#include <pxr/usdImaging/usdImaging/version.h>
+#include <pxr/usdImaging/usdImagingGL/engine.h>
 
 */
 
-#include "maya/MEvaluationNode.h"
-#include "maya/MEventMessage.h"
-#include "maya/MFileIO.h"
-#include "maya/MItDependencyNodes.h"
-#include "maya/MFnPluginData.h"
-#include "maya/MFnReference.h"
-#include "maya/MGlobal.h"
-#include "maya/MHWGeometryUtilities.h"
-#include "maya/MNodeClass.h"
-#include "maya/MTime.h"
-#include "maya/MViewport2Renderer.h"
+#include <maya/MEvaluationNode.h>
+#include <maya/MEventMessage.h>
+#include <maya/MFileIO.h>
+#include <maya/MItDependencyNodes.h>
+#include <maya/MFnPluginData.h>
+#include <maya/MFnReference.h>
+#include <maya/MGlobal.h>
+#include <maya/MHWGeometryUtilities.h>
+#include <maya/MNodeClass.h>
+#include <maya/MTime.h>
+#include <maya/MViewport2Renderer.h>
 
-#include "AL/maya/utils/Utils.h"
+#include <AL/maya/utils/Utils.h>
 
-#include "AL/usdmaya/cmds/ProxyShapePostLoadProcess.h"
-#include "AL/usdmaya/CodeTimings.h"
-#include "AL/usdmaya/Global.h"
-#include "AL/usdmaya/Metadata.h"
-#include "AL/usdmaya/fileio/SchemaPrims.h"
-#include "AL/usdmaya/fileio/TransformIterator.h"
-#include "AL/usdmaya/nodes/Engine.h"
-#include "AL/usdmaya/nodes/LayerManager.h"
-#include "AL/usdmaya/nodes/ProxyShape.h"
-#include "AL/usdmaya/nodes/RendererManager.h"
-#include "AL/usdmaya/nodes/Transform.h"
-#include "AL/usdmaya/nodes/TransformationMatrix.h"
-#include "AL/usdmaya/StageCache.h"
-#include "AL/usdmaya/TypeIDs.h"
-#include "AL/usdmaya/Version.h"
-#include "AL/usdmaya/utils/Utils.h"
+#include <AL/usdmaya/cmds/ProxyShapePostLoadProcess.h>
+#include <AL/usdmaya/CodeTimings.h>
+#include <AL/usdmaya/Global.h>
+#include <AL/usdmaya/Metadata.h>
+#include <AL/usdmaya/fileio/SchemaPrims.h>
+#include <AL/usdmaya/fileio/TransformIterator.h>
+#include <AL/usdmaya/nodes/Engine.h>
+#include <AL/usdmaya/nodes/LayerManager.h>
+#include <AL/usdmaya/nodes/ProxyShape.h>
+#include <AL/usdmaya/nodes/RendererManager.h>
+#include <AL/usdmaya/nodes/Transform.h>
+#include <AL/usdmaya/nodes/TransformationMatrix.h>
+#include <AL/usdmaya/StageCache.h>
+#include <AL/usdmaya/TypeIDs.h>
+#include <AL/usdmaya/Version.h>
+#include <AL/usdmaya/utils/Utils.h>
 
-#include "AL/usd/transaction/TransactionManager.h"
+#include <AL/usd/transaction/TransactionManager.h>
 
-#include "pxr/usd/ar/resolver.h"
+#include <pxr/usd/ar/resolver.h>
 
-#include "pxr/usd/usdGeom/imageable.h"
-#include "pxr/usd/usdGeom/tokens.h"
-#include "pxr/usd/usd/prim.h"
-#include "pxr/usd/usd/stageCacheContext.h"
-#include "pxr/usd/usdUtils/stageCache.h"
-#include "pxr/usdImaging/usdImaging/delegate.h"
+#include <pxr/usd/usdGeom/imageable.h>
+#include <pxr/usd/usdGeom/tokens.h>
+#include <pxr/usd/usd/prim.h>
+#include <pxr/usd/usd/stageCacheContext.h>
+#include <pxr/usd/usdUtils/stageCache.h>
+#include <pxr/usdImaging/usdImaging/delegate.h>
 
 #include <mayaUsd/listeners/proxyShapeNotice.h>
 #include <mayaUsd/nodes/stageData.h>
 #include <mayaUsd/utils/utilFileSystem.h>
 
 #if defined(WANT_UFE_BUILD)
-#include "ufe/path.h"
+#include <ufe/path.h>
 #endif
 
 namespace AL {

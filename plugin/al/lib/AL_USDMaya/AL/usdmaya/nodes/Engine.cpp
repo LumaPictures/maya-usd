@@ -29,11 +29,11 @@
 // limitations under the License.
 //
 #include <vector>
-#include "AL/usdmaya/nodes/Engine.h"
+#include <AL/usdmaya/nodes/Engine.h>
 
-#include "pxr/imaging/hdx/pickTask.h"
-#include "pxr/imaging/hdx/taskController.h"
-#include "pxr/usdImaging/usdImaging/delegate.h"
+#include <pxr/imaging/hdx/pickTask.h>
+#include <pxr/imaging/hdx/taskController.h>
+#include <pxr/usdImaging/usdImaging/delegate.h>
 
 namespace AL {
 namespace usdmaya {

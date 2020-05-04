@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#include "AL/usdmaya/fileio/translators/ExtraDataPlugin.h"
+#include <AL/usdmaya/fileio/translators/ExtraDataPlugin.h>
 
 namespace AL {
 namespace usdmaya {

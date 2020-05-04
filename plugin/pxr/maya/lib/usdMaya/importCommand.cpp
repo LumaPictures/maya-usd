@@ -13,13 +13,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-#include "usdMaya/importCommand.h"
+#include <usdMaya/importCommand.h>
 
 #include <mayaUsd/fileio/jobs/jobArgs.h>
-#include "usdMaya/readJobWithSceneAssembly.h"
+#include <usdMaya/readJobWithSceneAssembly.h>
 #include <mayaUsd/fileio/shading/shadingModeRegistry.h>
 
-#include "pxr/usd/ar/resolver.h"
+#include <pxr/usd/ar/resolver.h>
 
 #include <maya/MArgDatabase.h>
 #include <maya/MArgList.h>

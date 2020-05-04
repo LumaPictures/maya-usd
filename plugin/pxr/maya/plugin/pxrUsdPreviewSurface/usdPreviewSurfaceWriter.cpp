@@ -13,7 +13,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-#include "pxr/pxr.h"
+#include <pxr/pxr.h>
 #include "pxrUsdPreviewSurface/usdPreviewSurfaceWriter.h"
 
 #include "pxrUsdPreviewSurface/usdPreviewSurface.h"
@@ -23,17 +23,17 @@
 #include <mayaUsd/fileio/writeJobContext.h>
 #include <mayaUsd/fileio/utils/writeUtil.h>
 
-#include "pxr/base/tf/diagnostic.h"
-#include "pxr/base/tf/staticTokens.h"
-#include "pxr/base/tf/token.h"
-#include "pxr/base/vt/value.h"
-#include "pxr/usd/sdf/path.h"
-#include "pxr/usd/sdf/types.h"
-#include "pxr/usd/sdf/valueTypeName.h"
-#include "pxr/usd/usdShade/input.h"
-#include "pxr/usd/usdShade/output.h"
-#include "pxr/usd/usdShade/shader.h"
-#include "pxr/usd/usdShade/tokens.h"
+#include <pxr/base/tf/diagnostic.h>
+#include <pxr/base/tf/staticTokens.h>
+#include <pxr/base/tf/token.h>
+#include <pxr/base/vt/value.h>
+#include <pxr/usd/sdf/path.h>
+#include <pxr/usd/sdf/types.h>
+#include <pxr/usd/sdf/valueTypeName.h>
+#include <pxr/usd/usdShade/input.h>
+#include <pxr/usd/usdShade/output.h>
+#include <pxr/usd/usdShade/shader.h>
+#include <pxr/usd/usdShade/tokens.h>
 
 #include <maya/MFnDependencyNode.h>
 #include <maya/MObject.h>

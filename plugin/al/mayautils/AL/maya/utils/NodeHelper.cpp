@@ -13,25 +13,25 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-#include "AL/maya/utils/NodeHelper.h"
-#include "AL/maya/utils/MayaHelperMacros.h"
-#include "AL/maya/utils/DebugCodes.h"
+#include <AL/maya/utils/NodeHelper.h>
+#include <AL/maya/utils/MayaHelperMacros.h>
+#include <AL/maya/utils/DebugCodes.h>
 
-#include "maya/MDataBlock.h"
-#include "maya/MEulerRotation.h"
-#include "maya/MFnCompoundAttribute.h"
-#include "maya/MFnDependencyNode.h"
-#include "maya/MFnEnumAttribute.h"
-#include "maya/MFnMatrixAttribute.h"
-#include "maya/MFnMessageAttribute.h"
-#include "maya/MFnPluginData.h"
-#include "maya/MFnStringData.h"
-#include "maya/MFnTypedAttribute.h"
-#include "maya/MFnUnitAttribute.h"
-#include "maya/MGlobal.h"
-#include "maya/MMatrix.h"
-#include "maya/MPxNode.h"
-#include "maya/MTime.h"
+#include <maya/MDataBlock.h>
+#include <maya/MEulerRotation.h>
+#include <maya/MFnCompoundAttribute.h>
+#include <maya/MFnDependencyNode.h>
+#include <maya/MFnEnumAttribute.h>
+#include <maya/MFnMatrixAttribute.h>
+#include <maya/MFnMessageAttribute.h>
+#include <maya/MFnPluginData.h>
+#include <maya/MFnStringData.h>
+#include <maya/MFnTypedAttribute.h>
+#include <maya/MFnUnitAttribute.h>
+#include <maya/MGlobal.h>
+#include <maya/MMatrix.h>
+#include <maya/MPxNode.h>
+#include <maya/MTime.h>
 
 #include <cassert>
 #include <iostream>

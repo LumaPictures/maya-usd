@@ -15,14 +15,14 @@
 //
 #pragma once
 
-#include "AL/maya/utils/NodeHelper.h"
-#include "AL/maya/utils/MayaHelperMacros.h"
+#include <AL/maya/utils/NodeHelper.h>
+#include <AL/maya/utils/MayaHelperMacros.h>
 
-#include "AL/usdmaya/ForwardDeclares.h"
-#include "AL/usdmaya/nodes/Scope.h"
+#include <AL/usdmaya/ForwardDeclares.h>
+#include <AL/usdmaya/nodes/Scope.h>
 
-#include "maya/MObjectHandle.h"
-#include "maya/MPxTransform.h"
+#include <maya/MObjectHandle.h>
+#include <maya/MPxTransform.h>
 
 namespace AL {
 namespace usdmaya {

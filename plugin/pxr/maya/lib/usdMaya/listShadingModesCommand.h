@@ -18,9 +18,9 @@
 
 /// \file usdMaya/listShadingModesCommand.h
 
-#include "usdMaya/api.h"
+#include <usdMaya/api.h>
 
-#include "pxr/pxr.h"
+#include <pxr/pxr.h>
 
 #include <maya/MPxCommand.h>
 

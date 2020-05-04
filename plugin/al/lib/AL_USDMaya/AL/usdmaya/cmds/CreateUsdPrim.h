@@ -15,8 +15,8 @@
 //
 #pragma once
 
-#include "maya/MPxCommand.h"
-#include "AL/maya/utils/MayaHelperMacros.h"
+#include <maya/MPxCommand.h>
+#include <AL/maya/utils/MayaHelperMacros.h>
 
 namespace AL {
 namespace usdmaya {

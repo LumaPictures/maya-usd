@@ -14,18 +14,18 @@
 // limitations under the License.
 //
 
-#include "AL/usdmaya/fileio/AnimationTranslator.h"
-#include "AL/usdmaya/fileio/translators/DgNodeTranslator.h"
-#include "AL/usdmaya/fileio/translators/TransformTranslator.h"
-#include "AL/usdmaya/utils/MeshUtils.h"
+#include <AL/usdmaya/fileio/AnimationTranslator.h>
+#include <AL/usdmaya/fileio/translators/DgNodeTranslator.h>
+#include <AL/usdmaya/fileio/translators/TransformTranslator.h>
+#include <AL/usdmaya/utils/MeshUtils.h>
 
-#include "maya/MAnimControl.h"
-#include "maya/MAnimUtil.h"
-#include "maya/MFnAnimCurve.h"
-#include "maya/MFnDagNode.h"
-#include "maya/MItDependencyGraph.h"
-#include "maya/MMatrix.h"
-#include "maya/MNodeClass.h"
+#include <maya/MAnimControl.h>
+#include <maya/MAnimUtil.h>
+#include <maya/MFnAnimCurve.h>
+#include <maya/MFnDagNode.h>
+#include <maya/MItDependencyGraph.h>
+#include <maya/MMatrix.h>
+#include <maya/MNodeClass.h>
 
 namespace AL {
 namespace usdmaya {

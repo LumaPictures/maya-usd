@@ -16,7 +16,7 @@
 #pragma once
 #include <string>
 #include <unordered_map>
-#include "AL/usdmaya/ForwardDeclares.h"
+#include <AL/usdmaya/ForwardDeclares.h>
 
 PXR_NAMESPACE_USING_DIRECTIVE
 

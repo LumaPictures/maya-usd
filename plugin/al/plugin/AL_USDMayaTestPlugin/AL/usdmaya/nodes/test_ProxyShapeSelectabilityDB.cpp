@@ -14,24 +14,24 @@
 // limitations under the License.
 //
 #include "test_usdmaya.h"
-#include "AL/usdmaya/nodes/ProxyShape.h"
-#include "AL/usdmaya/nodes/Transform.h"
-#include "AL/usdmaya/nodes/Layer.h"
-#include "AL/usdmaya/StageCache.h"
-#include "AL/usdmaya/Metadata.h"
-#include "maya/MFnTransform.h"
-#include "maya/MSelectionList.h"
-#include "maya/MGlobal.h"
-#include "maya/MItDependencyNodes.h"
-#include "maya/MDagModifier.h"
-#include "maya/MFileIO.h"
-#include "maya/MStringArray.h"
+#include <AL/usdmaya/nodes/ProxyShape.h>
+#include <AL/usdmaya/nodes/Transform.h>
+#include <AL/usdmaya/nodes/Layer.h>
+#include <AL/usdmaya/StageCache.h>
+#include <AL/usdmaya/Metadata.h>
+#include <maya/MFnTransform.h>
+#include <maya/MSelectionList.h>
+#include <maya/MGlobal.h>
+#include <maya/MItDependencyNodes.h>
+#include <maya/MDagModifier.h>
+#include <maya/MFileIO.h>
+#include <maya/MStringArray.h>
 
-#include "pxr/usd/usd/stage.h"
-#include "pxr/usd/sdf/types.h"
-#include "pxr/usd/usd/attribute.h"
-#include "pxr/usd/usdGeom/xform.h"
-#include "pxr/usd/usdGeom/xformCommonAPI.h"
+#include <pxr/usd/usd/stage.h>
+#include <pxr/usd/sdf/types.h>
+#include <pxr/usd/usd/attribute.h>
+#include <pxr/usd/usdGeom/xform.h>
+#include <pxr/usd/usdGeom/xformCommonAPI.h>
 
 using AL::maya::test::buildTempPath;
 

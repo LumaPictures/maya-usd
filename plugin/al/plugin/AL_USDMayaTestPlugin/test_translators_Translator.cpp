@@ -15,19 +15,19 @@
 //
 #include "test_usdmaya.h"
 
-#include "AL/usdmaya/fileio/translators/TranslatorBase.h"
-#include "AL/usdmaya/fileio/translators/TranslatorContext.h"
-#include "AL/usdmaya/fileio/translators/TranslatorTestType.h"
-#include "AL/usdmaya/nodes/ProxyShape.h"
+#include <AL/usdmaya/fileio/translators/TranslatorBase.h>
+#include <AL/usdmaya/fileio/translators/TranslatorContext.h>
+#include <AL/usdmaya/fileio/translators/TranslatorTestType.h>
+#include <AL/usdmaya/nodes/ProxyShape.h>
 
 #include <mayaUsd/nodes/stageData.h>
 
-#include "maya/MDagModifier.h"
+#include <maya/MDagModifier.h>
 
-#include "pxr/base/tf/refPtr.h"
-#include "pxr/base/tf/type.h"
-#include "pxr/usd/usd/schemaBase.h"
-#include "pxr/usd/usd/stage.h"
+#include <pxr/base/tf/refPtr.h>
+#include <pxr/base/tf/type.h>
+#include <pxr/usd/usd/schemaBase.h>
+#include <pxr/usd/usd/stage.h>
 
 using namespace AL::usdmaya::fileio::translators;
 

@@ -13,11 +13,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-#include "AL/usdmaya/StageCache.h"
-#include "AL/usdmaya/DebugCodes.h"
+#include <AL/usdmaya/StageCache.h>
+#include <AL/usdmaya/DebugCodes.h>
 
-#include "pxr/usd/usdUtils/stageCache.h"
-#include "AL/maya/event/MayaEventManager.h"
+#include <pxr/usd/usdUtils/stageCache.h>
+#include <AL/maya/event/MayaEventManager.h>
 
 namespace AL {
 namespace usdmaya {

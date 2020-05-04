@@ -13,13 +13,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-#include "AL/usdmaya/cmds/SyncFileIOGui.h"
-#include "AL/maya/utils/PluginTranslatorOptions.h"
-#include "AL/usdmaya/DebugCodes.h"
-#include "AL/maya/utils/MenuBuilder.h"
+#include <AL/usdmaya/cmds/SyncFileIOGui.h>
+#include <AL/maya/utils/PluginTranslatorOptions.h>
+#include <AL/usdmaya/DebugCodes.h>
+#include <AL/maya/utils/MenuBuilder.h>
 
-#include "maya/MSyntax.h"
-#include "maya/MArgDatabase.h"
+#include <maya/MSyntax.h>
+#include <maya/MArgDatabase.h>
 
 PXR_NAMESPACE_USING_DIRECTIVE
 

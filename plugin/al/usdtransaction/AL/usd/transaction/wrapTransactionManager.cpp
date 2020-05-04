@@ -13,7 +13,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-#include "AL/usd/transaction/TransactionManager.h"
+#include <AL/usd/transaction/TransactionManager.h>
 
 #include <pxr/base/tf/pyPtrHelpers.h>
 #include <pxr/base/tf/makePyConstructor.h>

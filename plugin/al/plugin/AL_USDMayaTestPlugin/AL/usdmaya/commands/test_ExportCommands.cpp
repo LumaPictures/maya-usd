@@ -14,14 +14,14 @@
 // limitations under the License.
 //
 
-#include "AL/maya/utils/Utils.h"
+#include <AL/maya/utils/Utils.h>
 #include "test_usdmaya.h"
-#include "maya/MGlobal.h"
-#include "maya/MFileIO.h"
-#include "maya/MFnDagNode.h"
-#include "pxr/usd/usd/attribute.h"
-#include "pxr/usd/usdGeom/mesh.h"
-#include "pxr/usd/usdGeom/xform.h"
+#include <maya/MGlobal.h>
+#include <maya/MFileIO.h>
+#include <maya/MFnDagNode.h>
+#include <pxr/usd/usd/attribute.h>
+#include <pxr/usd/usdGeom/mesh.h>
+#include <pxr/usd/usdGeom/xform.h>
 
 using AL::maya::test::buildTempPath;
 

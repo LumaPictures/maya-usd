@@ -13,7 +13,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-#include "AL/maya/utils/MenuBuilder.h"
+#include <AL/maya/utils/MenuBuilder.h>
 
 namespace AL {
 namespace maya {

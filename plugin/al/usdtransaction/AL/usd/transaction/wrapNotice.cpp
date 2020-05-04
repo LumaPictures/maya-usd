@@ -13,7 +13,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-#include "AL/usd/transaction/Notice.h"
+#include <AL/usd/transaction/Notice.h>
 
 #include <pxr/base/tf/pyModuleNotice.h>
 #include <pxr/base/tf/pyNoticeWrapper.h>

@@ -13,16 +13,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-#include "AL/maya/utils/CommandGuiHelper.h"
-#include "AL/maya/utils/MenuBuilder.h"
-#include "AL/maya/utils/Utils.h"
+#include <AL/maya/utils/CommandGuiHelper.h>
+#include <AL/maya/utils/MenuBuilder.h>
+#include <AL/maya/utils/Utils.h>
 
-#include "maya/MGlobal.h"
-#include "maya/MString.h"
-#include "maya/MVector.h"
-#include "maya/MColor.h"
-#include "maya/MArgDatabase.h"
-#include "maya/MSyntax.h"
+#include <maya/MGlobal.h>
+#include <maya/MString.h>
+#include <maya/MVector.h>
+#include <maya/MColor.h>
+#include <maya/MArgDatabase.h>
+#include <maya/MSyntax.h>
 
 #include <string>
 #include <iostream>

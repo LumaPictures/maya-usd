@@ -18,9 +18,9 @@
 
 /// \file usdMaya/importCommand.h
 
-#include "usdMaya/api.h"
+#include <usdMaya/api.h>
 
-#include "pxr/pxr.h"
+#include <pxr/pxr.h>
 
 #include <maya/MArgList.h>
 #include <maya/MPxCommand.h>

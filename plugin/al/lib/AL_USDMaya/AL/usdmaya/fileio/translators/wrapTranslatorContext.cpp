@@ -13,9 +13,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-#include "AL/usdmaya/fileio/translators/TranslatorContext.h"
-#include "AL/usdmaya/nodes/ProxyShape.h"
-#include "AL/maya/utils/Utils.h"
+#include <AL/usdmaya/fileio/translators/TranslatorContext.h>
+#include <AL/usdmaya/nodes/ProxyShape.h>
+#include <AL/maya/utils/Utils.h>
 
 #include <pxr/base/tf/makePyConstructor.h>
 #include <pxr/base/tf/pyPtrHelpers.h>

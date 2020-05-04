@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 //#include "test_usdmaya.h"
-#include "AL/maya/utils/MenuBuilder.h"
+#include <AL/maya/utils/MenuBuilder.h>
 #include <gtest/gtest.h>
 
 //----------------------------------------------------------------------------------------------------------------------

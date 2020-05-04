@@ -15,10 +15,10 @@
 //
 #pragma once
 
-#include "AL/usdmaya/Api.h"
+#include <AL/usdmaya/Api.h>
 
-#include "pxr/pxr.h"
-#include "pxr/usd/usdGeom/mesh.h"
+#include <pxr/pxr.h>
+#include <pxr/usd/usdGeom/mesh.h>
 
 #include <cstdint>
 #include <string>

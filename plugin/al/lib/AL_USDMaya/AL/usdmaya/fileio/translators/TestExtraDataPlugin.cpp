@@ -1,8 +1,8 @@
 
-#include "AL/usdmaya/fileio/translators/TestExtraDataPlugin.h"
-#include "AL/usdmaya/fileio/translators/TranslatorBase.h"
-#include "AL/usdmaya/fileio/translators/TranslatorContext.h"
-#include "AL/usdmaya/fileio/ExportParams.h"
+#include <AL/usdmaya/fileio/translators/TestExtraDataPlugin.h>
+#include <AL/usdmaya/fileio/translators/TranslatorBase.h>
+#include <AL/usdmaya/fileio/translators/TranslatorContext.h>
+#include <AL/usdmaya/fileio/ExportParams.h>
 
 namespace AL {
 namespace usdmaya {

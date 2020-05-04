@@ -15,9 +15,9 @@
 //
 #pragma once
 
-#include "AL/maya/utils/Api.h"
+#include <AL/maya/utils/Api.h>
 
-#include "maya/MGlobal.h"
+#include <maya/MGlobal.h>
 
 #include <iostream>
 #include <set>
@@ -25,7 +25,7 @@
 #include <string>
 #include <vector>
 
-#include "AL/maya/utils/DebugCodes.h"
+#include <AL/maya/utils/DebugCodes.h>
 
 namespace AL {
 namespace maya {

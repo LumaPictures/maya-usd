@@ -16,11 +16,11 @@
 
 #pragma once
 
-#include "AL/maya/utils/Api.h"
+#include <AL/maya/utils/Api.h>
 
-#include "AL/maya/utils/MayaHelperMacros.h"
+#include <AL/maya/utils/MayaHelperMacros.h>
 
-#include "maya/MPxCommand.h"
+#include <maya/MPxCommand.h>
 
 #include <sstream>
 #include <vector>
