@@ -113,6 +113,15 @@ private:
         UsdPrimRange::iterator& primIt, const UsdPrim& usdRootPrim,
         UsdMayaPrimReaderContext& readCtx, _PrimReaderMap& primReaders);
 
+    void _DoImportInstanceIt(
+        UsdPrimRange::iterator& primIt, const UsdPrim& usdRootPrim,
+        UsdMayaPrimReaderContext& readCtx, _PrimReaderMap& primReaders);
+
+    void _ImportMaster(
+        const UsdPrim&            master,
+        const UsdPrim&            usdRootPrim,
+        UsdMayaPrimReaderContext& readCtx);
+
     // Data
     MDagModifier mDagModifierUndo;
     bool mDagModifierSeeded;
