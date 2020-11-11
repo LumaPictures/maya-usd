@@ -321,7 +321,9 @@ finally:
         "MAYA_PYTHON_VERSION=${MAYA_PY_VERSION}"
         "MAYA_NO_STANDALONE_ATEXIT=1"
         "MAYA_DISABLE_CIP=1"
-        "MAYA_DISABLE_CER=1")
+        "MAYA_DISABLE_CER=1"
+        # TODO: clean this up properly, to ensure fresh default settings
+        "MAYA_APP_DIR=${WORKING_DIR}/${test_name}_maya_profile")
 
     if (PREFIX_INTERACTIVE)
         # Add the "interactive" label to all tests that launch the Maya UI.
