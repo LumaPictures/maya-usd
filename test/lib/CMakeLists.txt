@@ -71,3 +71,5 @@ if (UFE_FOUND)
 endif()
 
 add_subdirectory(usd)
+
+add_subdirectory(mtoh)
