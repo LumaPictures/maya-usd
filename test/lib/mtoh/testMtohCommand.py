@@ -8,10 +8,19 @@ import mtohUtils
 
 class TestCommand(unittest.TestCase):
     _file = __file__
+    _has_embree = None
 
     @classmethod
     def setUpClass(cls):
         cmds.loadPlugin('mtoh', quiet=True)
+
+    @classmethod
+    def has_embree(cls):
+        import pxr.Plug
+        if cls._has_embree is None:
+            plug_reg = pxr.Plug.Registry()
+            cls._has_embree = bool(plug_reg.GetPluginWithName('hdEmbree'))
+        return cls._has_embree
 
     def test_invalidFlag(self):
         self.assertRaises(TypeError, cmds.mtoh, nonExistantFlag=1)
@@ -20,7 +29,8 @@ class TestCommand(unittest.TestCase):
         renderers = cmds.mtoh(listRenderers=1)
         self.assertEqual(renderers, cmds.mtoh(lr=1))
         self.assertIn(mtohUtils.HD_STORM, renderers)
-        self.assertIn("HdEmbreeRendererPlugin", renderers)
+        if self.has_embree():
+            self.assertIn("HdEmbreeRendererPlugin", renderers)
 
     def test_listActiveRenderers(self):
         activeRenderers = cmds.mtoh(listActiveRenderers=1)
@@ -37,14 +47,15 @@ class TestCommand(unittest.TestCase):
         self.assertEqual(activeRenderers, cmds.mtoh(lar=1))
         self.assertEqual(activeRenderers, [mtohUtils.HD_STORM])
 
-        cmds.modelEditor(
-            activeEditor, e=1,
-            rendererOverrideName="mtohRenderOverride_HdEmbreeRendererPlugin")
-        cmds.refresh(f=1)
+        if self.has_embree():
+            cmds.modelEditor(
+                activeEditor, e=1,
+                rendererOverrideName="mtohRenderOverride_HdEmbreeRendererPlugin")
+            cmds.refresh(f=1)
 
-        activeRenderers = cmds.mtoh(listActiveRenderers=1)
-        self.assertEqual(activeRenderers, cmds.mtoh(lar=1))
-        self.assertEqual(activeRenderers, ["HdEmbreeRendererPlugin"])
+            activeRenderers = cmds.mtoh(listActiveRenderers=1)
+            self.assertEqual(activeRenderers, cmds.mtoh(lar=1))
+            self.assertEqual(activeRenderers, ["HdEmbreeRendererPlugin"])
 
         cmds.modelEditor(activeEditor, rendererOverrideName="", e=1)
         cmds.refresh(f=1)
@@ -63,11 +74,12 @@ class TestCommand(unittest.TestCase):
         self.assertEqual(displayName, cmds.mtoh(r=mtohUtils.HD_STORM, gn=True))
         self.assertEqual(displayName, "GL")
 
-        displayName = cmds.mtoh(renderer="HdEmbreeRendererPlugin",
-                                getRendererDisplayName=True)
-        self.assertEqual(displayName, cmds.mtoh(r="HdEmbreeRendererPlugin",
-                                                gn=True))
-        self.assertEqual(displayName, "Embree")
+        if self.has_embree():
+            displayName = cmds.mtoh(renderer="HdEmbreeRendererPlugin",
+                                    getRendererDisplayName=True)
+            self.assertEqual(displayName, cmds.mtoh(r="HdEmbreeRendererPlugin",
+                                                    gn=True))
+            self.assertEqual(displayName, "Embree")
 
     def test_listDelegates(self):
         delegates = cmds.mtoh(listDelegates=1)
