@@ -72,4 +72,6 @@ endif()
 
 add_subdirectory(usd)
 
-add_subdirectory(mtoh)
+if(BUILD_HDMAYA)
+    add_subdirectory(mtoh)
+endif()
