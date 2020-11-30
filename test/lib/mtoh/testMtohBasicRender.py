@@ -42,6 +42,10 @@ class TestSnapshot(mtohUtils.MtohTestCase):
         self.assertSnapshotEqual("flat_orange.png")
         self.assertRaises(AssertionError,
                           self.assertSnapshotEqual, "flat_orange_bad.png")
+        # 17515 is the exact 8-bit raw-pixel difference between flat_orange.png
+        # flat_orange_bad.png, and 163200000 is the maximum diff for an 8-bit,
+        # 40x40, 4-channel image.  So this tests that assertSnapshotClose is
+        # working
         self.assertSnapshotClose("flat_orange_bad.png", 17515 / 163200000.0)
 
 
