@@ -24,6 +24,7 @@ foreach(script ${TEST_SCRIPT_FILES})
         WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
         PYTHON_SCRIPT ${script}
         ENV
+            "MAYA_PLUG_IN_PATH=${CMAKE_INSTALL_PREFIX}/lib/maya"
             "LD_LIBRARY_PATH=${ADDITIONAL_LD_LIBRARY_PATH}"
 
             # Maya uses a very old version of GLEW, so we need support for
