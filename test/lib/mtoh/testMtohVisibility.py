@@ -1,3 +1,4 @@
+import os
 import sys
 import unittest
 
@@ -19,11 +20,15 @@ class TestCommand(mtohUtils.MtohTestCase):
         # we assume the results of `listRenderIndex=..., visibileOnly=1` are
         # sufficient
 
+        cubeUnselectedImg = os.path.join("..", "MtohBasicRender",
+                                         "cube_unselected.png")
+        nothingImg = os.path.join("..", "MtohDagChanges", "instances_0.png")
+
         cmds.refresh()
         self.assertIn(
             self.cubeRprim,
             self.getVisibleIndex())
-        self.assertSnapshotClose("cube_unselected.png")
+        self.assertSnapshotClose(cubeUnselectedImg)
 
         cmds.setAttr("{}.visibility".format(self.cubeTrans), False)
         self.assertFalse(cmds.getAttr("{}.visibility".format(self.cubeTrans)))
@@ -31,7 +36,7 @@ class TestCommand(mtohUtils.MtohTestCase):
         self.assertNotIn(
             self.cubeRprim,
             self.getVisibleIndex())
-        self.assertSnapshotClose("nothing.png")
+        self.assertSnapshotClose(nothingImg)
 
         cmds.setAttr("{}.visibility".format(self.cubeTrans), True)
         self.assertTrue(cmds.getAttr("{}.visibility".format(self.cubeTrans)))
@@ -39,7 +44,7 @@ class TestCommand(mtohUtils.MtohTestCase):
         self.assertIn(
             self.cubeRprim,
             self.getVisibleIndex())
-        self.assertSnapshotClose("cube_unselected.png")
+        self.assertSnapshotClose(cubeUnselectedImg)
 
     def test_toggleShapeVis(self):
         cmds.setAttr("{}.visibility".format(self.cubeShape), False)
