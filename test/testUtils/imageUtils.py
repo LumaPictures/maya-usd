@@ -123,13 +123,13 @@ def imageDiff(imagePath1, imagePath2):
     # QImage doesn't deal with floating point, so we use 8-bit int
     # math (each channel maxes at 255), then divide at the end
     currDiff = 0
-    for y in xrange(height):
-        for x in xrange(width):
+    for y in range(height):
+        for x in range(width):
             p1 = img1.pixel(x, y)
             p2 = img2.pixel(x, y)
             if p1 == p2:
                 continue
-            for c in xrange(nChannels):
+            for c in range(nChannels):
                 currDiff += abs((p1 & 255) - (p2 & 255))
                 p1 >>= 8
                 p2 >>= 8
