@@ -71,7 +71,3 @@ if (UFE_FOUND)
 endif()
 
 add_subdirectory(usd)
-
-if(BUILD_HDMAYA)
-    add_subdirectory(mtoh)
-endif()
