@@ -20,9 +20,9 @@ class TestCommand(mtohUtils.MtohTestCase):
         # we assume the results of `listRenderIndex=..., visibileOnly=1` are
         # sufficient
 
-        cubeUnselectedImg = os.path.join("..", "MtohBasicRender",
+        cubeUnselectedImg = os.path.join("..", "MtohBasicRenderTest",
                                          "cube_unselected.png")
-        nothingImg = os.path.join("..", "MtohDagChanges", "instances_0.png")
+        nothingImg = os.path.join("..", "MtohDagChangesTest", "instances_0.png")
 
         cmds.refresh()
         self.assertIn(

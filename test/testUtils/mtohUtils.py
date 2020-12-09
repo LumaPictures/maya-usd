@@ -31,6 +31,8 @@ class MtohTestCase(ImageDiffingTestCase):
         if cls._inputDir is None:
             inputDirName = os.path.splitext(os.path.basename(cls._file))[0]
             inputDirName = testUtils.stripPrefix(inputDirName, 'test')
+            if not inputDirName.endswith('Test'):
+                inputDirName += 'Test'
             cls._inputDir = os.path.join(inputPath, inputDirName)
 
         cls._testDir = os.path.abspath('.')
